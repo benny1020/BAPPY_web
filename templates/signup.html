@@ -1,0 +1,564 @@
+<!doctype html>
+                        <html>
+                            <head>
+                                <meta charset='utf-8'>
+                                <meta name='viewport' content='width=device-width, initial-scale=1'>
+                                <title>BAPPY</title>
+                                <link href='' rel='stylesheet'>
+                                <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+                                <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+                                <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
+                                <script  src="../static/script.js"></script>
+
+                                <link rel="stylesheet" href="../static/build/css/countrySelect.css">
+                            		<link rel="stylesheet" href="../static/build/css/demo.css">
+
+
+
+
+                                <style>:root {
+    --primary-color: rgba(64, 34, 15, 1.0)
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box
+}
+
+body {
+    font-family: Montserrat, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    background-color: rgba(242, 203, 41, 0.55);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem
+}
+
+input,select{
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    height: 50px
+}
+#forms{
+  width:320px;
+  height:605px;
+}
+
+.width-50 {
+    width: 50%
+}
+
+.ml-auto {
+    margin-left: auto
+}
+
+.text-center {
+    text-align: center
+}
+
+.progressbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    counter-reset: step;
+    margin: 2rem 0 4rem;
+    margin-bottom:50px;
+}
+
+.progressbar::before,
+.progress {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 100%;
+    background-color: #dcdcdc;
+    z-index: 1
+}
+
+.progress {
+    background-color: rgba(242, 203, 41, 1.0);
+    width: 0%;
+    transition: 0.3s;
+
+}
+
+.progress-step {
+    width: 2.1875rem;
+    height: 2.1875rem;
+    background-color: #dcdcdc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1
+}
+
+.progress-step::before {
+    counter-increment: step;
+    content: counter(step)
+}
+
+.progress-step::after {
+    content: attr(data-title);
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    font-size: 0.85rem;
+    color: #666
+}
+
+.progress-step-active {
+    background-color: rgba(242, 203, 41, 1.0);
+    color: rgba(106, 57, 6, 1.0);
+}
+
+.form {
+    width: clamp(320px, 30%, 430px);
+    background-color: #FFF;
+    border-radius: 10px !important;
+    overflow: hidden;
+    padding: 1.5rem;
+    padding: 20px 30px
+}
+
+.step-forms {
+    display: none;
+    transform-origin: top;
+    animation: animate 1s
+}
+
+.step-forms-active {
+    display: block
+}
+
+.group-inputs {
+    margin: 1rem 0
+}
+
+@keyframes animate {
+    from {
+        transform: scale(1, 0);
+        opacity: 0
+    }
+
+    to {
+        transform: scale(1, 1);
+        opacity: 1
+    }
+}
+
+.btns-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem
+}
+
+.btn {
+    padding: 0.75rem;
+    display: block;
+    text-decoration: none;
+    background-color: rgba(242, 203, 41, 1.0);
+    color: rgba(106, 57, 6, 1.0);
+    text-align: center;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: 0.3s
+}
+
+.btn:hover {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
+}
+
+.progress-step-check {
+    position: relative;
+    background-color: rgba(242, 203, 41, 1.0) !important;
+    transition: all 0.8s
+}
+
+.progress-step-check::before {
+    position: absolute;
+    content: '\2713';
+    width: 100%;
+    height: 100%;
+    top: 8px;
+    left: 13px;
+    font-size: 12px
+}
+
+.group-inputs {
+    position: relative;
+
+}
+
+.group-inputs label {
+    font-size: 13px;
+    position: absolute;
+    height: 19px;
+    padding: 4px 7px;
+    top: -14px;
+    left: 10px;
+    color: #a2a2a2;
+    background-color: white
+}
+
+.welcome {
+    height: 450px;
+    width: 350px;
+    background-color: #fff;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.welcome .content {
+    display: flex;
+    align-items: center;
+    flex-direction: column
+}
+
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #7ac142;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards
+}
+
+.checkmark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    margin: 10% auto;
+    box-shadow: inset 0px 0px 0px #7ac142;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0
+    }
+}
+
+@keyframes scale {
+
+    0%,
+    100% {
+        transform: none
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1)
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px #7ac142
+    }
+}
+
+
+
+.flag-dropdown {
+  margin-left:213px;
+
+}
+
+/* Transition */
+label,
+label::before {
+  -webkit-transition: .25s all ease;
+  -o-transition: .25s all ease;
+  transition: .25s all ease;
+}
+option {
+  font-size:14px;
+  color:greenyellow;
+
+}
+select {
+  color:greenyellow;
+  font-size: 14px;
+}
+.radio label{
+  margin-bottom:20px;
+}
+.character label,input {
+  display:inline-block;
+  margin-bottom:15px;
+  width:60px;
+  text-align:left;
+}
+.interests label,input {
+  display:inline-block;
+  margin-bottom:15px;
+  width:60px;
+  text-align:left;
+}
+.language label, input {
+  display:inline-block;
+  margin-bottom:15px;
+  width:60px;
+  text-align:left;
+
+}
+.group-inputs input {
+  width:100%;
+}
+
+
+</style>
+<link rel="stylesheet" href="../static/style.css">
+
+
+                                </head>
+                                <body oncontextmenu='return false' class='snippet-body'>
+            <form action="signup" class="form" id="forms" method="post"  >
+
+
+    <div class="progressbar">
+        <div class="progress" id="progress"></div>
+        <div class="progress-step progress-step-active" data-title="Personal"></div>
+        <div class="progress-step" data-title="Info"></div>
+        <div class="progress-step" data-title="Account"></div>
+    </div>
+
+
+
+
+
+
+
+
+      <!--
+      <div class="group-inputs"> <label for="position">ID</label> <input type="text" name="position" id="position" /> </div>
+      <div class="group-inputs"> <label for="email">PASSWORD</label> <input type="text" name="email" id="email" /> </div>
+      <div class="group-inputs"> <label for="email">CONFIRTM PASSWORD</label> <input type="text" name="email" id="email" /> </div>
+      <div class="group-inputs"> <label for="email">CODE</label> <input type="text" name="email" id="email" /> </div>
+      <div class="group-inputs"> <label for="email">PHONE#</label> <input type="text" name="email" id="email" /> </div>
+    -->
+
+    <div class="step-forms step-forms-active" style="text-align:left; width:100%;">
+
+      <p style="color:rgba(242, 203, 41, 1.0);text-align:left;">Character</p>
+
+      <div class="character"style="display:inline-block; height:60px; width:130px;border-right:0.8px solid #ccc ;margin-right:13px;">
+        <input type="radio" name="ch1" id="character_1" value="Spontaneous" />
+        <label id="lb" for="character_1" >Spontaneous</label>
+
+        <input type="radio" name="ch2" id="character_2" value="Talkative" />
+        <label id="lb" for="character_2">Talkative</label>
+
+      </div>
+
+      <div class="radio" style="display:inline-block; margin-left:10px;">
+        <input type="radio" name="ch1" id="character_3" value="Planning" />
+        <label id="lb" for="character_3">Planning</label>
+        <input type="radio" name="ch2" id="character_4" value="Shy" />
+        <label id="lb" for="character_4">Shy</label>
+
+      </div>
+      <p style="text-align: left; color:rgba(242, 203, 41, 1.0);">Interests</p>
+      <div class="interests" style="margin-bottom:30px; ">
+        <input type="checkbox" name="int1" id="interests_1" />
+        <label id="lb" for="interests_1">Movies</label>
+
+        <input type="checkbox" name="int2" id="interests_2" />
+        <label id="lb" for="interests_2">Books</label>
+
+        <input type="checkbox" name="int3" id="interests_3" />
+        <label id="lb" for="interests_3">Sports</label>
+        <input type="checkbox" name="int4" id="interests_4" />
+        <label id="lb" for="interests_4">Games</label>
+        <input type="checkbox" name="int5" id="interests_5" />
+        <label id="lb" for="interests_5">Talking</label>
+        <input type="checkbox" name="int6" id="interests_6" />
+        <label id="lb" for="interests_6">Drinking</label>
+        <input type="checkbox" name="int7" id="interests_7" />
+        <label id="lb" for="interests_7">Travelling</label>
+        <input type="checkbox" name="int8" id="interests_8" />
+        <label id="lb" for="interests_8">Vegan</label>
+        <input type="checkbox" name="int9" id="interests_9" />
+        <label id="lb" for="interests_9">Cooking</label>
+      </div>
+      <p style="color:rgba(242, 203, 41, 1.0);">Language</p>
+
+      <div class="language" style="margin-bottom:30px">
+        <input type="checkbox" name="lang1" id="language_1" />
+        <label id="lb" for="language_1">Korean</label>
+        <input type="checkbox" name="lang2" id="language_2" />
+        <label id="lb" for="language_2">English</label>
+        <input type="checkbox" name="lang3" id="language_3" />
+        <label id="lb" for="language_3">Spanish</label>
+        <input type="checkbox" name="lang4" id="language_4" />
+        <label id="lb" for="language_4">French</label>
+        <input type="checkbox" name="lang5" id="language_5" />
+        <label id="lb" for="language_5">Chinese</label>
+        <input type="checkbox" name="lang6" id="language_6" />
+        <label id="lb" for="language_6">Japanese</label>
+
+      </div>
+      <a href="#" class="btn btn-next width-50 ml-auto">Next</a>
+
+
+
+
+    </div>
+
+
+
+    <div class="step-forms">
+        <div class="group-inputs" style="height:65px;"> <label for="phone">NAME</label> <input type="text" name="phone" id="name" /> </div>
+        <div class="group-inputs" style="height:65px">
+          <label for="university">GENDER</label>
+        <select style="padding-left:13px;background-color:white; color:rgba(242, 203, 41, 1.0);" id="gender" name="cars" >
+          <option value="man">MAN</option>
+          <option value="woman">WOMAN</option>
+          <option value="other">OTHER</option>
+      </select> </div>
+        <div class="group-inputs"style="height:65px"> <label for="dob">Dates of Birth</label>
+          <select style="padding-left:13px;background-color:white; color:rgba(242, 203, 41, 1.0);" id="cars" name="cars" >
+            <option value="1980">1980</option>
+            <option value="1981">1981</option>
+            <option value="1982">1982</option>
+        </select> </div>
+        <div class="form-item"style="margin-left:0px;">
+          <div  class="group-inputs" style="color:rgba(242, 203, 41, 1.0);height:65px">
+            <label for="email"style="z-index:1;">NATIONALITY</label>
+            <input style="padding-left:18px;margin-right: 0px;width:260px; font-size: 15px; " id="country_selector" type="text" name="email" style="border: 1px solid #ccc;" >
+          </div>
+
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="../static/build/js/countrySelect.js"></script>
+        <script>
+        $("#country_selector").countrySelect({
+          // defaultCountry: "jp",
+          // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+          // responsiveDropdown: true,
+          preferredCountries: ['kr', 'kz', 'jp','fr','de','ru']
+        });
+        </script>
+
+        <div class="group-inputs">
+          <label for="university">UNIVERSITY</label>
+          <select style="color:rgba(242, 203, 41, 1.0); padding-left:13px; background-color:white;" id="cars" name="cars">
+            <option value="Pusan National University">Pusan National University</option>
+            <option value="Pusan National University">Pusan National University</option>
+            <option value="Pusan National University">Pusan National University</option>
+            <option value="Pusan National University">Pusan National University</option>
+        </select></div>
+        <div class="btns-group" > <a href="#"class="btn btn-prev" style=" padding-top:12px;height:46px; margin-bottom:15px; background-color:#dcdcdc; color:black; font-size:16px;color:rgb(85,84,76);" >Previous</a>   <a href="#" class="btn btn-next" style="height:46px;font-size:16px;">Next</a> </div>
+    </div>
+
+    <div class="step-forms">
+
+
+
+
+      <div class="group-inputs"> <label for="position">ID</label> <input type="text" name="id" id="id" /> </div>
+      <div class="group-inputs"> <label for="email">PASSWORD</label> <input type="text" name="password" id="password" /> </div>
+      <div class="group-inputs"> <label for="email">CONFIRTM PASSWORD</label> <input type="text" name="email" id="password_confirm" /> </div>
+      <div class="group-inputs"> <label for="email">CODE</label> <input type="text" name="email" id="code" /> </div>
+      <div class="group-inputs"> <label for="email">PHONE#</label> <input type="text" name="email" id="phone" /> </div>
+
+
+      <div class="btns-group" >
+        <a href="#"class="btn btn-prev" style=" height:46px; padding-top:13px; margin-bottom:15px; background-color:#dcdcdc; color:black; font-size:16px;color:rgb(85,84,76);" >Previous</a>
+        <input style="height:46px;font-size:16px;color:rgb(106,57,6); width:118px;" type="submit" value="Submit" id="submit-form" class="btn"  /> </div>
+    </div>
+
+
+
+</form>
+
+<script type='text/Javascript'>const prevBtns = document.querySelectorAll(".btn-prev");
+const nextBtns = document.querySelectorAll(".btn-next");
+const progress = document.getElementById("progress");
+const formSteps = document.querySelectorAll(".step-forms");
+const progressSteps = document.querySelectorAll(".progress-step");
+
+
+let formStepsNum = 0;
+
+nextBtns.forEach((btn) => {
+btn.addEventListener("click", () => {
+formStepsNum++;
+updateFormSteps();
+updateProgressbar();
+
+});
+});
+
+prevBtns.forEach((btn) => {
+btn.addEventListener("click", () => {
+formStepsNum--;
+updateFormSteps();
+updateProgressbar();
+
+});
+});
+
+function updateFormSteps() {
+formSteps.forEach((formStep) => {
+formStep.classList.contains("step-forms-active") &&
+formStep.classList.remove("step-forms-active");
+});
+
+formSteps[formStepsNum].classList.add("step-forms-active");
+}
+
+function updateProgressbar() {
+progressSteps.forEach((progressStep, idx) => {
+if (idx < formStepsNum + 1) { progressStep.classList.add("progress-step-active"); }
+    else { progressStep.classList.remove("progress-step-active"); } });
+progressSteps.forEach((progressStep, idx)=> {
+if (idx < formStepsNum) { progressStep.classList.add("progress-step-check"); }
+else {
+  progressStep.classList.remove("progress-step-check");
+ } });
+ const progressActive=document.querySelectorAll(".progress-step-active");
+ progress.style.width=((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%" ; }
+
+document.getElementById("submit-form").addEventListener("click", function ()
+{
+  progressSteps.forEach((progressStep, idx)=> {
+        if (idx <= formStepsNum) { progressStep.classList.add("progress-step-check"); }
+        else { progressStep.classList.remove("progress-step-check"); } });
+
+  var forms=document.getElementById("forms");
+  forms.submit();
+  forms.classList.remove("form");
+  forms.innerHTML='<div class="welcome"><div class="content"><svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg><h2>Thanks for signup!</h2><span>We will contact you soon!</span><div></div>' ;
+  setTimeout(function() {
+
+}, 1000);
+       });
+
+      </script>
+                                </body>
+                            </html>
