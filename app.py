@@ -2,12 +2,12 @@ from flask import Flask,session,request
 from flask.templating import render_template
 import app
 import json
-from router import sign.py
+from router import sign
 
 
 app = Flask(__name__)
 app.secret_key='abcde'
-app.register_blueprint(register.bp)
+app.register_blueprint(sign.bp)
 
 #app.config['db_ip']="18.118.131.221"
 #app.config['db_ip']="127.0.0.1"
@@ -15,8 +15,7 @@ app.register_blueprint(register.bp)
 
 @app.route('/')
 def init():
-    return render_template("signup.html")
-
+    return render_template("login.html")
 
 
 @app.route('/signup',methods=['POST','GET'])
@@ -30,7 +29,8 @@ def signup():
 
 
 
-        return "true"
+        #return "true"
+        return render_template("login.html")
     #return render_template("signup.html")
 
 @app.route('/login',methods=['POST','GET'])
@@ -41,7 +41,8 @@ def login():
         print(jsonData["password"])
         print(request.form)
         print(request.form["password"])
-        return "true"
+    return render_template("hangout.html")
+
 @app.route('/hangout')
 def hangout():
     return render_template("hangout.html")
