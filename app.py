@@ -1,51 +1,33 @@
-from flask import Flask,session,request
+from flask import Flask,session,request,url_for,redirect
 from flask.templating import render_template
 import app
 import json
 from router import sign
+from router import hangout
 
 
 app = Flask(__name__)
 app.secret_key='abcde'
 app.register_blueprint(sign.bp)
+app.register_blueprint(hangout.bp)
 
 #app.config['db_ip']="18.118.131.221"
 #app.config['db_ip']="127.0.0.1"
+@app.route('/logout',methods=['GET','POST'])
+def logout():
+    session['loggedin']=False
+    return str(session['loggedin'])
 
 
-@app.route('/')
-def init():
-    return render_template("login.html")
+@app.route('/home',methods=['GET','POST'])
+def home():
+    print(str(session['loggedin']))
+    if "loggedin" in session and session["loggedin"]== True:
+        session['loggedin']=False
+        return redirect(url_for('hangout_bp.list'))
+    else:
+        return redirect(url_for('sign_bp.login'))
 
-
-@app.route('/signup',methods=['POST','GET'])
-def signup():
-    if request.method == 'POST':
-        print(request.form.get('password'))
-        print(request.form['id'])
-        print(request.form.get('ch1'))
-        print(request.form.get('character_3')) #None
-        print(request.form.get('int_2')) # on
-
-
-
-        #return "true"
-        return render_template("login.html")
-    #return render_template("signup.html")
-
-@app.route('/login',methods=['POST','GET'])
-def login():
-    if request.method == 'POST':
-        jsonData = request.get_json()
-        print(jsonData)
-        print(jsonData["password"])
-        print(request.form)
-        print(request.form["password"])
-    return render_template("hangout.html")
-
-@app.route('/hangout')
-def hangout():
-    return render_template("hangout.html")
 
 
 if __name__ == "__main__":

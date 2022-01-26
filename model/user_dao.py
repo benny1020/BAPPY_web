@@ -88,6 +88,8 @@ class UserDao():
     def login_check(self,id,input_password):
         sql = """select * from bp_user where user_id = '%s' """%(id)
         account = self.database.executeOne(sql)
+        if account == None:
+            return account, False
         input_password = input_password.encode('UTF-8')
         check_password = bcrypt.checkpw(input_password, account['user_password'].encode('UTF-8'))
         return account, check_password
