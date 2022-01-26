@@ -57,9 +57,10 @@ class User():
         self.university = rf.get('university')
         self.visit = 0
         self.cancel = 0
-        self.reg_time = datetime.now()
-        self.login_time = datetime.now()
+        self.reg_time = datetime.now().strftime('%Y-%m-%d %H:%M')
+        self.login_time = datetime.now().strftime('%Y-%m-%d %H:%M')
 
+print(datetime.now().strftime('%Y-%m-%d %H:%M'))
 
 class UserDao():
     def __init__(self):
@@ -82,7 +83,7 @@ class UserDao():
     def insert_user(self, user):
         sql = """insert into bp_user(
         user_idx,user_id,user_password,user_phone,user_name,user_gender,user_birth,user_nation,user_university,user_visit,user_reg_time,user_cancel,user_character,user_interests,user_language,user_login_time)values(%d,'%s','%s','%s','%s','%s','%s','%s','%s',%d,'%s',%d,'%s','%s','%s','%s')"""%(user.idx,user.id,user.password,user.phone,user.name,user.gender,user.birth, user.nation,user.university,user.visit, user.reg_time, user.cancel,self.list_to_str(user.character), self.list_to_str(user.interest), self.list_to_str(user.language),user.login_time )
-        print(sql)
+        #print(sql)
         self.database.execute(sql)
 
     def login_check(self,id,input_password):

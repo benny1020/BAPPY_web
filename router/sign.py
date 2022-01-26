@@ -51,7 +51,7 @@ def login():
             session["loggedin"] = True
             session["user_id"] = account['user_id']
             session["my_hangout"] = account['user_my_hangout']
-            return redirect(url_for('hangout_bp.list'))
+            return redirect(url_for('hangout_bp.hangout_list'))
         else:
             msg="Login Failed"
 

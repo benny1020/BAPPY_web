@@ -1,0 +1,52 @@
+<form action="/hangout/register" method="post">
+    <div class="">
+        <label for="code">CODE:</label>
+        <input type="text" name="code" id="code" placeholder="Enter your
+    full code" />
+    </div>
+    <div>
+        <label for="city">city:</label>
+        <select  style="width:100%;" id="city" name="city" >
+          <option value="Busan">Busan</option>
+          <option value="Seoul">Seoul</option>
+      </select>
+    </div>
+    <div class="">
+        <label for="title">title:</label>
+        <input type="text" name="title" id="title" name="title" placeholder="Enter your
+    full title" />
+    </div>
+    <div class="">
+        <label for="openchat">kakaotalk openchat:</label>
+        <input type="text" id="openchat" name="openchat" placeholder="Enter your
+    full openchat" />
+    </div>
+    <div class="">
+        <label for="location">Where:</label>
+        <input type="text" id="location" name="location" placeholder="Enter your
+    full location" />
+    </div>
+    <div class="">
+        <label for="time">When?</label>
+        <input type="text" id="time" name="time" placeholder="Enter your
+    full time" />
+    </div>
+    <input type="submit" name="register hangout" value="register hangout">
+    <div style = "font-size:40px;">
+        {{ msg }}
+    </div>
+</form>
+<style media="screen">
+    label {
+        text-align:center;
+        width:100%;
+
+    }
+    div {
+        margin-bottom:40px;
+
+    }
+    input {
+        width:100%;
+    }
+</style>
