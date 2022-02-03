@@ -12,7 +12,13 @@
 </head>
 <body>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" integrity="sha256-3sPp8BkKUE7QyPSl6VfBByBroQbKxKG7tsusY2mhbVY=" crossorigin="anonymous" />
-
+{%with messages = get_flashed_messages()%}
+  {%if messages %}
+    <script type="text/javascript">
+      alert("{{ messages[-1] }}");
+    </script>
+    {%endif%}
+  {%endwith%}
 <div class="container">
             <div class="row">
                  <div class="col-lg-10 mx-auto mb-4">
@@ -47,13 +53,84 @@
                             </div>
                         </form>
 
+
+
+
+
+
                         <div class="filter-result">
+
+                            {% for hangout in hangout_data %}
+                            <form action=" {{ hangout.join_url }}" method="post">
+                            <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
+                                <div class="job-left my-4 d-md-flex align-items-center flex-wrap">
+                                    <div class="job-content">
+                                        <h5 class="text-center text-md-left">{{ hangout.title}} </h5>
+                                        <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
+                                          <li class="mr-md-4"style="width:90%">
+                                              <i class="zmdi zmdi-time mr-2"></i> {{ hangout.meet_time}}
+                                          </li>
+                                          <li class="mr-md-4" style="width:90%">
+                                              <i class="zmdi zmdi-pin mr-2"></i> <a href="{{ hangout.location_url }}" >{{ hangout.location }}</a>
+                                          </li>
+                                          {% if hangout.openchat != "none" %}
+                                          <li class="mr-md-4" style="width:90%">
+                                              <i class="zmdi zmdi-comments mr-2"></i><a href="{{ hangout.openchat }}">kakao openchat</a>
+                                          </li>
+                                          {% endif %}
+
+                                        </ul>
+                                        <div style="text-align: center; ">
+
+                                          <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
+                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="{{ "/static/"+ hangout.nation_image[0]+".png" }}" style="width:15px;height:10px"></img>
+                                            </div>
+                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[0] + " / " + hangout.gender[0] }}</span>
+                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/"+ hangout.profile_image[0]+".png" }}"></img>
+                                          </div>
+                                          <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
+                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="{{ "/static/"+ hangout.nation_image[1]+".png" }}" style="width:15px;height:10px"></img>
+                                            </div>
+                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[1] + " / " + hangout.gender[1] }}</span>
+
+                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/"+ hangout.profile_image[1]+".png" }}"></img>
+                                          </div>
+                                          <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
+                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="{{ "/static/"+ hangout.nation_image[2]+".png" }}" style="width:15px;height:10px"></img>
+                                            </div>
+                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[2] + " / " + hangout.gender[2] }}</span>
+
+                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/"+ hangout.profile_image[2]+".png" }}"></img>
+                                          </div>
+                                          <div class="cl1" style="display:inline-block; position: relative;">
+                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="{{ "/static/"+ hangout.nation_image[3]+".png" }}" style="width:15px;height:10px"></img>
+                                            </div>
+                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[3] + " / " + hangout.gender[3] }}</span>
+
+                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/"+ hangout.profile_image[3]+".png" }}"></img>
+                                          </div>
+
+
+
+                                        </div>
+                                        <div class="job-right my-4 flex-shrink-0">
+                                          <center>
+                                              <input style= "display:none;" type="text" name="index" value="{{ hangout.index }}">
+                                            <input style="background-color:rgba(236,198,53, 0.7);width:60%;"type="submit" class="btn d-block d-sm-inline-block btn-light" value = "{{ hangout.join }}">
+                                          </center>
+                                        </div>
+                                    </div>
+                                        </div>
+                                    </div>
+                                    </form>
+                                    {% endfor %}
+
+
+
+
 
                             <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
                                 <div class="job-left my-4 d-md-flex align-items-center flex-wrap">
-
-
-
                                     <div class="job-content">
                                         <h5 class="text-center text-md-left">#Korean #Beginner #PNU #Dinner #Fun </h5>
                                         <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
@@ -110,56 +187,7 @@
                                     <div class="job-box d-md-flex align-items-center justify-content-between mb-30">
                                         <div class="job-left my-4 d-md-flex align-items-center flex-wrap">
 
-                                    <div class="job-content">
-                                        <h5 class="text-center text-md-left">{{ hangout_data.title }} </h5>
-                                        <ul class="d-md-flex flex-wrap text-capitalize ff-open-sans">
-                                          <li class="mr-md-4"style="width:90%">
-                                              <i class="zmdi zmdi-time mr-2"></i> {{ hangout_data.meet_time }}
-                                          </li>
-                                          <li class="mr-md-4" style="width:90%">
-                                              <i class="zmdi zmdi-pin mr-2"></i> <a href= "{{ hangout_data.location_url }}" > {{ hangout_data.location }}</a>
-                                          </li>
 
-                                        </ul>
-                                        <div style="text-align: center; ">
-
-                                          <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
-                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="{{ url_for('static', filename = hangout_data.nation_image[0]) }}" style="width:15px;height:10px"></img>
-                                            </div>
-                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout_data.age[0] + " / "+ hangout_data.gender[0] }} </span>
-                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ url_for('static', filename = hangout_data.profile_image[0]) }}"></img>
-                                          </div>
-                                          <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
-                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="/static/temp.jpeg" style="width:15px;height:10px"></img>
-                                            </div>
-                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">24 / M</span>
-
-                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="/static/who.png"></img>
-                                          </div>
-                                          <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
-                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="/static/usa.jpeg" style="width:15px;height:10px"></img>
-                                            </div>
-                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">22 / M</span>
-
-                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="/static/who.png"></img>
-                                          </div>
-                                          <div class="cl1" style="display:inline-block; position: relative;">
-                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="/static/temp.jpeg" style="width:15px;height:10px"></img>
-                                            </div>
-                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">28 / F</span>
-
-                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="/static/who.png"></img>
-                                          </div>
-
-
-
-                                        </div>
-                                        <div class="job-right my-4 flex-shrink-0">
-                                          <center>
-                                            <a style="background-color:rgba(236,198,53, 0.7);width:60%;"href="#" class="btn d-block d-sm-inline-block btn-light">Join</a>
-                                          </center>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -632,7 +660,11 @@ ul {
 </style>
 
 <script type="text/javascript">
-
+document.getElementById("hangout_button").addEventListener("click", function ()
+{
+  var forms=document.getElementById("hangout_form");
+  forms.submit();
+       });
 </script>
 </body>
 </html>

@@ -16,6 +16,12 @@ app.register_blueprint(admin.bp)
 #app.config['db_ip']="18.118.131.221"
 #app.config['db_ip']="127.0.0.1"
 
+@app.route ('/test', methods=['GET','POST'])
+def test():
+    idx = request.form.get('index')
+    print(idx)
+    return redirect(url_for(hangout.bp.hangout_list))
+
 @app.route('/logout',methods=['GET','POST'])
 def logout():
     session['loggedin']=False
@@ -24,10 +30,9 @@ def logout():
 
 @app.route('/home',methods=['GET','POST'])
 def home():
-    print(str(session['loggedin']))
     if "loggedin" in session and session["loggedin"]== True:
         session['loggedin']=False
-        return redirect(url_for('hangout_bp.list'))
+        return redirect(url_for('hangout_bp.hangout_list'))
     else:
         return redirect(url_for('sign_bp.login'))
 

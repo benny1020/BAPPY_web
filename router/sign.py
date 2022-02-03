@@ -50,7 +50,14 @@ def login():
         if check_password == True:
             session["loggedin"] = True
             session["user_id"] = account['user_id']
-            session["my_hangout"] = account['user_my_hangout']
+            session["user_my_hangout"] = account['user_my_hangout']
+            session["user_my_past_hangout"] = account["user_past_hangout"]
+            session["user_age"] = account["user_birth"]
+            session["user_nation"] = account["user_nation"]
+            session["user_university"] = account["user_university"]
+            session["user_name"] = account["user_name"]
+            session["user_gender"] = account["user_gender"]
+
             return redirect(url_for('hangout_bp.hangout_list'))
         else:
             msg="Login Failed"
