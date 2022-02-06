@@ -100,8 +100,14 @@ class Hangout():
         self.openchat = request.form.get('openchat')
         self.location = request.form.get('location')
         self.title = request.form.get('title')
-        self.meet_time = request.form.get('meet_time')
-        self.register_time = datetime.now().strftime('%m-%d %H:%M')
+        day = request.form.get('day')
+        month = request.form.get('month')
+        hour = request.form.get('hour')
+        minute = request.form.get('minute')
+        #self.meet_time = datetime.now().strftime('%y-%m-%d %H:%M:%S')
+        self.meet_time = "2022-"+str(month)+"-"+str(day)+" "+str(hour)+":"+str(minute)
+        #self.meet_time = request.form.get('meet_time')
+        self.register_time = datetime.now().strftime('%y-%m-%d %H:%M')
         self.city= request.form.get('city')
         self.location_url = request.form.get('location_url')
 
@@ -216,10 +222,10 @@ class HangoutDao():
         """%(hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
         self.database.execute(sql)
 
-    def get_hangout_list(self):
+    def get_hangout_list(self,pageNum):
         sql = """
-        select * from bp_hangout
-        """
+        select * from bp_hangout order by hg_meet_time asc limit %d,%d;
+        """%(pageNum,5)
         res = self.database.executeAll(sql)
         hangout_list = []
         for h in res:
@@ -235,8 +241,8 @@ class HangoutDao():
             hangout.title = h['hg_title']
             hangout.participants_gender = h['hg_participants_gender']
             hangout.participants_age = h['hg_participants_age']
-            hangout.meet_time = h['hg_meet_time']
-            hangout.register_time = h['hg_register_time']
+            hangout.meet_time = h['hg_meet_time'].strftime("%m월 %d일 %H시 %M분")
+            hangout.register_time = h['hg_register_time'].strftime("%Y-%m-%d %H:%M")
             hangout.city = h['hg_city']
             hangout.man = h['hg_man']
             hangout.woman = h['hg_woman']
@@ -244,8 +250,8 @@ class HangoutDao():
             hangout_list.append(hangout)
         return hangout_list
 
-    def get_hangout_data_list(self):
-        hl = self.get_hangout_list()
+    def get_hangout_data_list(self,pageNum=0):
+        hl = self.get_hangout_list(pageNum)
         hangout_data_list = []
         for h in hl:
             hangout_data = Hangout_Data()

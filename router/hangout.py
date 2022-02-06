@@ -17,17 +17,17 @@ bp = Blueprint('hangout_bp', __name__, url_prefix='/hangout')
 @bp.route("/moreList",methods=['GET','POST'])
 def hangoutMoreList():
     if request.method == 'POST':
-        pageNum = request.args.get('pageNum')
+        pageNum = request.form.get('pageNum',type=int)
+        print("pageNum : ",pageNum)
         dao = hangout_dao.HangoutDao()
-        res = dao.get_hangout_data_list()
+        res = dao.get_hangout_data_list(pageNum)
         hangoutDataList = []
-
         for data in res:
             hangoutDataList.append(hangout_dao.dumper(data))
 
 
 
-        print(res[1].join_url)
+        #print(res[1].join_url)
         #print(json.dumps(hangoutDataList,ensure_ascii=False))
         return json.dumps(hangoutDataList,ensure_ascii=False)
         #return "abcddds"
@@ -85,7 +85,6 @@ def hangout_list():
 @bp.route("/register",methods=['GET','POST'])
 def register_hangout():
     #print(request.form.get('code'))
-
     msg = ""
     #제출했을때
     if request.method == 'POST' and 'code' in request.form:

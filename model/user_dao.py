@@ -52,7 +52,7 @@ class User():
         self.gender = rf.get('gender')
         self.name = rf.get('name')
 
-        self.birth = 2023 - int(rf.get('birth'))
+        self.birth = rf.get('birth')
         self.nation = rf.get('country_selector')
         self.university = rf.get('university')
         self.visit = 0

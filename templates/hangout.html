@@ -331,10 +331,10 @@ body{
 }
 .container {
     display: block;
-    
+
     width: 56.25vw;
     max-width: 100vh;
-    
+
 }
 </style>
 
@@ -368,6 +368,7 @@ function moreList() {
             for(var i=0;i<data.length;i++) {
                 addListHtml+="<form action=\" "+data[i].join_url + "\" method=\"post\">";
                 addListHtml+= "<div class=\"job-box d-md-flex align-items-center justify-content-between mb-30\"> ";
+                addListHtml+= "<div class=\"job-left my-4 d-md-flex align-items-center flex-wrap\">"
                 addListHtml+= "<div class=\"job-content\">";
                 addListHtml+= "<h5 class=\"text-center text-md-left\">"+data[i].title+"</h5>";
                 addListHtml+= "<ul class=\"d-md-flex flex-wrap text-capitalize ff-open-sans\">";
