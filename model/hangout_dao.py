@@ -8,7 +8,11 @@ db_id = 'benny'
 pw = 'benny'
 db_name = 'bappy_web'
 
-
+def dumper(obj):
+    try:
+        return obj.toJSON()
+    except:
+        return obj.__dict__
 
 class Hangout_Data():
     def __init__(self):
@@ -51,9 +55,8 @@ class Hangout_Data():
             self.gender.append("?")
 
         # it is my hangout
-        print(session['id'])
-        print(str_to_li(Hangout.participants_id))
-        if 'id' in session and session['id'] in str_to_li(Hangout.participants_id):
+        #print(str_to_li(Hangout.participants_id))
+        if 'user_id' in session and session['user_id'] in str_to_li(Hangout.participants_id):
             self.join="cancel"
             self.join_url = "/hangout/cancel"
             self.openchat = Hangout.openchat
@@ -124,6 +127,8 @@ class HangoutDao():
         users_age = str_to_li(hangout['hg_participants_age'])
         users_gender = str_to_li(hangout['hg_participants_gender'])
         users_num = hangout['hg_participants_num']
+        users_man = hangout['hg_man']
+        users_woman = hangout['hg_woman']
         index = self.find_user_li(users_id, user_id)
         print("삭제해야할 인덱스는 ",index)
         users_id.pop(index)
@@ -132,6 +137,10 @@ class HangoutDao():
         users_age.pop(index)
         users_gender.pop(index)
         users_num -= 1
+        if user_gender == 'man':
+            users_man -= 1
+        else:
+            users_woman -= 1
 
         users_id = list_to_str(users_id)
         users_nation = list_to_str(users_nation)
@@ -141,7 +150,7 @@ class HangoutDao():
         users_num = str(users_num)
 
 
-        return self.update_hangout(idx, users_image,users_id, users_nation, users_gender, users_age,users_num)
+        return self.update_hangout(idx, users_image,users_id, users_nation, users_gender, users_age,users_num, users_man, users_woman)
 
 
     def update_hangout(self,idx,users_image, users_id, users_nation, users_gender, users_age, users_num, users_man, users_woman):
@@ -244,7 +253,7 @@ class HangoutDao():
             hangout_data_list.append(hangout_data)
         return hangout_data_list
 
-def list_to_str( li):
+def list_to_str(li):
     if len(li)==1:
         return str(li[0])
     for i in range(len(li)):
@@ -254,5 +263,7 @@ def list_to_str( li):
 def str_to_li( db_str):
     db_str = str(db_str)
     if db_str == "None":
+        return []
+    if db_str ==  "":
         return []
     return db_str.split(',')

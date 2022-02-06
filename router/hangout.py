@@ -14,6 +14,26 @@ dao = hangout_dao.HangoutDao()
 
 bp = Blueprint('hangout_bp', __name__, url_prefix='/hangout')
 
+@bp.route("/moreList",methods=['GET','POST'])
+def hangoutMoreList():
+    if request.method == 'POST':
+        pageNum = request.args.get('pageNum')
+        dao = hangout_dao.HangoutDao()
+        res = dao.get_hangout_data_list()
+        hangoutDataList = []
+
+        for data in res:
+            hangoutDataList.append(hangout_dao.dumper(data))
+
+
+
+        print(res[1].join_url)
+        #print(json.dumps(hangoutDataList,ensure_ascii=False))
+        return json.dumps(hangoutDataList,ensure_ascii=False)
+        #return "abcddds"
+
+
+
 @bp.route("/join", methods=['GET','POST'])
 def hangout_join():
     if request.method == 'POST':
@@ -21,13 +41,15 @@ def hangout_join():
         idx = request.form.get('index')
         dao = hangout_dao.HangoutDao()
         res = dao.join_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
-
+        if res == "false":
+            session['cancel']='true'
         return redirect(url_for('hangout_bp.hangout_list'))
 
 @bp.route("/cancel",methods=['GET','POST'])
 def hangout_cancel():
 
     idx = request.form.get('index')
+    print("hangout index for delete : ",idx)
     dao = hangout_dao.HangoutDao()
     res = dao.cancel_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
 
@@ -36,9 +58,10 @@ def hangout_cancel():
 
 @bp.route("/list",methods=['GET','POST'])
 def hangout_list():
-    if 'loggedin' in session and session['loggedin']==True and 'id' in session:
+    if 'loggedin' in session and session['loggedin']==True and 'user_id' in session:
         if 'cancel' in session and session['cancel'] == 'true':
-            flash("You can't join this hangout")
+            flash(str("You cannot join this hangout"))
+            session['cancel']='false'
         dao = hangout_dao.HangoutDao()
         hangout_list = dao.get_hangout_data_list()
         """

@@ -46,7 +46,7 @@ def login():
         input_password = request.form['password']
         input_id = request.form.get('id')
         account, check_password = dao.login_check(input_id,input_password)
-        print(check_password)
+        #print(check_password)
         if check_password == True:
             session["loggedin"] = True
             session["user_id"] = account['user_id']
