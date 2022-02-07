@@ -31,7 +31,7 @@ def logout():
 @app.route('/home',methods=['GET','POST'])
 def home():
     if "loggedin" in session and session["loggedin"]== True:
-        session['loggedin']=False
+        #session['loggedin']=False
         return redirect(url_for('hangout_bp.hangout_list'))
     else:
         return redirect(url_for('sign_bp.login'))

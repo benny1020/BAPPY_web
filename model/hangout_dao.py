@@ -35,6 +35,7 @@ class Hangout_Data():
         self.meet_time = Hangout.meet_time
         self.location = Hangout.location
         self.location_url = Hangout.location_url
+        self.openchat = Hangout.openchat
 
         images = str_to_li(Hangout.participants_image)
         nations = str_to_li(Hangout.participants_nation)
@@ -222,7 +223,20 @@ class HangoutDao():
         """%(hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
         self.database.execute(sql)
 
-    def get_hangout_list(self,pageNum):
+    def get_hangout_list(self,pageNum,filterVal):
+        if filterVal == "default": #default
+            sql = """
+            select * from bp_hangout order by hg_meet_time asc limit %d,%d;
+            """%(pageNum,5)
+
+        elif filterVal == "myhangout": #my hangout
+            sql = """select """
+        #나머지 도시들
+        else:
+            sql = """
+            select * from bp_hangout where hg_city=\'%s\' order by hg_meet_time asc limit %d,%d;
+            """%(filterVal,pageNum,5)
+
         sql = """
         select * from bp_hangout order by hg_meet_time asc limit %d,%d;
         """%(pageNum,5)
@@ -236,7 +250,7 @@ class HangoutDao():
             hangout.participants_image = h['hg_participants_image']
             hangout.participants_num = h['hg_participants_num']
             hangout.click_num = h['hg_click_num']
-            hangout.hg_openchat = h['hg_openchat']
+            hangout.openchat = h['hg_openchat']
             hangout.location = h['hg_location']
             hangout.title = h['hg_title']
             hangout.participants_gender = h['hg_participants_gender']
@@ -250,8 +264,8 @@ class HangoutDao():
             hangout_list.append(hangout)
         return hangout_list
 
-    def get_hangout_data_list(self,pageNum=0):
-        hl = self.get_hangout_list(pageNum)
+    def get_hangout_data_list(self,filterVal,pageNum=0):
+        hl = self.get_hangout_list(pageNum,filterVal)
         hangout_data_list = []
         for h in hl:
             hangout_data = Hangout_Data()

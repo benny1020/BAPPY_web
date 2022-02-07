@@ -20,7 +20,7 @@ def hangoutMoreList():
         pageNum = request.form.get('pageNum',type=int)
         print("pageNum : ",pageNum)
         dao = hangout_dao.HangoutDao()
-        res = dao.get_hangout_data_list(pageNum)
+        res = dao.get_hangout_data_list(session['hangoutFilterVal'],pageNum)
         hangoutDataList = []
         for data in res:
             hangoutDataList.append(hangout_dao.dumper(data))
@@ -62,22 +62,17 @@ def hangout_list():
         if 'cancel' in session and session['cancel'] == 'true':
             flash(str("You cannot join this hangout"))
             session['cancel']='false'
+
+        #필터 적용안된경우
+        if 'filterVal' not in request.form:
+            filterVal="default"
+
+        session["hangoutFilterVal"] = filterVal
+
         dao = hangout_dao.HangoutDao()
-        hangout_list = dao.get_hangout_data_list()
-        """
-        h.title = "#test #test #test"
-        h.meet_time = "1월 30일 12시 30분"
-        h.location = "test location"
-        h.profile_image = ["bird.png","bird.png","person.png","person.png"]
-        h.nation_image = ["usa.png","usa.png","nation.png","nation.png"]
-        h.age = ["20","30","?","?"]
-        h.gender = ["M","F","?","?"]
-        h.join = "join"
-        h.join_url = "/test"
-        h.location_url = "naver.com"
-        h.openchat = "google.com"
-        """
-        return render_template("hangout.html",hangout_data = hangout_list)
+        hangout_list = dao.get_hangout_data_list(filterVal=filterVal)
+
+        return render_template("hangout.html",hangout_data = hangout_list,filterVal=filterVal)
 
     return redirect(url_for("sign_bp.login"))
 

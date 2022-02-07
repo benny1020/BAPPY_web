@@ -7,7 +7,7 @@
     <title>BAPPY</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/build/css/bootstrap_min.css">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
@@ -36,12 +36,14 @@
                         <form action="#" class="career-form mb-60">
                             <div class="row">
                                 <div class="col-md-6 col-lg-3 my-3">
+
+
                                     <div class="select-container">
-                                        <select class="custom-select">
-                                            <option selected="">Filter</option>
-                                            <option value="1">Busan</option>
-                                            <option value="2">Seoul</option>
-                                            <option value="3">My hangout</option>
+                                        <select class="custom-select" id="filterVal" name="filterVal">
+                                            <option selected="default">Filter</option>
+                                            <option value="myhangout">My hangout</option>
+                                            <option value="Busan">Busan</option>
+                                            <option value="Seoul">Seoul</option>
                                         </select>
                                     </div>
                                 </div>
@@ -331,9 +333,8 @@ body{
 }
 .container {
     display: block;
-
-    width: 56.25vw;
-    max-width: 100vh;
+    width: 100vw;
+    max-width: 120vh;
 
 }
 </style>
@@ -351,7 +352,6 @@ document.getElementById("hangout_button").addEventListener("click", function ()
 function moreList() {
     var pageNum = $("#hangoutList form").length // 10; // 기본 10  1
     var addListHtml = "";
-    console.log("asd");
 
     $.ajax({
         url:"/hangout/moreList",
