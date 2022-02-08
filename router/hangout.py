@@ -4,6 +4,7 @@ from flask.templating import render_template
 import json
 from collections import OrderedDict
 from model import hangout_dao
+from model import user_dao
 from . import hangout
 from . import sign
 
@@ -18,20 +19,17 @@ bp = Blueprint('hangout_bp', __name__, url_prefix='/hangout')
 def hangoutMoreList():
     if request.method == 'POST':
         pageNum = request.form.get('pageNum',type=int)
-        print("pageNum : ",pageNum)
+        #print("pageNum : ",pageNum)
         dao = hangout_dao.HangoutDao()
         res = dao.get_hangout_data_list(session['hangoutFilterVal'],pageNum)
         hangoutDataList = []
         for data in res:
             hangoutDataList.append(hangout_dao.dumper(data))
 
-
-
         #print(res[1].join_url)
         #print(json.dumps(hangoutDataList,ensure_ascii=False))
         return json.dumps(hangoutDataList,ensure_ascii=False)
         #return "abcddds"
-
 
 
 @bp.route("/join", methods=['GET','POST'])
@@ -43,6 +41,17 @@ def hangout_join():
         res = dao.join_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
         if res == "false":
             session['cancel']='true'
+        else:
+            dao = user_dao.UserDao()
+            userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
+            userMyHangout.append(idx)
+            #print("myhangout : ",userMyHangout)
+
+            session['user_info']['user_my_hangout']=dao.list_to_str(userMyHangout)
+            print(session['user_info'])
+            dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
+
+        session.modified = True
         return redirect(url_for('hangout_bp.hangout_list'))
 
 @bp.route("/cancel",methods=['GET','POST'])
@@ -52,7 +61,18 @@ def hangout_cancel():
     print("hangout index for delete : ",idx)
     dao = hangout_dao.HangoutDao()
     res = dao.cancel_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
+    if res == "true":
+        dao = user_dao.UserDao()
+        userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
+        try:
+            userMyHangout.remove(idx)
+        except:
+            print("There is no myHangout index")
 
+        session['user_info']['user_my_hangout']=dao.list_to_str(userMyHangout)
+        dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
+
+    session.modified = True
     return redirect(url_for('hangout_bp.hangout_list'))
 
 
@@ -66,14 +86,19 @@ def hangout_list():
         #필터 적용안된경우
         if 'filterVal' not in request.form:
             filterVal="default"
+        else:
+            filterVal = request.form.get('filterVal')
+
+        print("Filter is ",filterVal)
 
         session["hangoutFilterVal"] = filterVal
+
 
         dao = hangout_dao.HangoutDao()
         hangout_list = dao.get_hangout_data_list(filterVal=filterVal)
 
         return render_template("hangout.html",hangout_data = hangout_list,filterVal=filterVal)
-
+    session.modified = True
     return redirect(url_for("sign_bp.login"))
 
 
