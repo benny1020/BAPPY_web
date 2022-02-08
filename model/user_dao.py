@@ -31,6 +31,7 @@ class User():
         self.character = []
         self.interest = [] # interests 개수 9개
         self.language = []
+        self.isKorean = 0
 
     def create_user(self,rf):
         character = []
@@ -54,6 +55,10 @@ class User():
 
         self.birth = rf.get('birth')
         self.nation = rf.get('country_selector')
+        if self.nation == "South Korea (대한민국)":
+            self.isKorean = 1
+        else:
+            self.isKorean = 0
         self.university = rf.get('university')
         self.visit = 0
         self.cancel = 0
@@ -73,8 +78,18 @@ class UserDao():
             li[i]=str(li[i])
         return ','.join(li)
     # "1,2,3,4"->[1,2,3,4]
-    def str_to_li(self, db_str):
+    def str_to_li(self,db_str):
+        db_str = str(db_str)
+        if db_str == "None":
+            return []
+        if db_str ==  "":
+            return []
         return db_str.split(',')
+
+    def updateUsermyHangout(self,idx,myHangout):
+        sql =  """update bp_user set user_my_hangout = '%s' where user_idx = %d """%(myHangout,int(idx))
+        print(sql)
+        self.database.execute(sql)
 
     def count_user(self):
         sql = """select count(0) as cnt from bp_user"""
@@ -82,9 +97,17 @@ class UserDao():
 
     def insert_user(self, user):
         sql = """insert into bp_user(
-        user_idx,user_id,user_password,user_phone,user_name,user_gender,user_birth,user_nation,user_university,user_visit,user_reg_time,user_cancel,user_character,user_interests,user_language,user_login_time)values(%d,'%s','%s','%s','%s','%s','%s','%s','%s',%d,'%s',%d,'%s','%s','%s','%s')"""%(user.idx,user.id,user.password,user.phone,user.name,user.gender,user.birth, user.nation,user.university,user.visit, user.reg_time, user.cancel,self.list_to_str(user.character), self.list_to_str(user.interest), self.list_to_str(user.language),user.login_time )
+        user_isKorean,user_idx,user_id,user_password,user_phone,user_name,user_gender,user_birth,user_nation,user_university,user_visit,user_reg_time,user_cancel,user_character,user_interests,user_language,user_login_time)values(%d,%d,'%s','%s','%s','%s','%s','%s','%s','%s',%d,'%s',%d,'%s','%s','%s','%s')"""%(user.isKorean,user.idx,user.id,user.password,user.phone,user.name,user.gender,user.birth, user.nation,user.university,user.visit, user.reg_time, user.cancel,self.list_to_str(user.character), self.list_to_str(user.interest), self.list_to_str(user.language),user.login_time )
         #print(sql)
         self.database.execute(sql)
+
+    def idCheck(self,id):
+        sql = """select * from bp_user where user_id = '%s' """%(id)
+        account = self.database.executeOne(sql)
+        if(account == None):
+            return True
+        else:
+            return False
 
     def login_check(self,id,input_password):
         sql = """select * from bp_user where user_id = '%s' """%(id)

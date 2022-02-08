@@ -1,6 +1,7 @@
 <!doctype html>
                         <html>
                             <head>
+
                                 <meta charset='utf-8'>
                                 <meta name='viewport' content='width=device-width, initial-scale=1'>
                                 <title>BAPPY</title>
@@ -9,7 +10,7 @@
                                 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
                                 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
                                 <script  src="../static/script.js"></script>
-
+                                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                 <link rel="stylesheet" href="../static/build/css/countrySelect.css">
                             		<link rel="stylesheet" href="../static/build/css/demo.css">
 
@@ -422,7 +423,7 @@ select {
         <label id="lb" for="language_6">Japanese</label>
 
       </div>
-      <a href="#" class="btn btn-next width-50 ml-auto">Next</a>
+      <a href="#" id="firstBtn" class="btn btn-next width-50 ml-auto">Next</a>
 
 
 
@@ -486,7 +487,7 @@ select {
             <option value="Pusan National University">Pusan National University</option>
             <option value="Pusan National University">Pusan National University</option>
         </select></div>
-        <div class="btns-group" > <a href="#"class="btn btn-prev" style=" padding-top:12px;height:46px; margin-bottom:15px; background-color:#dcdcdc; color:black; font-size:16px;color:rgb(85,84,76);" >Previous</a>   <a href="#" class="btn btn-next" style="height:46px;font-size:16px;">Next</a> </div>
+        <div class="btns-group" > <a href="#"  class="btn btn-prev" style=" padding-top:12px;height:46px; margin-bottom:15px; background-color:#dcdcdc; color:black; font-size:16px;color:rgb(85,84,76);" >Previous</a>   <a href="#" id="secondBtn"class="btn btn-next" style="height:46px;font-size:16px;">Next</a> </div>
     </div>
 
     <div class="step-forms">
@@ -495,15 +496,15 @@ select {
 
 
       <div class="group-inputs"> <label for="id">ID</label> <input type="text" name="id" id="id" /> </div>
-      <div class="group-inputs"> <label for="password">PASSWORD</label> <input type="text" name="password" id="password" /> </div>
-      <div class="group-inputs"> <label for="email">CONFIRTM PASSWORD</label> <input type="text" name="password_confirt" id="password_confirm" /> </div>
+      <div class="group-inputs"> <label for="password">PASSWORD</label> <input type="password" name="password" id="password" /> </div>
+      <div class="group-inputs"> <label for="email">CONFIRTM PASSWORD</label> <input type="password" name="password_confirm" id="repassword" /> </div>
       <div class="group-inputs"> <label for="email">CODE</label> <input type="text" name="code" id="code" /> </div>
       <div class="group-inputs"> <label for="phone">PHONE#</label> <input type="text" name="phone" id="phone" /> </div>
 
 
       <div class="btns-group" >
         <a href="#"class="btn btn-prev" style=" height:46px; padding-top:13px; margin-bottom:15px; background-color:#dcdcdc; color:black; font-size:16px;color:rgb(85,84,76);" >Previous</a>
-        <input style="height:46px;font-size:16px;color:rgb(106,57,6); width:118px;" type="submit" value="Submit" id="submit-form" class="btn"  /> </div>
+        <input style="height:46px;font-size:16px;color:rgb(106,57,6); width:118px;" type="button" value="Submit" id="submit-form" class="btn"  /> </div>
     </div>
 
 
@@ -511,6 +512,9 @@ select {
 </form>
 
 <script type='text/Javascript'>const prevBtns = document.querySelectorAll(".btn-prev");
+
+var correctCode = "1020";
+
 const nextBtns = document.querySelectorAll(".btn-next");
 const progress = document.getElementById("progress");
 const formSteps = document.querySelectorAll(".step-forms");
@@ -519,15 +523,41 @@ const progressSteps = document.querySelectorAll(".progress-step");
 
 let formStepsNum = 0;
 
+var firstBtn = document.getElementById("firstBtn");
+var SecondBtn = document.getElementById("secondBtn");
+
+firstBtn.addEventListener("click", () => {
+    formStepsNum++;
+    updateFormSteps();
+    updateProgressbar();
+});
+
+SecondBtn.addEventListener("click", () => {
+    console.log("asd");
+    user_name = document.getElementById("name").value;
+    user_birth = document.getElementById("birth").value;
+    if(user_name == "" && user_birth == '0') {
+        swal("Name and Dates of Birth are empty!!!");
+    }else if(user_name == "") {
+        swal("Name is empty!!!");
+    }else if(user_birth == '0'){
+        swal("Dates of Birth is empty!!!");
+    }else {
+        formStepsNum++;
+        updateFormSteps();
+        updateProgressbar();
+    }
+
+});
+
+/*
 nextBtns.forEach((btn) => {
 btn.addEventListener("click", () => {
-formStepsNum++;
-updateFormSteps();
-updateProgressbar();
+
 
 });
 });
-
+*/
 prevBtns.forEach((btn) => {
 btn.addEventListener("click", () => {
 formStepsNum--;
@@ -560,18 +590,99 @@ else {
 
 document.getElementById("submit-form").addEventListener("click", function ()
 {
-  progressSteps.forEach((progressStep, idx)=> {
-        if (idx <= formStepsNum) { progressStep.classList.add("progress-step-check"); }
-        else { progressStep.classList.remove("progress-step-check"); } });
+  var user_id = document.getElementById("id");
+  var idcheck = false;
+  $.ajax({
+      url:"/sign/idcheck",
+      type:"post",
+      dataType:"json",
+      data:{"user_id":user_id.value},
+      async:false,
 
-  var forms=document.getElementById("forms");
-  forms.submit();
-  forms.classList.remove("form");
-  forms.innerHTML='<div class="welcome"><div class="content"><svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg><h2>Thanks for signup!</h2><span>We will contact you soon!</span><div></div>' ;
-  setTimeout(function() {
+      success:function(data) {
+          console.log(data);
+          if(data == true) {
+              console.log("if ture")
+              idcheck=true;
+          }
+      }
+  });
 
-}, 1000);
-       });
+  var user_password = document.getElementById("password");
+  var user_repassword = document.getElementById("repassword");
+  var user_code = document.getElementById("code");
+  var user_phone = document.getElementById("phone");
+  var pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{8,25}$/;
+  var phoneCheck = /^^[0-9]+/g;
+
+  if(user_id.value == "") {
+      swal("Please insert ID");
+      user_id.focus();
+  }
+  else if(idcheck == false) {
+      swal("아이디 중복이어유");
+      user_id.focus();
+  }
+  else if(user_password.value == "") {
+      swal("Please insert PASSWORD");
+      user_password.focus();
+  }
+
+  else if(!pwdCheck.test(user_password.value)) {
+      swal("비밀번호는 영문자 + 숫자 + 특수문자 조합으로 8~25자리 사용해야 합니다.");
+      user_password.focus();
+  }
+  else if(repassword.value !== user_password.value) {
+      swal("비밀번호가 일치하지 않습니다.");
+      user_repassword.focus();
+  }
+  else if(user_code.value != correctCode) {
+      swal("BAPPY 카카오 채널을 추가하면 인증코드가 전송됩니다.", {
+        buttons: {
+          cancel: "필요없어",
+          catch: {
+            text: "카카오채널 추가하러가기",
+            value: "add",
+          },
+        },
+      })
+      .then((value) => {
+        switch (value) {
+
+          case "add":
+              //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
+              window.open("http://pf.kakao.com/_xbxlRxjb");
+
+            break;
+
+        }
+      });
+      user_code.focus();
+  }
+  else if(user_phone.value == ""){
+      swal("전화번호가 비어있습니다.");
+      user_phone.focus();
+  }
+  else if(!phoneCheck.test(user_phone.value)) {
+      swal("전화번호는 숫자만 입력할 수 있습니다.");
+      user_phone.focus();
+  }
+  else {
+      progressSteps.forEach((progressStep, idx)=> {
+            if (idx <= formStepsNum) { progressStep.classList.add("progress-step-check"); }
+            else { progressStep.classList.remove("progress-step-check"); } });
+
+      var forms=document.getElementById("forms");
+      forms.submit();
+      forms.classList.remove("form");
+      forms.innerHTML='<div class="welcome"><div class="content"><svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg><h2>Thanks for signup!</h2><span>We will contact you soon!</span><div></div>' ;
+      setTimeout(function() {
+
+      }, 1000);
+  }
+
+
+});
 
       </script>
                                 </body>

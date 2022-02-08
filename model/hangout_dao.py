@@ -37,6 +37,7 @@ class Hangout_Data():
         self.location_url = Hangout.location_url
         self.openchat = Hangout.openchat
 
+
         images = str_to_li(Hangout.participants_image)
         nations = str_to_li(Hangout.participants_nation)
         ages = str_to_li(Hangout.participants_age)
@@ -96,6 +97,8 @@ class Hangout():
         self.woman=0
         self.man=0
         self.location_url=""
+        self.korean=0
+        self.foreign=0
 #print(datetime.now())
     def create_hangout(self, request):
         self.openchat = request.form.get('openchat')
@@ -136,6 +139,9 @@ class HangoutDao():
         users_num = hangout['hg_participants_num']
         users_man = hangout['hg_man']
         users_woman = hangout['hg_woman']
+        users_korean = hangout['hg_korean']
+        users_foreign = hangout['hg_foreign']
+
         index = self.find_user_li(users_id, user_id)
         print("삭제해야할 인덱스는 ",index)
         users_id.pop(index)
@@ -144,6 +150,13 @@ class HangoutDao():
         users_age.pop(index)
         users_gender.pop(index)
         users_num -= 1
+
+        if session['user_info']['user_isKorean'] == 1:
+            users_korean -=1
+        else:
+            users_foreign -=1
+
+
         if user_gender == 'man':
             users_man -= 1
         else:
@@ -157,11 +170,11 @@ class HangoutDao():
         users_num = str(users_num)
 
 
-        return self.update_hangout(idx, users_image,users_id, users_nation, users_gender, users_age,users_num, users_man, users_woman)
+        return self.update_hangout(users_korean,users_foreign,idx, users_image,users_id, users_nation, users_gender, users_age,users_num, users_man, users_woman)
 
 
-    def update_hangout(self,idx,users_image, users_id, users_nation, users_gender, users_age, users_num, users_man, users_woman):
-        sql = """ update bp_hangout set hg_man = '%s', hg_woman = '%s', hg_participants_id = '%s', hg_participants_nation = '%s', hg_participants_image = '%s', hg_participants_age = '%s', hg_participants_gender = '%s', hg_participants_num = '%s' where idx = '%s'"""% (users_man,users_woman,users_id,users_nation,users_image,users_age,users_gender, users_num, idx)
+    def update_hangout(self,users_korean,users_foreign,idx,users_image, users_id, users_nation, users_gender, users_age, users_num, users_man, users_woman):
+        sql = """ update bp_hangout set hg_korean = %d, hg_foreign = %d, hg_man = '%s', hg_woman = '%s', hg_participants_id = '%s', hg_participants_nation = '%s', hg_participants_image = '%s', hg_participants_age = '%s', hg_participants_gender = '%s', hg_participants_num = '%s' where idx = '%s'"""% (users_korean,users_foreign,users_man,users_woman,users_id,users_nation,users_image,users_age,users_gender, users_num, idx)
         self.database.execute(sql)
         return "true"
 
@@ -172,6 +185,13 @@ class HangoutDao():
         if hangout["hg_"+user_gender] >=2: #check
             return "false"
 
+        if session['user_info']['user_isKorean'] == 1:
+            if hangout["hg_korean"]>=2:
+                return "false"
+        else:
+            if hangout["hg_foreign"]>=2:
+                return "false"
+
         users_id = str_to_li(hangout['hg_participants_id'])
         users_nation = str_to_li(hangout['hg_participants_nation'])
         users_image = str_to_li(hangout['hg_participants_image'])
@@ -180,6 +200,14 @@ class HangoutDao():
         users_num = hangout['hg_participants_num']
         users_man = hangout['hg_man']
         users_woman = hangout['hg_woman']
+        users_korean = hangout['hg_korean']
+        users_foreign = hangout['hg_foreign']
+
+        if session['user_info']['user_isKorean']==1:
+            users_korean +=1
+        else:
+            users_foreign +=1
+
 
         if user_gender == "man":
             users_man += 1
@@ -202,8 +230,7 @@ class HangoutDao():
         users_age = list_to_str(users_age)
         users_num = str(users_num)
 
-        sql = """ update bp_hangout set hg_man = '%s', hg_woman = '%s', hg_participants_id = '%s', hg_participants_nation = '%s', hg_participants_image = '%s', hg_participants_age = '%s', hg_participants_gender = '%s', hg_participants_num = '%s' where idx = '%s'"""% (users_man,users_woman,users_id,users_nation,users_image,users_age,users_gender, users_num, idx)
-        print(sql)
+        sql = """ update bp_hangout set hg_korean = %d, hg_foreign = %d,hg_man = '%s', hg_woman = '%s', hg_participants_id = '%s', hg_participants_nation = '%s', hg_participants_image = '%s', hg_participants_age = '%s', hg_participants_gender = '%s', hg_participants_num = '%s' where idx = '%s'"""% (users_korean,users_foreign,users_man,users_woman,users_id,users_nation,users_image,users_age,users_gender, users_num, idx)
 
         self.database.execute(sql)
 
@@ -218,28 +245,34 @@ class HangoutDao():
 
     def insert_hangout(self, hangout):
         sql = """
-        INSERT INTO bp_hangout (hg_location_url,hg_man,hg_woman,hg_city,idx, hg_participants_num, hg_click_num, hg_openchat, hg_location, hg_title, hg_meet_time, hg_register_time)
-        VALUES ('%s','%d','%d','%s','%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s')
-        """%(hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
+        INSERT INTO bp_hangout (hg_korean,hg_foreign,hg_location_url,hg_man,hg_woman,hg_city,idx, hg_participants_num, hg_click_num, hg_openchat, hg_location, hg_title, hg_meet_time, hg_register_time)
+        VALUES ('%d','%d','%s','%d','%d','%s','%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s')
+        """%(0,0,hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
         self.database.execute(sql)
 
     def get_hangout_list(self,pageNum,filterVal):
         if filterVal == "default": #default
+            print("It is default hangout list")
             sql = """
             select * from bp_hangout order by hg_meet_time asc limit %d,%d;
             """%(pageNum,5)
 
         elif filterVal == "myhangout": #my hangout
-            sql = """select """
+            if session['user_info']['user_my_hangout']=="None" or session['user_info']['user_my_hangout']=="":
+                return []
+            print("It is myhangout list")
+            sql = """select * from bp_hangout where idx in(%s) order by hg_meet_time asc limit %d,%d"""%(session['user_info']['user_my_hangout'],pageNum,5)
+            print(sql)
         #나머지 도시들
         else:
+            print("It is "+str(filterVal)+"hangout list")
             sql = """
             select * from bp_hangout where hg_city=\'%s\' order by hg_meet_time asc limit %d,%d;
             """%(filterVal,pageNum,5)
 
-        sql = """
-        select * from bp_hangout order by hg_meet_time asc limit %d,%d;
-        """%(pageNum,5)
+        #sql = """
+        #select * from bp_hangout order by hg_meet_time asc limit %d,%d;
+        #"""%(pageNum,5)
         res = self.database.executeAll(sql)
         hangout_list = []
         for h in res:

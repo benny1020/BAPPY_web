@@ -18,6 +18,15 @@ def init():
     if request.method == 'GET':
         print("sd")
 
+@bp.route("idcheck",methods=['GET','POST'])
+def check_user_id():
+    if request.method == 'POST' and 'user_id' in request.form:
+        dao = user_dao.UserDao()
+        if dao.idCheck(request.form.get('user_id'))== True:
+            return "true"
+        else:
+            return "false"
+
 @bp.route("/signup",methods=['GET','POST'])
 def signup():
     if request.method == 'POST' and 'id' in request.form:
@@ -48,6 +57,7 @@ def login():
         account, check_password = dao.login_check(input_id,input_password)
         #print(check_password)
         if check_password == True:
+            session["user_info"]=account
             session["loggedin"] = True
             session["user_id"] = account['user_id']
             session["user_my_hangout"] = account['user_my_hangout']
@@ -57,7 +67,7 @@ def login():
             session["user_university"] = account["user_university"]
             session["user_name"] = account["user_name"]
             session["user_gender"] = account["user_gender"]
-
+            print(session["user_info"]['user_idx'])
             return redirect(url_for('hangout_bp.hangout_list'))
         else:
             msg="Login Failed"
