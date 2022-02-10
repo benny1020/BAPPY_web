@@ -29,6 +29,8 @@ def hangoutMoreList():
         #print(res[1].join_url)
         #print(json.dumps(hangoutDataList,ensure_ascii=False))
         return json.dumps(hangoutDataList,ensure_ascii=False)
+    else:
+        return "Please contact us through the bappy kakao channel"
         #return "abcddds"
 
 
@@ -53,34 +55,38 @@ def hangout_join():
 
         session.modified = True
         return redirect(url_for('hangout_bp.hangout_list'))
+    else:
+        return "Please contact us through the bappy kakao channel"
 
 @bp.route("/cancel",methods=['GET','POST'])
 def hangout_cancel():
+    if request.method == 'POST' and 'index' in request.form :
+        idx = request.form.get('index')
+        print("hangout index for delete : ",idx)
+        dao = hangout_dao.HangoutDao()
+        res = dao.cancel_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
+        if res == "true":
+            dao = user_dao.UserDao()
+            userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
+            try:
+                userMyHangout.remove(idx)
+            except:
+                print("There is no myHangout index")
 
-    idx = request.form.get('index')
-    print("hangout index for delete : ",idx)
-    dao = hangout_dao.HangoutDao()
-    res = dao.cancel_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
-    if res == "true":
-        dao = user_dao.UserDao()
-        userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
-        try:
-            userMyHangout.remove(idx)
-        except:
-            print("There is no myHangout index")
+            session['user_info']['user_my_hangout']=dao.list_to_str(userMyHangout)
+            dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
 
-        session['user_info']['user_my_hangout']=dao.list_to_str(userMyHangout)
-        dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
-
-    session.modified = True
-    return redirect(url_for('hangout_bp.hangout_list'))
+        session.modified = True
+        return redirect(url_for('hangout_bp.hangout_list'))
+    else:
+        return "Please contact us through the bappy kakao channel"
 
 
 @bp.route("/list",methods=['GET','POST'])
 def hangout_list():
     if 'loggedin' in session and session['loggedin']==True and 'user_id' in session:
         if 'cancel' in session and session['cancel'] == 'true':
-            flash(str("You cannot join this hangout"))
+            flash(str("Bappy hangout consists of 2 Koreans and 2 internationals. There are no spots for your nationality."))
             session['cancel']='false'
 
         #필터 적용안된경우

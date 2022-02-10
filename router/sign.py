@@ -72,5 +72,7 @@ def login():
         else:
             msg="Login Failed"
 
+    if 'user_info' in session:
+        return redirect(url_for('hangout_bp.hangout_list'))
 
     return render_template("login.html",result=msg)

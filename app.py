@@ -21,6 +21,10 @@ def test():
     idx = request.form.get('index')
     print(idx)
     return redirect(url_for(hangout.bp.hangout_list))
+@app.route ('/', methods=['GET','POST'])
+def root():
+    session.clear()
+    return redirect(url_for('sign_bp.login'))
 
 @app.route('/logout',methods=['GET','POST'])
 def logout():

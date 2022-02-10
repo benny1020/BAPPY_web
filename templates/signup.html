@@ -47,7 +47,8 @@ input,select{
     padding: 0.75rem;
     border: 1px solid #ccc;
     border-radius: 0.25rem;
-    height: 50px
+    height: 50px;
+    color:rgba(242, 203, 41, 1.0);
 }
 #forms{
   width:320px;
@@ -330,6 +331,13 @@ select {
 .group-inputs input {
   width:100%;
 }
+.country-list {
+    width:260px;
+    z-index:2;
+    left : -210px;
+
+}
+
 
 
 </style>
@@ -433,17 +441,16 @@ select {
 
 
     <div class="step-forms">
-        <div class="group-inputs" style="height:65px;"> <label for="name">NAME</label> <input type="text" name="name" id="name" /> </div>
+        <div class="group-inputs" style="height:65px;"> <label for="name">NAME</label> <input type="text" name="name" id="name" style="font-size:14px;" /> </div>
         <div class="group-inputs" style="height:65px">
           <label for="gender">GENDER</label>
         <select style="padding-left:13px;background-color:white; color:rgba(242, 203, 41, 1.0);" id="gender" name="gender" >
-          <option value="man">MAN</option>
-          <option value="woman">WOMAN</option>
-          <option value="other">OTHER</option>
+          <option value="M">MAN</option>
+          <option value="W">WOMAN</option>
       </select> </div>
         <div class="group-inputs"style="height:65px"> <label for="birth">Dates of Birth</label>
           <select style="padding-left:13px;background-color:white; color:rgba(242, 203, 41, 1.0);" id="birth" name="birth" >
-            <option value="0" selected disabled hidden>Choose here</option>
+            <option value="0" selected disabled hidden>Select Date</option>
             <option value="33">1990</option>
             <option value="32">1991</option>
             <option value="31">1992</option>
@@ -464,7 +471,7 @@ select {
         <div class="form-item"style="margin-left:0px;">
           <div  class="group-inputs" style="color:rgba(242, 203, 41, 1.0);height:65px">
             <label for="country_selector"style="z-index:1;">NATIONALITY</label>
-            <input style="padding-left:18px;margin-right: 0px;width:260px; font-size: 15px; " id="country_selector" type="text" name="country_selector" style="border: 1px solid #ccc;" >
+            <input placeholder="Search your country."  style="color:rgba(242, 203, 41, 1.0);padding-left:18px;margin-right: 0px;width:260px; font-size: 15px; " id="country_selector" type="text" name="country_selector" style="border: 1px solid #ccc;" >
           </div>
 
         </div>
@@ -475,18 +482,15 @@ select {
           // defaultCountry: "jp",
           // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
           // responsiveDropdown: true,
-          preferredCountries: ['kr', 'kz', 'jp','fr','de','ru']
+          //<input type="text"list="university" name="university"><datalist id="university" name="" style="color:rgba(242, 203, 41, 1.0); padding-left:13px; background-color:white;">
+
+          preferredCountries: ['default','kr', 'kz', 'jp','fr','de','ru']
         });
         </script>
 
         <div class="group-inputs">
           <label for="university">UNIVERSITY</label>
-          <select style="color:rgba(242, 203, 41, 1.0); padding-left:13px; background-color:white;" id="university" name="university">
-            <option value="Pusan National University">Pusan National University</option>
-            <option value="Pusan National University">Pusan National University</option>
-            <option value="Pusan National University">Pusan National University</option>
-            <option value="Pusan National University">Pusan National University</option>
-        </select></div>
+          <input type="text"placeholder=" Search your university." style="font-size:15px;" list="university" name="university"><datalist id="university" name="" style="color:rgba(242, 203, 41, 1.0); padding-left:13px; background-color:white;"></div>
         <div class="btns-group" > <a href="#"  class="btn btn-prev" style=" padding-top:12px;height:46px; margin-bottom:15px; background-color:#dcdcdc; color:black; font-size:16px;color:rgb(85,84,76);" >Previous</a>   <a href="#" id="secondBtn"class="btn btn-next" style="height:46px;font-size:16px;">Next</a> </div>
     </div>
 
@@ -511,7 +515,129 @@ select {
 
 </form>
 
-<script type='text/Javascript'>const prevBtns = document.querySelectorAll(".btn-prev");
+<style >
+.country-list {
+    width:300px;
+
+}
+</style>
+
+<script type='text/Javascript'>
+var universityList = ['Select your university',
+'Busan National University of Education',
+ 'Busan Presbyterian University',
+ 'Busan University of Foreign Studies',
+ 'Catholic University of Taegu-Hyosung',
+ 'Chung-Ang University',
+ 'Catholic University of Korea',
+ 'Catholic University of Pusan',
+ 'Dankook University',
+ 'Dong-A University',
+ "Dongduk Women's University",
+ 'Dong Eui University',
+ 'Dongguk University',
+ 'Dongseo University',
+ 'Dongshin University',
+ "Duksung Women's University",
+ 'Dong-Eui University',
+ 'Dongyang University',
+ "Ewha Women's University",
+ 'Gachon University',
+ 'Gyeongnam National University of Science and Technology',
+ 'Gyeongsang National University',
+ 'Hankuk Aviation University',
+ 'Hannam University',
+ 'Hanseo University',
+ 'Hanyang University',
+ 'Hankyong National University',
+ 'Hongik University',
+ 'Hoseo University',
+ 'Hankuk University of Foreign Studies',
+ 'Hyupsung University',
+ 'Handong Global University',
+ 'Incheon Catholic University',
+ 'International University of Korea',
+ 'Inchon University',
+ 'Inchon National University of Education',
+ 'Inha University',
+ 'Inje University',
+ 'Jesus University',
+ 'Kangnam University',
+ 'Kaya University',
+ 'Konkuk University',
+ 'Konyang University',
+ 'Kookmin University',
+ 'Korea University',
+ 'Kosin University',
+ 'Kumoh National University of Technology',
+ 'Kyonggi University',
+ 'Kongju National University',
+ 'Kyunghee University',
+ 'Kyungil University',
+ 'Kyungnam University',
+ 'Kyungpook National University',
+ 'Kyungsung University',
+ 'Kyungwon University',
+ 'Korea Aerospace University',
+ 'Korea Armed Forces Nursing Academy',
+ 'Korea National Sport University',
+ 'Korea National University of Cultural Heritage',
+ 'Korea Polytechnic University',
+ 'Korea University of Technology and Education',
+ 'Korean Bible University',
+ 'Korean National Police University',
+ 'Kwangshin University',
+ 'Kyung Hee University',
+ 'Kyungdong University',
+ 'Myongji University',
+ 'Methodist Theological University',
+ 'Mokpo Catholic University',
+ 'Namseoul University',
+ 'Pukyong National University',
+ 'Pohang University of Science and Technology',
+ 'Pusan University of Foreign Studies',
+ 'Pusan National University',
+ 'Pusan National University of Education',
+ "Pusan Women's University",
+ 'Sang Myung University',
+ 'Soonchunhyang University',
+ 'Sejong University',
+ 'Seoul National University of Education',
+ 'Silla University',
+ 'Seokyeong University',
+ 'Seoul National University',
+ 'Seoul National University of Technology',
+ "Sookmyung Women's University",
+ 'Soongsil University',
+ 'Seoul Teological University',
+ 'Sunchon National University',
+ "Sungshin Women's University",
+ "Seoul Women's University",
+ 'Sangmyung University',
+ 'Seoul Christian University',
+ 'Seoul Hanyoung University',
+ 'Seoul Jangsin University',
+ 'Seoul National University of Science and Technology',
+ 'Sungkyunkwan University',
+ 'Tongmyung University of Information Technology',
+ 'Ulsan University',
+ 'Seoul City University',
+ 'Ulsan National Institute of Science and Technology',
+ 'Yonsei University',
+ 'Extra']
+var university = document.getElementById("university");
+for(var i=0;i<universityList.length;i++) {
+    var opt = document.createElement("option");
+    opt.value = universityList[i];
+    var text = document.createTextNode(universityList[i]);
+    opt.appendChild(text);
+    university.appendChild(opt);
+
+}
+
+const prevBtns = document.querySelectorAll(".btn-prev");
+
+
 
 var correctCode = "1020";
 
@@ -534,14 +660,22 @@ firstBtn.addEventListener("click", () => {
 
 SecondBtn.addEventListener("click", () => {
     console.log("asd");
-    user_name = document.getElementById("name").value;
-    user_birth = document.getElementById("birth").value;
-    if(user_name == "" && user_birth == '0') {
-        swal("Name and Dates of Birth are empty!!!");
-    }else if(user_name == "") {
-        swal("Name is empty!!!");
-    }else if(user_birth == '0'){
-        swal("Dates of Birth is empty!!!");
+    var user_name = document.getElementById("name");
+    var user_birth = document.getElementById("birth");
+    var user_university = document.getElementById("university");
+    var user_nation = document.getElementById("country_selector");
+    if(user_name.value == "") {
+        swal("Please fill in your name.");
+        user_name.focus();
+    }else if(user_birth.value == '0'){
+        swal("Please fill in your Date of Birth.");
+        user_birth.focus();
+    }else if (user_nation.value == 'default') {
+        swal("Please select in your Nationality.")
+        user_nation.focus();
+    }else if(user_university.value == 'Select your university') {
+        swal("Please select in your university.");
+        user_university.focus();
     }else {
         formStepsNum++;
         updateFormSteps();
@@ -616,32 +750,32 @@ document.getElementById("submit-form").addEventListener("click", function ()
   var phoneCheck = /^^[0-9]+/g;
 
   if(user_id.value == "") {
-      swal("Please insert ID");
+      swal("Please fill in your ID.");
       user_id.focus();
   }
   else if(idcheck == false) {
-      swal("아이디 중복이어유");
+      swal("You cannot use this ID, as it is already taken.");
       user_id.focus();
   }
   else if(user_password.value == "") {
-      swal("Please insert PASSWORD");
+      swal("Please fill in your password.");
       user_password.focus();
   }
 
   else if(!pwdCheck.test(user_password.value)) {
-      swal("비밀번호는 영문자 + 숫자 + 특수문자 조합으로 8~25자리 사용해야 합니다.");
+      swal("You should fill in 8-25 characters consisted of alphanumeric characters, numbers, and special symbols for your password.");
       user_password.focus();
   }
   else if(repassword.value !== user_password.value) {
-      swal("비밀번호가 일치하지 않습니다.");
+      swal("We cannot identify your password.");
       user_repassword.focus();
   }
   else if(user_code.value != correctCode) {
-      swal("BAPPY 카카오 채널을 추가하면 인증코드가 전송됩니다.", {
+      swal("Add the Bappy Kakao channel below to get the code on the welcome message.", {
         buttons: {
-          cancel: "필요없어",
+          cancel: "Back",
           catch: {
-            text: "카카오채널 추가하러가기",
+            text: "Go to add the Bappy channel.",
             value: "add",
           },
         },
@@ -660,14 +794,15 @@ document.getElementById("submit-form").addEventListener("click", function ()
       user_code.focus();
   }
   else if(user_phone.value == ""){
-      swal("전화번호가 비어있습니다.");
+      swal("Please fill in your phone number.");
       user_phone.focus();
   }
   else if(!phoneCheck.test(user_phone.value)) {
-      swal("전화번호는 숫자만 입력할 수 있습니다.");
+      swal("You can only fill in numbers.");
       user_phone.focus();
   }
   else {
+      document.getElementById("country_selector").value = document.getElementsByClassName("selected-flag")[0].firstChild.className.substr(5,2);
       progressSteps.forEach((progressStep, idx)=> {
             if (idx <= formStepsNum) { progressStep.classList.add("progress-step-check"); }
             else { progressStep.classList.remove("progress-step-check"); } });

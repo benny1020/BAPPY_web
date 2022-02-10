@@ -46,7 +46,7 @@ class Hangout_Data():
         for i in range(Hangout.participants_num):
             self.profile_image.append(images[i])
             #self.nation_image.append(nations[i])
-            self.nation_image.append("usa")
+            self.nation_image.append(nations[i])
             self.age.append(ages[i])
             self.gender.append(gender[i])
 
@@ -157,7 +157,7 @@ class HangoutDao():
             users_foreign -=1
 
 
-        if user_gender == 'man':
+        if user_gender == 'M':
             users_man -= 1
         else:
             users_woman -= 1
@@ -182,8 +182,13 @@ class HangoutDao():
     def join_hangout_byidx(self,idx,user_id, user_nation, user_gender, user_age):
         hangout = self.get_hangout_byidx(idx)
 
-        if hangout["hg_"+user_gender] >=2: #check
-            return "false"
+        if user_gender == "M":
+            if hangout["hg_man"]>= 2:
+                return "false"
+        else:
+            if hangout["hg_woman"]>=2:
+                return "false"
+
 
         if session['user_info']['user_isKorean'] == 1:
             if hangout["hg_korean"]>=2:
@@ -209,7 +214,7 @@ class HangoutDao():
             users_foreign +=1
 
 
-        if user_gender == "man":
+        if user_gender == "M":
             users_man += 1
         else:
             users_woman += 1

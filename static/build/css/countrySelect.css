@@ -58,7 +58,7 @@
 }
 .country-select .country-list{
 	position:absolute;
-	z-index:2;
+	z-index:0;
 	list-style:none;
 	text-align:left;
 	padding:0;
@@ -132,8 +132,6 @@
 	box-shadow:0px 0px 1px 0px #888;
 	background-image:url("../../build/img/flags.png");
 	background-repeat:no-repeat;
-	background-color:#dbdbdb;
-	background-position:20px 0
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
 only screen and (min--moz-device-pixel-ratio: 2),
@@ -173,6 +171,14 @@ only screen and (min-resolution: 2dppx){
 	.country-select .flag{
 		background-size:5630px 15px
 	}
+}
+.country-select .flag.default {
+    background-image:url("/static/nation.png");
+    background-repeat:no-repeat;
+    border-radius: 20%;
+    background-size:cover;
+	width:20px;
+	height:15px;
 }
 .country-select .flag.ac{
 	height:10px;

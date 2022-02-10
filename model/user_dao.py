@@ -55,7 +55,7 @@ class User():
 
         self.birth = rf.get('birth')
         self.nation = rf.get('country_selector')
-        if self.nation == "South Korea (대한민국)":
+        if self.nation == "kr":
             self.isKorean = 1
         else:
             self.isKorean = 0

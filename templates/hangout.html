@@ -87,28 +87,25 @@
                                         <div style="text-align: center; ">
 
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
-                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src=" {{ "/static/"+hangout.nation_image[0]+".png" }}" style="width:15px;height:10px"></img>
+                                            <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[0] }}">
                                             </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[0] + " / " + hangout.gender[0] }}</span>
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/"+ hangout.profile_image[0]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
-                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="{{ "/static/"+hangout.nation_image[1]+".png" }}" style="width:15px;height:10px"></img>
-                                            </div>
+                                              <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[1] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[1] + " / " + hangout.gender[1] }}</span>
 
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/"+hangout.profile_image[1]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
-                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="{{ "/static/"+hangout.nation_image[2]+".png" }}" style="width:15px;height:10px"></img>
-                                            </div>
+                                              <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[2] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[2] + " / " + hangout.gender[2] }}</span>
 
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/"+hangout.profile_image[2]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;">
-                                            <div style= "position: absolute; left:35px; width:15px; height:10px;  bottom:35px;"><img src="{{ "/static/"+hangout.nation_image[3]+".png" }}" style="width:15px;height:10px"></img>
-                                            </div>
+                                              <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[3] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[3] + " / " + hangout.gender[3] }}</span>
 
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/"+hangout.profile_image[3]+".png" }}"></img>
@@ -133,7 +130,7 @@
 
         </div>
         </div>
-        <button id="addBtn" onclick="moreList();" ><span>More Hangout</span></button>
+        <button id="addBtn" onclick="moreList();"style="display:block; margin:auto; border:none;background-color:transparent;margin-bottom:40px; text-align:center;"><span style="margin-right:20px;">More Hangout</span><img src="../static/more.png"style="height:10px;width:15px;"/></button>
 
         </div>
 
@@ -142,6 +139,9 @@
 
 </body>
 </html>
+<style >
+
+</style>
 <script type="text/javascript">
 function moreList() {
     var pageNum = $("#hangoutList form").length // 10; // 기본 10  1
@@ -162,6 +162,7 @@ function moreList() {
                 document.getElementById('addBtn').remove();
                 swal("There is no more page");
             }
+            console.log(data);
 
 
             for(var i=0;i<data.length;i++) {
@@ -178,25 +179,23 @@ function moreList() {
                 if(data[i].openchat != "none") {
                     addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><i class=\"zmdi zmdi-comments mr-2\"></i><a href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
-                addListHtml+= "</ul><div style=\"text-align: center; \"><div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px; width:15px; height:10px;  bottom:35px;\"><img src=\"/static/" + data[i].nation_image[0]+ ".png\" style=\"width:15px;height:10px\"></img></div>";
+                addListHtml+= "</ul><div style=\"text-align: center; \">"
+                addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
                 addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[0] + " / " + data[i].gender[0] + "</span>";
                 addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[0]+".png\"></img>";
                 addListHtml+= "  </div>";
                 addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px; width:15px; height:10px;  bottom:35px;\"><img src=\"/static/" + data[i].nation_image[0]+ ".png\" style=\"width:15px;height:10px\"></img>";
-                addListHtml+= "    </div>";
+                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[1] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[1] + "</span>";
                 addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[1]+".png\"></img>";
-                addListHtml+= "  </div>";
-                addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px; width:15px; height:10px;  bottom:35px;\"><img src=\"/static/" + data[i].nation_image[0]+ ".png\" style=\"width:15px;height:10px\"></img>";
                 addListHtml+= "    </div>";
+                addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
+                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[2] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[2] + "</span>";
                 addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[2]+".png\"></img>";
                 addListHtml+= "  </div>";
                 addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px; width:15px; height:10px;  bottom:35px;\"><img src=\"/static/" + data[i].nation_image[0]+ ".png\" style=\"width:15px;height:10px\"></img>";
-                addListHtml+= "    </div>";
+                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[3] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[3] + "</span>";
                 addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[3]+".png\"></img>";
                 addListHtml+= "  </div>";

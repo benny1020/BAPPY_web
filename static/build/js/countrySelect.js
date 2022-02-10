@@ -189,7 +189,10 @@
 				$(window).resize(function() {
 					$('.country-select').each(function() {
 						var dropdownWidth = this.offsetWidth;
-						$(this).find('.country-list').css("width", dropdownWidth + "px");
+						//$(this).find('.country-list').css("width", dropdownWidth + "px");
+						$(this).find('.country-list').css("width",  "260px");
+						$(this).find('.country-list').css("z-index",  "1");
+						$(this).find('.country-list').css("left",  "-210px");
 					});
 				}).resize();
 			}
@@ -655,6 +658,9 @@
 	}, {
 		n: "Åland Islands (Åland)",
 		i: "ax"
+	}, {
+		n: "",
+		i: "default"
 	}, {
 		n: "Albania (Shqipëri)",
 		i: "al"
