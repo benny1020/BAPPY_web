@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="shortcut icon" href="/static/favicon/favicon.ico">
+
+<link rel="apple-touch-icon" sizes="57x57" href="/static/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/static/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/static/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/static/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/static/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/static/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/static/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/static/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/static/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/static/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
+<link rel="manifest" href="/static/favicon/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/static/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
 <head>
     <meta charset="utf-8">
     <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
@@ -14,7 +33,7 @@
 
 </head>
 <body>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" integrity="sha256-3sPp8BkKUE7QyPSl6VfBByBroQbKxKG7tsusY2mhbVY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" integrity="sha256-3sPp8BkKUE7QyPSl6VfBByBroQbKxKG7tsusY2mhbVY=" crossorigin="anonymous" />
 {% with messages = get_flashed_messages() %}
   {%if messages %}
     <script type="text/javascript">
@@ -75,7 +94,8 @@
                                               <i class="zmdi zmdi-time mr-2"></i> {{ hangout.meet_time}}
                                           </li>
                                           <li class="mr-md-4" style="width:90%">
-                                              <i class="zmdi zmdi-pin mr-2"></i> <a href="{{ hangout.location_url }}" >{{ hangout.location }}</a>
+                                              <i class="zmdi zmdi-pin mr-2" style="font-weight:800px;
+                                              "></i> <a href="{{ hangout.location_url }}" >{{ hangout.location }}</a>
                                           </li>
                                           {% if hangout.openchat != "none" %}
                                           <li class="mr-md-4" style="width:90%">
@@ -140,12 +160,45 @@
 </body>
 </html>
 <style >
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx){
+	.country-select .flag{
+		background-size:5630px 15px
+	}
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx){
+	.country-select .flag{
+		background-image:url("/static/flags.png")
+	}
+}
+.flag {
+    background-image:url("/static/flags.png");
 
+    background-size:5630px 15px;
+    display:inline-block;
+    vertical-align:middle
+
+    background-repeat:no-repeat;
+
+    width:20px;
+    height:15px;
+    -webkit-box-shadow:0px 0px 1px 0px #888;
+    box-shadow:0px 0px 1px 0px #888;
+
+}
 </style>
 <script type="text/javascript">
 function moreList() {
     var pageNum = $("#hangoutList form").length // 10; // 기본 10  1
     var addListHtml = "";
+    $(':focus').blur(); 
 
     $.ajax({
         url:"/hangout/moreList",

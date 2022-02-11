@@ -1,5 +1,24 @@
 <!doctype html>
                         <html>
+                        <link rel="shortcut icon" href="/static/favicon/favicon.ico">
+
+                        <link rel="apple-touch-icon" sizes="57x57" href="/static/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/static/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/static/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/static/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/static/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/static/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/static/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/static/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/static/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/static/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/static/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon/favicon-16x16.png">
+<link rel="manifest" href="/static/favicon/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/static/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
                             <head>
 
                                 <meta charset='utf-8'>
@@ -502,7 +521,7 @@ select {
       <div class="group-inputs"> <label for="id">ID</label> <input type="text" name="id" id="id" /> </div>
       <div class="group-inputs"> <label for="password">PASSWORD</label> <input type="password" name="password" id="password" /> </div>
       <div class="group-inputs"> <label for="email">CONFIRTM PASSWORD</label> <input type="password" name="password_confirm" id="repassword" /> </div>
-      <div class="group-inputs"> <label for="email">CODE</label> <input type="text" name="code" id="code" /> </div>
+      <div class="group-inputs"> <label for="email">CODE</label> <input type="text" name="code" id="code" placeholder="Submit to get the code." /> </div>
       <div class="group-inputs"> <label for="phone">PHONE#</label> <input type="text" name="phone" id="phone" /> </div>
 
 
@@ -523,7 +542,32 @@ select {
 </style>
 
 <script type='text/Javascript'>
-var universityList = ['Select your university',
+
+swal("Add the Bappy Kakao channel below to get the code on the welcome message.", {
+  buttons: {
+    cancel: "Back",
+    catch: {
+      text: "Go to add the Bappy channel.",
+      value: "add",
+    },
+  },
+})
+.then((value) => {
+  switch (value) {
+
+    case "add":
+        //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
+        window.open("http://pf.kakao.com/_xbxlRxjb/chat");
+
+      break;
+
+  }
+});
+
+
+
+var universityList = ['Not a student',
+    'Select your university',
 'Busan National University of Education',
  'Busan Presbyterian University',
  'Busan University of Foreign Studies',
@@ -623,8 +667,8 @@ var universityList = ['Select your university',
  'Ulsan University',
  'Seoul City University',
  'Ulsan National Institute of Science and Technology',
- 'Yonsei University',
- 'Extra']
+ 'Yonsei University'
+ ]
 var university = document.getElementById("university");
 for(var i=0;i<universityList.length;i++) {
     var opt = document.createElement("option");
@@ -785,7 +829,7 @@ document.getElementById("submit-form").addEventListener("click", function ()
 
           case "add":
               //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
-              window.open("http://pf.kakao.com/_xbxlRxjb");
+              window.open("http://pf.kakao.com/_xbxlRxjb/chat");
 
             break;
 

@@ -658,10 +658,7 @@
 	}, {
 		n: "Åland Islands (Åland)",
 		i: "ax"
-	}, {
-		n: "",
-		i: "default"
-	}, {
+	},  {
 		n: "Albania (Shqipëri)",
 		i: "al"
 	}, {
@@ -1003,6 +1000,9 @@
 	}, {
 		n: "Kenya",
 		i: "ke"
+	},{
+		n: "",
+		i: "default"
 	}, {
 		n: "Kiribati",
 		i: "ki"

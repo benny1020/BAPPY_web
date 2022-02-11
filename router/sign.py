@@ -67,7 +67,7 @@ def login():
             session["user_university"] = account["user_university"]
             session["user_name"] = account["user_name"]
             session["user_gender"] = account["user_gender"]
-            print(session["user_info"]['user_idx'])
+            #print(session["user_info"]['user_idx'])
             return redirect(url_for('hangout_bp.hangout_list'))
         else:
             msg="Login Failed"

@@ -84,7 +84,7 @@ def hangout_cancel():
 
 @bp.route("/list",methods=['GET','POST'])
 def hangout_list():
-    if 'loggedin' in session and session['loggedin']==True and 'user_id' in session:
+    if 'loggedin' in session and session['loggedin']==True and 'user_info' in session:
         if 'cancel' in session and session['cancel'] == 'true':
             flash(str("Bappy hangout consists of 2 Koreans and 2 internationals. There are no spots for your nationality."))
             session['cancel']='false'
