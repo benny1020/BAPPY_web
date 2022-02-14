@@ -1,7 +1,6 @@
 <!doctype html>
                         <html>
                         <link rel="shortcut icon" href="/static/favicon/favicon.ico">
-
                         <link rel="apple-touch-icon" sizes="57x57" href="/static/favicon/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/static/favicon/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/static/favicon/apple-icon-72x72.png">
@@ -24,16 +23,12 @@
                                 <meta charset='utf-8'>
                                 <meta name='viewport' content='width=device-width, initial-scale=1'>
                                 <title>BAPPY</title>
-                                <link href='' rel='stylesheet'>
                                 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
                                 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
                                 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
-                                <script  src="../static/script.js"></script>
                                 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                                 <link rel="stylesheet" href="../static/build/css/countrySelect.css">
                             		<link rel="stylesheet" href="../static/build/css/demo.css">
-
-
 
 
                                 <style>:root {
@@ -92,7 +87,7 @@ input,select{
     justify-content: space-between;
     counter-reset: step;
     margin: 2rem 0 4rem;
-    margin-bottom:50px;
+    margin-bottom:60px;
 }
 
 .progressbar::before,
@@ -364,15 +359,15 @@ select {
 
 
                                 </head>
-                                <body oncontextmenu='return false' class='snippet-body'>
+                                <body  class='snippet-body'>
             <form action="/sign/signup" class="form" id="forms" method="post"  >
 
 
     <div class="progressbar">
         <div class="progress" id="progress"></div>
-        <div class="progress-step progress-step-active" data-title="Personal"></div>
+        <div class="progress-step progress-step-active" data-title="Account"></div>
         <div class="progress-step" data-title="Info"></div>
-        <div class="progress-step" data-title="Account"></div>
+        <div class="progress-step" data-title="Personal"></div>
     </div>
 
 
@@ -392,64 +387,15 @@ select {
 
     <div class="step-forms step-forms-active" style="text-align:left; width:100%;">
 
-      <p style="color:rgba(242, 203, 41, 1.0);text-align:left;">Character</p>
+        <div class="group-inputs">  <label  for="code">CODE</label>
+            <input style="width:80%;" type="text" name="code" id="code" placeholder="Submit to get the code." /> <button type="button" name="GET" onclick="getCode();"style="border:none;background-color:rgba(242, 203, 41, 1.0);">GET</button>
+        </div>
+        <div class="group-inputs"> <label for="id">ID</label> <input type="text" name="id" id="id" /> </div>
+        <div class="group-inputs"> <label for="password">PASSWORD</label> <input type="password" name="password" id="password" /> </div>
+        <div class="group-inputs"> <label for="email">CONFIRTM PASSWORD</label> <input type="password" name="password_confirm" id="repassword" /> </div>
+        <div class="group-inputs"> <label for="phone">PHONE#</label> <input type="text" name="phone" id="phone" /> </div>
 
-      <div class="character"style="display:inline-block; height:60px; width:130px;border-right:0.8px solid #ccc ;margin-right:13px;">
-        <input type="radio" name="ch1" id="character_1" value="Spontaneous" />
-        <label id="lb" for="character_1" >Spontaneous</label>
 
-        <input type="radio" name="ch2" id="character_2" value="Talkative" />
-        <label id="lb" for="character_2">Talkative</label>
-
-      </div>
-
-      <div class="radio" style="display:inline-block; margin-left:10px;">
-        <input type="radio" name="ch1" id="character_3" value="Planning" />
-        <label id="lb" for="character_3">Planning</label>
-        <input type="radio" name="ch2" id="character_4" value="Shy" />
-        <label id="lb" for="character_4">Shy</label>
-
-      </div>
-      <p style="text-align: left; color:rgba(242, 203, 41, 1.0);">Interests</p>
-      <div class="interests" style="margin-bottom:30px; ">
-        <input type="checkbox" name="int1" id="interests_1" />
-        <label id="lb" for="interests_1">Movies</label>
-
-        <input type="checkbox" name="int2" id="interests_2" />
-        <label id="lb" for="interests_2">Books</label>
-
-        <input type="checkbox" name="int3" id="interests_3" />
-        <label id="lb" for="interests_3">Sports</label>
-        <input type="checkbox" name="int4" id="interests_4" />
-        <label id="lb" for="interests_4">Games</label>
-        <input type="checkbox" name="int5" id="interests_5" />
-        <label id="lb" for="interests_5">Talking</label>
-        <input type="checkbox" name="int6" id="interests_6" />
-        <label id="lb" for="interests_6">Drinking</label>
-        <input type="checkbox" name="int7" id="interests_7" />
-        <label id="lb" for="interests_7">Travelling</label>
-        <input type="checkbox" name="int8" id="interests_8" />
-        <label id="lb" for="interests_8">Vegan</label>
-        <input type="checkbox" name="int9" id="interests_9" />
-        <label id="lb" for="interests_9">Cooking</label>
-      </div>
-      <p style="color:rgba(242, 203, 41, 1.0);">Language</p>
-
-      <div class="language" style="margin-bottom:30px">
-        <input type="checkbox" name="lang1" id="language_1" />
-        <label id="lb" for="language_1">Korean</label>
-        <input type="checkbox" name="lang2" id="language_2" />
-        <label id="lb" for="language_2">English</label>
-        <input type="checkbox" name="lang3" id="language_3" />
-        <label id="lb" for="language_3">Spanish</label>
-        <input type="checkbox" name="lang4" id="language_4" />
-        <label id="lb" for="language_4">French</label>
-        <input type="checkbox" name="lang5" id="language_5" />
-        <label id="lb" for="language_5">Chinese</label>
-        <input type="checkbox" name="lang6" id="language_6" />
-        <label id="lb" for="language_6">Japanese</label>
-
-      </div>
       <a href="#" id="firstBtn" class="btn btn-next width-50 ml-auto">Next</a>
 
 
@@ -459,8 +405,8 @@ select {
 
 
 
-    <div class="step-forms">
-        <div class="group-inputs" style="height:65px;"> <label for="name">NAME</label> <input type="text" name="name" id="name" style="font-size:14px;" /> </div>
+    <div class="step-forms " style="">
+        <div class="group-inputs" style="height:65px;margin-top:40px;"> <label for="name" >NAME</label> <input type="text" name="name" id="name" style="font-size:14px;" /> </div>
         <div class="group-inputs" style="height:65px">
           <label for="gender">GENDER</label>
         <select style="padding-left:13px;background-color:white; color:rgba(242, 203, 41, 1.0);" id="gender" name="gender" >
@@ -513,16 +459,69 @@ select {
         <div class="btns-group" > <a href="#"  class="btn btn-prev" style=" padding-top:12px;height:46px; margin-bottom:15px; background-color:#dcdcdc; color:black; font-size:16px;color:rgb(85,84,76);" >Previous</a>   <a href="#" id="secondBtn"class="btn btn-next" style="height:46px;font-size:16px;">Next</a> </div>
     </div>
 
-    <div class="step-forms">
+    <div class="step-forms"style="margin-top:16px;">
+        <p style="color:rgba(242, 203, 41, 1.0);text-align:left;">Character</p>
+
+        <div class="character"style="display:inline-block; height:60px; width:130px;border-right:0.8px solid #ccc ;margin-right:13px;">
+          <input type="radio" name="ch1" id="character_1" value="Spontaneous" />
+          <label id="lb" for="character_1" >Spontaneous</label>
+
+          <input type="radio" name="ch2" id="character_2" value="Talkative" />
+          <label id="lb" for="character_2">Talkative</label>
+
+        </div>
+
+        <div class="radio" style="display:inline-block; margin-left:10px;">
+          <input type="radio" name="ch1" id="character_3" value="Planning" />
+          <label id="lb" for="character_3">Planning</label>
+          <input type="radio" name="ch2" id="character_4" value="Shy" />
+          <label id="lb" for="character_4">Shy</label>
+
+        </div>
+        <p style="text-align: left; color:rgba(242, 203, 41, 1.0);">Interests</p>
+        <div class="interests" style="margin-bottom:30px; ">
+          <input type="checkbox" name="int1" id="interests_1" />
+          <label id="lb" for="interests_1">Movies</label>
+
+          <input type="checkbox" name="int2" id="interests_2" />
+          <label id="lb" for="interests_2">Books</label>
+
+          <input type="checkbox" name="int3" id="interests_3" />
+          <label id="lb" for="interests_3">Sports</label>
+          <input type="checkbox" name="int4" id="interests_4" />
+          <label id="lb" for="interests_4">Games</label>
+          <input type="checkbox" name="int5" id="interests_5" />
+          <label id="lb" for="interests_5">Talking</label>
+          <input type="checkbox" name="int6" id="interests_6" />
+          <label id="lb" for="interests_6">Drinking</label>
+          <input type="checkbox" name="int7" id="interests_7" />
+          <label id="lb" for="interests_7">Travelling</label>
+          <input type="checkbox" name="int8" id="interests_8" />
+          <label id="lb" for="interests_8">Vegan</label>
+          <input type="checkbox" name="int9" id="interests_9" />
+          <label id="lb" for="interests_9">Cooking</label>
+        </div>
+        <p style="color:rgba(242, 203, 41, 1.0);">Language</p>
+
+        <div class="language" style="margin-bottom:30px">
+          <input type="checkbox" name="lang1" id="language_1" />
+          <label id="lb" for="language_1">Korean</label>
+          <input type="checkbox" name="lang2" id="language_2" />
+          <label id="lb" for="language_2">English</label>
+          <input type="checkbox" name="lang3" id="language_3" />
+          <label id="lb" for="language_3">Spanish</label>
+          <input type="checkbox" name="lang4" id="language_4" />
+          <label id="lb" for="language_4">French</label>
+          <input type="checkbox" name="lang5" id="language_5" />
+          <label id="lb" for="language_5">Chinese</label>
+          <input type="checkbox" name="lang6" id="language_6" />
+          <label id="lb" for="language_6">Japanese</label>
+
+        </div>
 
 
 
 
-      <div class="group-inputs"> <label for="id">ID</label> <input type="text" name="id" id="id" /> </div>
-      <div class="group-inputs"> <label for="password">PASSWORD</label> <input type="password" name="password" id="password" /> </div>
-      <div class="group-inputs"> <label for="email">CONFIRTM PASSWORD</label> <input type="password" name="password_confirm" id="repassword" /> </div>
-      <div class="group-inputs"> <label for="email">CODE</label> <input type="text" name="code" id="code" placeholder="Submit to get the code." /> </div>
-      <div class="group-inputs"> <label for="phone">PHONE#</label> <input type="text" name="phone" id="phone" /> </div>
 
 
       <div class="btns-group" >
@@ -542,27 +541,32 @@ select {
 </style>
 
 <script type='text/Javascript'>
+function getCode() {
+    console.log("click");
 
-swal("Add the Bappy Kakao channel below to get the code on the welcome message.", {
-  buttons: {
-    cancel: "Back",
-    catch: {
-      text: "Go to add the Bappy channel.",
-      value: "add",
-    },
-  },
-})
-.then((value) => {
-  switch (value) {
+    swal("Add the Bappy Kakao channel below to get the code on the welcome message.", {
+      buttons: {
+        cancel: "Back",
+        catch: {
+          text: "Go to add the Bappy channel.",
+          value: "add",
+        },
+      },
+    })
+    .then((value) => {
+      switch (value) {
 
-    case "add":
-        //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
-        window.open("http://pf.kakao.com/_xbxlRxjb/chat");
+        case "add":
+            //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
+            window.open("http://pf.kakao.com/_xbxlRxjb/chat");
 
-      break;
+          break;
 
-  }
-});
+      }
+    });
+}
+
+
 
 
 
@@ -696,10 +700,95 @@ let formStepsNum = 0;
 var firstBtn = document.getElementById("firstBtn");
 var SecondBtn = document.getElementById("secondBtn");
 
+/*
 firstBtn.addEventListener("click", () => {
     formStepsNum++;
     updateFormSteps();
     updateProgressbar();
+});*/
+firstBtn.addEventListener("click", () => {
+    var user_id = document.getElementById("id");
+    var idcheck = false;
+    $.ajax({
+        url:"/sign/idcheck",
+        type:"post",
+        dataType:"json",
+        data:{"user_id":user_id.value},
+        async:false,
+
+        success:function(data) {
+            console.log(data);
+            if(data == true) {
+                console.log("if ture")
+                idcheck=true;
+            }
+        }
+    });
+
+    var user_password = document.getElementById("password");
+    var user_repassword = document.getElementById("repassword");
+    var user_code = document.getElementById("code");
+    var user_phone = document.getElementById("phone");
+    var pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{8,25}$/;
+    var phoneCheck = /^^[0-9]+/g;
+
+    if(user_id.value == "") {
+        swal("Please fill in your ID.");
+        user_id.focus();
+    }
+    else if(idcheck == false) {
+        swal("You cannot use this ID, as it is already taken.");
+        user_id.focus();
+    }
+    else if(user_password.value == "") {
+        swal("Please fill in your password.");
+        user_password.focus();
+    }
+
+    else if(!pwdCheck.test(user_password.value)) {
+        swal("You should fill in 8-25 characters consisted of alphanumeric characters, numbers, and special symbols for your password.");
+        user_password.focus();
+    }
+    else if(repassword.value !== user_password.value) {
+        swal("We cannot identify your password.");
+        user_repassword.focus();
+    }
+    else if(user_code.value != correctCode) {
+        swal("Add the Bappy Kakao channel below to get the code on the welcome message.", {
+          buttons: {
+            cancel: "Back",
+            catch: {
+              text: "Go to add the Bappy channel.",
+              value: "add",
+            },
+          },
+        })
+        .then((value) => {
+          switch (value) {
+
+            case "add":
+                //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
+                window.open("http://pf.kakao.com/_xbxlRxjb/chat");
+
+              break;
+
+          }
+        });
+        user_code.focus();
+    }
+    else if(user_phone.value == ""){
+        swal("Please fill in your phone number.");
+        user_phone.focus();
+    }
+    else if(!phoneCheck.test(user_phone.value)) {
+        swal("You can only fill in numbers.");
+        user_phone.focus();
+    }
+    else {
+        formStepsNum++;
+        updateFormSteps();
+        updateProgressbar();
+    }
 });
 
 SecondBtn.addEventListener("click", () => {
@@ -768,97 +857,20 @@ else {
 
 document.getElementById("submit-form").addEventListener("click", function ()
 {
-  var user_id = document.getElementById("id");
-  var idcheck = false;
-  $.ajax({
-      url:"/sign/idcheck",
-      type:"post",
-      dataType:"json",
-      data:{"user_id":user_id.value},
-      async:false,
 
-      success:function(data) {
-          console.log(data);
-          if(data == true) {
-              console.log("if ture")
-              idcheck=true;
-          }
-      }
-  });
 
-  var user_password = document.getElementById("password");
-  var user_repassword = document.getElementById("repassword");
-  var user_code = document.getElementById("code");
-  var user_phone = document.getElementById("phone");
-  var pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{8,25}$/;
-  var phoneCheck = /^^[0-9]+/g;
+     document.getElementById("country_selector").value = document.getElementsByClassName("selected-flag")[0].firstChild.className.substr(5,2);
+     progressSteps.forEach((progressStep, idx)=> {
+        if (idx <= formStepsNum) { progressStep.classList.add("progress-step-check"); }
+        else { progressStep.classList.remove("progress-step-check"); } });
 
-  if(user_id.value == "") {
-      swal("Please fill in your ID.");
-      user_id.focus();
-  }
-  else if(idcheck == false) {
-      swal("You cannot use this ID, as it is already taken.");
-      user_id.focus();
-  }
-  else if(user_password.value == "") {
-      swal("Please fill in your password.");
-      user_password.focus();
-  }
+     var forms=document.getElementById("forms");
+     forms.submit();
+     forms.classList.remove("form");
+     forms.innerHTML='<div class="welcome"><div class="content"><svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg><h2>Thanks for signup!</h2><span>We will contact you soon!</span><div></div>' ;
+     setTimeout(function() {
 
-  else if(!pwdCheck.test(user_password.value)) {
-      swal("You should fill in 8-25 characters consisted of alphanumeric characters, numbers, and special symbols for your password.");
-      user_password.focus();
-  }
-  else if(repassword.value !== user_password.value) {
-      swal("We cannot identify your password.");
-      user_repassword.focus();
-  }
-  else if(user_code.value != correctCode) {
-      swal("Add the Bappy Kakao channel below to get the code on the welcome message.", {
-        buttons: {
-          cancel: "Back",
-          catch: {
-            text: "Go to add the Bappy channel.",
-            value: "add",
-          },
-        },
-      })
-      .then((value) => {
-        switch (value) {
-
-          case "add":
-              //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
-              window.open("http://pf.kakao.com/_xbxlRxjb/chat");
-
-            break;
-
-        }
-      });
-      user_code.focus();
-  }
-  else if(user_phone.value == ""){
-      swal("Please fill in your phone number.");
-      user_phone.focus();
-  }
-  else if(!phoneCheck.test(user_phone.value)) {
-      swal("You can only fill in numbers.");
-      user_phone.focus();
-  }
-  else {
-      document.getElementById("country_selector").value = document.getElementsByClassName("selected-flag")[0].firstChild.className.substr(5,2);
-      progressSteps.forEach((progressStep, idx)=> {
-            if (idx <= formStepsNum) { progressStep.classList.add("progress-step-check"); }
-            else { progressStep.classList.remove("progress-step-check"); } });
-
-      var forms=document.getElementById("forms");
-      forms.submit();
-      forms.classList.remove("form");
-      forms.innerHTML='<div class="welcome"><div class="content"><svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg><h2>Thanks for signup!</h2><span>We will contact you soon!</span><div></div>' ;
-      setTimeout(function() {
-
-      }, 1000);
-  }
+     }, 1000);
 
 
 });

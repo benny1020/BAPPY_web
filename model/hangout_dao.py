@@ -28,6 +28,8 @@ class Hangout_Data():
         self.join_url = "" # cancel join redirct
         self.location_url = "naver.com"
         self.openchat = ""
+        self.participants_num=0
+        self.active = "enabled"
 
     def make_hangout_data(self,Hangout):
         self.index = Hangout.idx
@@ -36,6 +38,8 @@ class Hangout_Data():
         self.location = Hangout.location
         self.location_url = Hangout.location_url
         self.openchat = Hangout.openchat
+        self.participants_num = Hangout.participants_num
+
 
 
         images = str_to_li(Hangout.participants_image)
@@ -58,15 +62,24 @@ class Hangout_Data():
 
         # it is my hangout
         #print(str_to_li(Hangout.participants_id))
+
         if 'user_id' in session and session['user_id'] in str_to_li(Hangout.participants_id):
             self.join="cancel"
             self.join_url = "/hangout/cancel"
             self.openchat = Hangout.openchat
 
-        else:
+        elif Hangout.participants_num >=4:
+            self.join = "No Seat"
+            self.join_url ="/"
+            self.openchat = "none"
+            self.active="disabled"
+
+        elif 'user_id' in session and session['user_id'] not in str_to_li(Hangout.participants_id):
             self.join = "join"
             self.join_url = "/hangout/join"
             self.openchat = "none"
+        else:
+            print("make_hangout_data error")
 
 
 
@@ -259,7 +272,12 @@ class HangoutDao():
         if filterVal == "default": #default
             print("It is default hangout list")
             sql = """
-            select * from bp_hangout order by hg_meet_time asc limit %d,%d;
+            select * from bp_hangout where hg_participants_num !=4 order by hg_meet_time asc limit %d,%d;
+            """%(pageNum,5)
+        elif filterVal == "complete":
+            print("It is completed hangout list")
+            sql = """
+                select * from bp_hangout where hg_participants_num = 4 order by hg_meet_time desc limit %d,%d;
             """%(pageNum,5)
 
         elif filterVal == "myhangout": #my hangout
@@ -272,7 +290,7 @@ class HangoutDao():
         else:
             print("It is "+str(filterVal)+"hangout list")
             sql = """
-            select * from bp_hangout where hg_city=\'%s\' order by hg_meet_time asc limit %d,%d;
+            select * from bp_hangout where hg_city=\'%s\' and hg_participants_num !=4 order by hg_meet_time asc limit %d,%d;
             """%(filterVal,pageNum,5)
 
         #sql = """

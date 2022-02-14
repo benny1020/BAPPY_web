@@ -15,6 +15,24 @@ dao = hangout_dao.HangoutDao()
 
 bp = Blueprint('hangout_bp', __name__, url_prefix='/hangout')
 
+@bp.route("/filterList",methods=['GET','POST'])
+def hangoutfilterList():
+    if request.method == 'POST':
+        #print("pageNum : ",pageNum)
+        filterVal = request.form.get("filterVal")
+        print(filterVal)
+        dao = hangout_dao.HangoutDao()
+        res = dao.get_hangout_data_list(filterVal)
+        hangoutDataList = []
+        for data in res:
+            hangoutDataList.append(hangout_dao.dumper(data))
+
+        #print(res[1].join_url)
+        #print(json.dumps(hangoutDataList,ensure_ascii=False))
+        return json.dumps(hangoutDataList,ensure_ascii=False)
+    else:
+        return "Please contact us through the bappy kakao channel"
+
 @bp.route("/moreList",methods=['GET','POST'])
 def hangoutMoreList():
     if request.method == 'POST':
