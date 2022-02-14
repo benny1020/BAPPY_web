@@ -262,18 +262,20 @@ class HangoutDao():
         return self.database.executeAll(sql)[0]['cnt']
 
     def insert_hangout(self, hangout):
+
         sql = """
         INSERT INTO bp_hangout (hg_korean,hg_foreign,hg_location_url,hg_man,hg_woman,hg_city,idx, hg_participants_num, hg_click_num, hg_openchat, hg_location, hg_title, hg_meet_time, hg_register_time)
-        VALUES ('%d','%d','%s','%d','%d','%s','%d', '%d', '%d', '%s', '%s', '%s', '%s', '%s')
+        VALUES (%d,%d,'%s',%d,%d,'%s',%d, %d, %d, '%s', '%s', '%s', '%s', '%s')
         """%(0,0,hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
+        print(sql)
         self.database.execute(sql)
 
     def get_hangout_list(self,pageNum,filterVal):
         if filterVal == "default": #default
             print("It is default hangout list")
             sql = """
-            select * from bp_hangout where hg_participants_num !=4 order by hg_meet_time asc limit %d,%d;
-            """%(pageNum,5)
+            select * from bp_hangout where hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d;
+            """%(datetime.now().strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
         elif filterVal == "complete":
             print("It is completed hangout list")
             sql = """
@@ -290,8 +292,8 @@ class HangoutDao():
         else:
             print("It is "+str(filterVal)+"hangout list")
             sql = """
-            select * from bp_hangout where hg_city=\'%s\' and hg_participants_num !=4 order by hg_meet_time asc limit %d,%d;
-            """%(filterVal,pageNum,5)
+            select * from bp_hangout where hg_city=\'%s\' and hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d;
+            """%(filterVal,datetime.now().strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
 
         #sql = """
         #select * from bp_hangout order by hg_meet_time asc limit %d,%d;

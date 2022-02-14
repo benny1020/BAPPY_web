@@ -130,14 +130,16 @@ def hangout_list():
 def register_hangout():
     #print(request.form.get('code'))
     msg = ""
+    print(request.form.get("code"))
     #제출했을때
     if request.method == 'POST' and 'code' in request.form:
         #print(request.form.get('code'))
-        print(request.form.get('index'))
+        #print(request.form.get('index'))
         if request.form.get('code') == "code":
             if request.form.get('title')=="" or request.form.get('openchat')=='' or request.form.get('location')=='' or request.form.get('time')=="":
                 msg="빈칸 없이 입력하라했잖아 다시 입력해 ㅡㅡ"
             else:
+
                 dao = hangout_dao.HangoutDao()
                 hangout = hangout_dao.Hangout(dao.count_hangout())
                 hangout.create_hangout(request)
