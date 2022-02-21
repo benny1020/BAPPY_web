@@ -31,7 +31,7 @@ class Hangout_Data():
         self.participants_num=0
         self.active = "enabled"
 
-    def make_hangout_data(self,Hangout):
+    def make_hangout_data(self,Hangout,filterVal):
         self.index = Hangout.idx
         self.title = Hangout.title
         self.meet_time = Hangout.meet_time
@@ -80,6 +80,7 @@ class Hangout_Data():
             self.openchat = "none"
         else:
             print("make_hangout_data error")
+
 
 
 
@@ -191,24 +192,59 @@ class HangoutDao():
         self.database.execute(sql)
         return "true"
 
+    def checkTimeHangout(self,joinIndex,myHangoutIndex):
+        joinTime = self.get_hangout_byidx(joinIndex)['hg_meet_time']
+        #joinTime = datetime.strptime(joinTime,"%y-%m-%d %H:%M:%S")
 
-    def join_hangout_byidx(self,idx,user_id, user_nation, user_gender, user_age):
+
+        sql = """
+        select hg_meet_time from bappy_web.bp_hangout where idx in(%s)"""%(myHangoutIndex)
+        print(sql)
+        res = self.database.executeAll(sql)
+        print(res)
+        print("-------")
+        if res == None:
+            return "true"
+
+        for hangoutTime in res:
+            print(hangoutTime)
+            #date_diff = joinTime - datetime.strptime(hangoutTime,"%y-%m-%d %H:%M:%S")
+            date_diff = joinTime - hangoutTime['hg_meet_time']
+            print("join ",joinTime)
+            print("hangout ",hangoutTime)
+            print(date_diff)
+            if date_diff.seconds / 3600 <= 4:
+                return "false"
+
+        return "true"
+
+
+
+
+
+
+    def join_hangout_byidx(self,myHangout,idx,user_id, user_nation, user_gender, user_age):
+
+        if self.checkTimeHangout(idx,myHangout)=="false":
+            return 1
+
+
         hangout = self.get_hangout_byidx(idx)
 
         if user_gender == "M":
             if hangout["hg_man"]>= 2:
-                return "false"
+                return 0
         else:
             if hangout["hg_woman"]>=2:
-                return "false"
+                return 0
 
 
         if session['user_info']['user_isKorean'] == 1:
             if hangout["hg_korean"]>=2:
-                return "false"
+                return 0
         else:
             if hangout["hg_foreign"]>=2:
-                return "false"
+                return 0
 
         users_id = str_to_li(hangout['hg_participants_id'])
         users_nation = str_to_li(hangout['hg_participants_nation'])
@@ -300,6 +336,10 @@ class HangoutDao():
         #"""%(pageNum,5)
         res = self.database.executeAll(sql)
         hangout_list = []
+        month_list = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+        st = ["1","21","31"]
+        nd = ["2","22"]
+        rd = ["3","23"]
         for h in res:
             hangout = Hangout(h['idx'])
             hangout.idx = h['idx']
@@ -313,7 +353,21 @@ class HangoutDao():
             hangout.title = h['hg_title']
             hangout.participants_gender = h['hg_participants_gender']
             hangout.participants_age = h['hg_participants_age']
-            hangout.meet_time = h['hg_meet_time'].strftime("%m월 %d일 %H시 %M분")
+            month = h['hg_meet_time'].strftime("%m")
+            month = month_list[int(month)-1]
+            day = str(int(h['hg_meet_time'].strftime("%d")))
+            if day in st:
+                day = day+"st"
+            elif day in nd:
+                day = day+"nd"
+            elif day in rd:
+                day = day+"rd"
+            else:
+                day = day+"th"
+            hour = h['hg_meet_time'].strftime("%H")
+            minute = h['hg_meet_time'].strftime("%M")
+            hangout.meet_time = day + " "+month +" "+ hour + ":"+minute
+            #hangout.meet_time = h['hg_meet_time'].strftime("%m월 %d일 %H시 %M분")
             hangout.register_time = h['hg_register_time'].strftime("%Y-%m-%d %H:%M")
             hangout.city = h['hg_city']
             hangout.man = h['hg_man']
@@ -327,7 +381,7 @@ class HangoutDao():
         hangout_data_list = []
         for h in hl:
             hangout_data = Hangout_Data()
-            hangout_data.make_hangout_data(h)
+            hangout_data.make_hangout_data(h,filterVal)
             hangout_data_list.append(hangout_data)
         return hangout_data_list
 

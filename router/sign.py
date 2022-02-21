@@ -69,8 +69,10 @@ def login():
             session["user_gender"] = account["user_gender"]
             #print(session["user_info"]['user_idx'])
             return redirect(url_for('hangout_bp.hangout_list'))
+        elif check_password == False and account != None:
+            msg = "승인되지않은 사용자입니다."
         else:
-            msg="Login Failed"
+            msg="존재하지않는 계정이거나 비밀번호가 틀렸습니다."
 
     if 'user_info' in session:
         return redirect(url_for('hangout_bp.hangout_list'))

@@ -55,12 +55,15 @@ def hangoutMoreList():
 @bp.route("/join", methods=['GET','POST'])
 def hangout_join():
     if request.method == 'POST':
-        print("join")
         idx = request.form.get('index')
         dao = hangout_dao.HangoutDao()
-        res = dao.join_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
-        if res == "false":
+        res = dao.join_hangout_byidx(session['user_info']['user_my_hangout'],idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
+        # 인원수 조건 충족못해서 참가 못하는경우
+        if res == 0:
             session['cancel']='true'
+        # 이미 참가한 행아웃에서 4시간 이내인경우
+        elif res == 1:
+            session['checkTimeHangout']='false'
         else:
             dao = user_dao.UserDao()
             userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
@@ -103,6 +106,9 @@ def hangout_cancel():
 @bp.route("/list",methods=['GET','POST'])
 def hangout_list():
     if 'loggedin' in session and session['loggedin']==True and 'user_info' in session:
+        if 'checkTimeHangout' in session and session['checkTimeHangout']=='false':
+            flash(str("4시간 이내 참가 불가"))
+            session['checkTime']='true'
         if 'cancel' in session and session['cancel'] == 'true':
             flash(str("Bappy hangout consists of 2 Koreans and 2 internationals. There are no spots for your nationality."))
             session['cancel']='false'
