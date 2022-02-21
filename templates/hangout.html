@@ -134,8 +134,16 @@
                                         </div>
                                         <div class="job-right my-4 flex-shrink-0">
                                           <center>
-                                              <input style= "display:none;" type="text" name="index" value="{{ hangout.index }}">
-                                            <input {{ hangout.active }} style="background-color:rgba(236,198,53, 0.7);width:60%;"type="submit" class="btn d-block d-sm-inline-block btn-light" value = "{{ hangout.join }}">
+                                              <input style= "display:none;"  type="text" name="index" value="{{ hangout.index }}">
+                                              {% if hangout.active == "enabled" %}
+                                              <input style="background-color:rgba(236,198,53, 0.7);width:60%;"  {{ hangout.active}} type="submit" class="btn d-block d-sm-inline-block btn-light" value = "{{ hangout.join }}"  >
+                                              {% elif hangout.active == "disabled" %}
+                                              <input style="background-color:rgba(236,198,53, 0.7);width:60%;" type="submit"  class="btn d-block d-sm-inline-block btn-light" value = "{{ hangout.join }}"  >
+                                              {% else %}
+
+                                              {% endif %}
+
+
                                           </center>
                                         </div>
                                     </div>
@@ -256,11 +264,11 @@ function initList() {
 
                 if(data[i].participants_num >=4)    {
                     addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center><input style= \"display:none;\" type=\"text\" name=\"index\" value=\""+ data[i].index +"\">"
-                    addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);width:60%;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + "No Seat" + "\"+\"disabled\"> "
+                    addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);width:60%;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\""+ data[i].active +"> "
                 }
                 else {
                     addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center><input style= \"display:none;\" type=\"text\" name=\"index\" value=\""+ data[i].index +"\">"
-                    addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);width:60%;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\"> "
+                    addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);width:60%;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\""+ data[i].active +"> "
                 }
                 addListHtml+= " </center></div> </div></div></div></form>";
             }
@@ -337,11 +345,11 @@ function moreList() {
 
                 if(data[i].participants_num >=4)    {
                     addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center><input style= \"display:none;\" type=\"text\" name=\"index\" value=\""+ data[i].index +"\">"
-                    addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);width:60%;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + "No Seat" + "\"+\"disabled\"> "
+                    addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);width:60%;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\""+ data[i].active +"> "
                 }
                 else {
                     addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center><input style= \"display:none;\" type=\"text\" name=\"index\" value=\""+ data[i].index +"\">"
-                    addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);width:60%;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\"> "
+                    addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);width:60%;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\""+ data[i].active +"> "
                 }
                 addListHtml+= " </center></div> </div></div></div></form>";
             }

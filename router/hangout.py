@@ -108,7 +108,7 @@ def hangout_list():
     if 'loggedin' in session and session['loggedin']==True and 'user_info' in session:
         if 'checkTimeHangout' in session and session['checkTimeHangout']=='false':
             flash(str("4시간 이내 참가 불가"))
-            session['checkTime']='true'
+            session['checkTimeHangout']='true'
         if 'cancel' in session and session['cancel'] == 'true':
             flash(str("Bappy hangout consists of 2 Koreans and 2 internationals. There are no spots for your nationality."))
             session['cancel']='false'

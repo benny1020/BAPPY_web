@@ -18,9 +18,7 @@ app.register_blueprint(admin.bp)
 
 @app.route ('/test', methods=['GET','POST'])
 def test():
-    idx = request.form.get('index')
-    print(idx)
-    return redirect(url_for(hangout.bp.hangout_list))
+    return render_template("test.html")
 @app.route ('/', methods=['GET','POST'])
 def root():
     session.clear()

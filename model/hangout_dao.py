@@ -32,9 +32,62 @@ class Hangout_Data():
         self.active = "enabled"
 
     def make_hangout_data(self,Hangout,filterVal):
+        #Hangout.meet_time = datetime.strptime(Hangout.meet_time,"%y-%m-%d %H:%M:%S")
+        #print("--------")
+        #print(Hangout.meet_time)
+
+        if Hangout.meet_time < datetime.now():
+            self.join = "Expired"
+            self.active ="disabled"
+            self.join_url ="/"
+            self.openchat = "none"
+            print("it is expired hangout")
+
+        elif 'user_id' in session and session['user_id'] in str_to_li(Hangout.participants_id):
+            self.join="cancel"
+            self.join_url = "/hangout/cancel"
+            self.openchat = Hangout.openchat
+
+        elif Hangout.participants_num >=4:
+            self.join = "No Seat"
+            self.join_url ="/"
+            self.openchat = "none"
+            self.active="disabled"
+
+        elif 'user_id' in session and session['user_id'] not in str_to_li(Hangout.participants_id):
+            self.join = "join"
+            self.join_url = "/hangout/join"
+            self.openchat = "none"
+
+
+        else:
+            print("make_hangout_data error")
+
+
+        month_list = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+        st = ["1","21","31"]
+        nd = ["2","22"]
+        rd = ["3","23"]
         self.index = Hangout.idx
         self.title = Hangout.title
-        self.meet_time = Hangout.meet_time
+
+        #self.meet_time = Hangout.meet_time
+
+        month = Hangout.meet_time.strftime("%m")
+        month = month_list[int(month)-1]
+        day = str(int(Hangout.meet_time.strftime("%d")))
+        if day in st:
+            day = day+"st"
+        elif day in nd:
+            day = day+"nd"
+        elif day in rd:
+            day = day+"rd"
+        else:
+            day = day+"th"
+        hour = Hangout.meet_time.strftime("%H")
+        minute = Hangout.meet_time.strftime("%M")
+        self.meet_time = day + " "+month +" "+ hour + ":"+minute
+
         self.location = Hangout.location
         self.location_url = Hangout.location_url
         self.openchat = Hangout.openchat
@@ -63,23 +116,7 @@ class Hangout_Data():
         # it is my hangout
         #print(str_to_li(Hangout.participants_id))
 
-        if 'user_id' in session and session['user_id'] in str_to_li(Hangout.participants_id):
-            self.join="cancel"
-            self.join_url = "/hangout/cancel"
-            self.openchat = Hangout.openchat
 
-        elif Hangout.participants_num >=4:
-            self.join = "No Seat"
-            self.join_url ="/"
-            self.openchat = "none"
-            self.active="disabled"
-
-        elif 'user_id' in session and session['user_id'] not in str_to_li(Hangout.participants_id):
-            self.join = "join"
-            self.join_url = "/hangout/join"
-            self.openchat = "none"
-        else:
-            print("make_hangout_data error")
 
 
 
@@ -199,20 +236,16 @@ class HangoutDao():
 
         sql = """
         select hg_meet_time from bappy_web.bp_hangout where idx in(%s)"""%(myHangoutIndex)
-        print(sql)
+
         res = self.database.executeAll(sql)
-        print(res)
-        print("-------")
+
         if res == None:
             return "true"
 
         for hangoutTime in res:
-            print(hangoutTime)
             #date_diff = joinTime - datetime.strptime(hangoutTime,"%y-%m-%d %H:%M:%S")
             date_diff = joinTime - hangoutTime['hg_meet_time']
-            print("join ",joinTime)
-            print("hangout ",hangoutTime)
-            print(date_diff)
+
             if date_diff.seconds / 3600 <= 4:
                 return "false"
 
@@ -303,7 +336,7 @@ class HangoutDao():
         INSERT INTO bp_hangout (hg_korean,hg_foreign,hg_location_url,hg_man,hg_woman,hg_city,idx, hg_participants_num, hg_click_num, hg_openchat, hg_location, hg_title, hg_meet_time, hg_register_time)
         VALUES (%d,%d,'%s',%d,%d,'%s',%d, %d, %d, '%s', '%s', '%s', '%s', '%s')
         """%(0,0,hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
-        print(sql)
+        #print(sql)
         self.database.execute(sql)
 
     def get_hangout_list(self,pageNum,filterVal):
@@ -322,8 +355,8 @@ class HangoutDao():
             if session['user_info']['user_my_hangout']=="None" or session['user_info']['user_my_hangout']=="":
                 return []
             print("It is myhangout list")
-            sql = """select * from bp_hangout where idx in(%s) order by hg_meet_time asc limit %d,%d"""%(session['user_info']['user_my_hangout'],pageNum,5)
-            print(sql)
+            sql = """select * from bp_hangout where idx in(%s) order by hg_meet_time desc limit %d,%d"""%(session['user_info']['user_my_hangout'],pageNum,5)
+            #print(sql)
         #나머지 도시들
         else:
             print("It is "+str(filterVal)+"hangout list")
@@ -336,10 +369,7 @@ class HangoutDao():
         #"""%(pageNum,5)
         res = self.database.executeAll(sql)
         hangout_list = []
-        month_list = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-        st = ["1","21","31"]
-        nd = ["2","22"]
-        rd = ["3","23"]
+
         for h in res:
             hangout = Hangout(h['idx'])
             hangout.idx = h['idx']
@@ -353,21 +383,8 @@ class HangoutDao():
             hangout.title = h['hg_title']
             hangout.participants_gender = h['hg_participants_gender']
             hangout.participants_age = h['hg_participants_age']
-            month = h['hg_meet_time'].strftime("%m")
-            month = month_list[int(month)-1]
-            day = str(int(h['hg_meet_time'].strftime("%d")))
-            if day in st:
-                day = day+"st"
-            elif day in nd:
-                day = day+"nd"
-            elif day in rd:
-                day = day+"rd"
-            else:
-                day = day+"th"
-            hour = h['hg_meet_time'].strftime("%H")
-            minute = h['hg_meet_time'].strftime("%M")
-            hangout.meet_time = day + " "+month +" "+ hour + ":"+minute
-            #hangout.meet_time = h['hg_meet_time'].strftime("%m월 %d일 %H시 %M분")
+
+            hangout.meet_time = h['hg_meet_time']
             hangout.register_time = h['hg_register_time'].strftime("%Y-%m-%d %H:%M")
             hangout.city = h['hg_city']
             hangout.man = h['hg_man']
