@@ -2,7 +2,9 @@ import json
 from flask import Flask, request, session, jsonify
 from . import bappy_db
 from datetime import datetime
+from  datetime import timedelta
 
+timedelta(hours=1)
 host = '18.118.131.221'
 db_id = 'benny'
 pw = 'benny'
@@ -27,7 +29,7 @@ class Hangout_Data():
         self.join = "join"
         self.join_url = "" # cancel join redirct
         self.location_url = "naver.com"
-        self.openchat = ""
+        self.openchat = "none"
         self.participants_num=0
         self.active = "enabled"
 
@@ -36,7 +38,7 @@ class Hangout_Data():
         #print("--------")
         #print(Hangout.meet_time)
 
-        if Hangout.meet_time < datetime.now():
+        if Hangout.meet_time < datetime.now()+timedelta(hours=1):
             self.join = "Expired"
             self.active ="disabled"
             self.join_url ="/"
@@ -90,7 +92,6 @@ class Hangout_Data():
 
         self.location = Hangout.location
         self.location_url = Hangout.location_url
-        self.openchat = Hangout.openchat
         self.participants_num = Hangout.participants_num
 
 
@@ -344,7 +345,7 @@ class HangoutDao():
             print("It is default hangout list")
             sql = """
             select * from bp_hangout where hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d;
-            """%(datetime.now().strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
+            """%( (datetime.now()+timedelta(hours=1)).strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
         elif filterVal == "complete":
             print("It is completed hangout list")
             sql = """
@@ -362,7 +363,7 @@ class HangoutDao():
             print("It is "+str(filterVal)+"hangout list")
             sql = """
             select * from bp_hangout where hg_city=\'%s\' and hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d;
-            """%(filterVal,datetime.now().strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
+            """%(filterVal,(datetime.now()+timedelta(hours=1)).strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
 
         #sql = """
         #select * from bp_hangout order by hg_meet_time asc limit %d,%d;

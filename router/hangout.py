@@ -126,7 +126,6 @@ def hangout_list():
 
         dao = hangout_dao.HangoutDao()
         hangout_list = dao.get_hangout_data_list(filterVal=filterVal)
-
         return render_template("hangout.html",hangout_data = hangout_list,filterVal=filterVal)
     session.modified = True
     return redirect(url_for("sign_bp.login"))

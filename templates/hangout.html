@@ -135,14 +135,7 @@
                                         <div class="job-right my-4 flex-shrink-0">
                                           <center>
                                               <input style= "display:none;"  type="text" name="index" value="{{ hangout.index }}">
-                                              {% if hangout.active == "enabled" %}
                                               <input style="background-color:rgba(236,198,53, 0.7);width:60%;"  {{ hangout.active}} type="submit" class="btn d-block d-sm-inline-block btn-light" value = "{{ hangout.join }}"  >
-                                              {% elif hangout.active == "disabled" %}
-                                              <input style="background-color:rgba(236,198,53, 0.7);width:60%;" type="submit"  class="btn d-block d-sm-inline-block btn-light" value = "{{ hangout.join }}"  >
-                                              {% else %}
-
-                                              {% endif %}
-
 
                                           </center>
                                         </div>
@@ -225,6 +218,7 @@ function initList() {
                 swal("There is no more page");
             }
             console.log(data);
+            
 
 
             for(var i=0;i<data.length;i++) {
@@ -297,6 +291,8 @@ function moreList() {
         data:{"pageNum":pageNum},
 
         success:function(data) {
+            console.log(data);
+            console.log(data[0].openchat);
             //$("#hangoutList").append(data[1].join_url);
             //console.log(data);
             //console.log("asd");
