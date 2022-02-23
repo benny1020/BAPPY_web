@@ -1,4 +1,15 @@
 <!doctype html>
+<style>
+    @font-face {
+        font-family: 'roboto';
+        src: url("roboto/RobotoCondensed-Bold.ttf");
+    }
+    *{
+        font-family: 'roboto';
+    }
+
+
+</style>
                         <html>
                         <link rel="shortcut icon" href="/static/favicon/favicon.ico">
 
@@ -180,7 +191,7 @@
  }
 
  .bb-form {
-     width: 100%
+     width: 100%;
  }
 
  .bb-form-title {
@@ -202,6 +213,7 @@
      border-bottom: 2px solid #adadad;
      margin-bottom: 37px
  }
+
 
  .input100 {
      font-family: Poppins-Regular;
@@ -327,7 +339,7 @@
  }
 
  .bb-login-form-btn {
-     width: 100%;
+     width: 310px;
      display: block;
      position: relative;
      z-index: 1;
@@ -452,7 +464,11 @@
  .show_password {
      color: black !important;
      margin-right: 8px
- }</style>
+ }
+ form{
+     width:300px;
+ }
+</style>
                                 </head>
 
                                 <body oncontextmenu='return false' class='snippet-body'>
@@ -461,18 +477,23 @@
 
     <div class="login-container">
         <div class="bb-login">
-            <form action="/sign/login" id="forms" method="post" class="bb-form validate-form">  <span class="bb-form-title p-b-48"><img src="/static/bappy_logo.png" style="width:200px;height:200px" class="mdi mdi-symfony"></i> </span>
-                <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c"> <input class="input100" type="text" name="id" id="id"> <span class="bbb-input" data-placeholder="ID"></span> </div>
-                <div class="wrap-input100 validate-input" data-validate="Enter password"> <span class="btn-show-pass"> <i class="mdi mdi-eye show_password"></i> </span>
+            <form action="/sign/login" id="forms" method="post" class="bb-form validate-form">  <span class="bb-form-title p-b-48"><img src="/static/bird.png" style="width:200px;height:200px" class="mdi mdi-symfony"></i> </span>
+                <div style ="width:300px;margin-left:30px;"class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c"> <input class="input100" type="text" name="id" id="id"> <span class="bbb-input" data-placeholder="ID"></span> </div>
+                <div style ="width:300px;margin-left:30px;"class="wrap-input100 validate-input" data-validate="Enter password"> <span class="btn-show-pass"> <i class="mdi mdi-eye show_password"></i> </span>
                    <input class="input100" type="password" name="password"> <span class="bbb-input" data-placeholder="Password"></span> </div>
                 <div class="login-container-form-btn">
                     <span style="color:red;margin-bottom:20px;">{{ result }}</span>
                     <div class="bb-login-form-btn">
-                        <div class="bb-form-bgbtn"></div> <button type="button" id="login_btn"class="bb-form-btn"> Login </button>
+                        <div class="bb-form-bgbtn" ></div> <button  type="button" id="login_btn"class="bb-form-btn"> Login </button>
                     </div>
                 </div>
                 <div class="text-center p-t-115"> <span class="txt1"> Don’t have an account? </span> <a class="txt2" href="/sign/signup"> Sign Up </a> </div>
+
+
             </form>
+            <p style="opacity:0.2;font-size:10px;padding-top:30px;margin-bottom:0px;padding-bottom:0px;">뉴리언스(주) 대표이사 변정윤
+부산광역시 연제구 반송로 60, 4
+863-87-02055</p>
         </div>
     </div>
 

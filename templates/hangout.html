@@ -1,4 +1,16 @@
 <!DOCTYPE html>
+
+<style>
+    @font-face {
+        font-family: 'roboto';
+        src: url("roboto/RobotoCondensed-Bold.ttf");
+    }
+    *{
+        font-family: 'roboto';
+    }
+
+
+</style>
 <html lang="en">
 <link rel="shortcut icon" href="/static/favicon/favicon.ico">
 
@@ -45,7 +57,7 @@
             <div class="row">
                  <div class="col-lg-10 mx-auto mb-4">
                     <div class="section-title text-center ">
-                        <h1 class="top-c-sep">HAPPY BAPPY</h1>
+                        <h1 class="top-c-sep">BAPPY</h1>
 
                     </div>
                 </div>
@@ -150,7 +162,7 @@
         </div>
         </div>
         <button id="addBtn" onclick="moreList();"style="display:block; margin:auto; border:none;background-color:transparent;margin-bottom:40px; text-align:center;"><span style="margin-right:20px;">More Hangout</span><img src="../static/more.png"style="height:10px;width:15px;"/></button>
-
+        
         </div>
 
 
@@ -218,7 +230,7 @@ function initList() {
                 swal("There is no more page");
             }
             console.log(data);
-            
+
 
 
             for(var i=0;i<data.length;i++) {
