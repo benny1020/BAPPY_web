@@ -39,7 +39,8 @@
                                 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
                                 <style> .bb-login {
      margin-top: 100px;
-     margin-bottom: 300px
+     margin-bottom: 300px;
+     height:600px;
  }
 
  input {
@@ -339,7 +340,7 @@
  }
 
  .bb-login-form-btn {
-     width: 310px;
+     width: 180px;
      display: block;
      position: relative;
      z-index: 1;
@@ -364,6 +365,7 @@
  }
 
  .bb-form-btn {
+
      font-family: Poppins-Medium;
      font-size: 15px;
      color: #fff;
@@ -446,6 +448,20 @@
      opacity: 1
  }
 
+ .kakao_login {
+     background-image: url("/static/kakao_login.png"); /* 16px x 16px */
+    background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    border: none;
+              /* assuming we don't want any borders */
+    margin-top:100px;
+    width: 300px;           /* make this the size of your image */
+    height:60px;
+    vertical-align: middle; /* align the text vertically centered */
+}
+
+
+
  @media (max-width: 992px) {
      .alert-validate::before {
          visibility: visible;
@@ -477,23 +493,26 @@
 
     <div class="login-container">
         <div class="bb-login">
-            <form action="/sign/login" id="forms" method="post" class="bb-form validate-form">  <span class="bb-form-title p-b-48"><img src="/static/bird.png" style="width:200px;height:200px" class="mdi mdi-symfony"></i> </span>
-                <div style ="width:300px;margin-left:30px;"class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c"> <input class="input100" type="text" name="id" id="id"> <span class="bbb-input" data-placeholder="ID"></span> </div>
-                <div style ="width:300px;margin-left:30px;"class="wrap-input100 validate-input" data-validate="Enter password"> <span class="btn-show-pass"> <i class="mdi mdi-eye show_password"></i> </span>
-                   <input class="input100" type="password" name="password"> <span class="bbb-input" data-placeholder="Password"></span> </div>
+            <form action="/sign/login" id="forms" method="post" class="bb-form validate-form">  <span class="bb-form-title p-b-48"><img src="/static/bird2.png" style="width:330px;" class="mdi mdi-symfony"></i> </span><img src="/static/bappy_logo.png" style="width:140px;margin-left:110px;" class="mdi mdi-symfony">
+                   <!--
                 <div class="login-container-form-btn">
                     <span style="color:red;margin-bottom:20px;">{{ result }}</span>
                     <div class="bb-login-form-btn">
                         <div class="bb-form-bgbtn" ></div> <button  type="button" id="login_btn"class="bb-form-btn"> Login </button>
                     </div>
                 </div>
-                <div class="text-center p-t-115"> <span class="txt1"> Don’t have an account? </span> <a class="txt2" href="/sign/signup"> Sign Up </a> </div>
+            -->
+                <div style ="width:100%;height:60px;vertical-align: middle;">
+                    <center>
+                        <button type="button" name="button" class = "kakao_login"></button>
+                    </center>
+                </div>
+                <center><p style="opacity:1;font-size:6px;padding-top:120px;margin-bottom:0px;padding-bottom:0px;">회사명: 뉴리언스(주) 대표이사 변정윤 사업장 주소: 부산광역시 연제구 반송로 60, 4 사업자 등록 번호: 863-87-02055</p></center>
+
 
 
             </form>
-            <p style="opacity:0.2;font-size:10px;padding-top:30px;margin-bottom:0px;padding-bottom:0px;">뉴리언스(주) 대표이사 변정윤
-부산광역시 연제구 반송로 60, 4
-863-87-02055</p>
+
         </div>
     </div>
 
