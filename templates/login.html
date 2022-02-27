@@ -11,6 +11,8 @@
 
 </style>
                         <html>
+                        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
                         <link rel="shortcut icon" href="/static/favicon/favicon.ico">
 
                         <link rel="apple-touch-icon" sizes="57x57" href="/static/favicon/apple-icon-57x57.png">
@@ -454,7 +456,7 @@
     background-repeat: no-repeat;  /* make the background image appear only once */
     border: none;
               /* assuming we don't want any borders */
-    margin-top:100px;
+
     width: 300px;           /* make this the size of your image */
     height:60px;
     vertical-align: middle; /* align the text vertically centered */
@@ -493,7 +495,8 @@
 
     <div class="login-container">
         <div class="bb-login">
-            <form action="/sign/login" id="forms" method="post" class="bb-form validate-form">  <span class="bb-form-title p-b-48"><img src="/static/bird2.png" style="width:330px;" class="mdi mdi-symfony"></i> </span><img src="/static/bappy_logo.png" style="width:140px;margin-left:110px;" class="mdi mdi-symfony">
+            <form action="/sign/login" id="forms" method="post" class="bb-form validate-form">
+                <center><img style="width:280px;padding-right:20px;padding-top:30px;" src="/static/login_bird.png" /></center>
                    <!--
                 <div class="login-container-form-btn">
                     <span style="color:red;margin-bottom:20px;">{{ result }}</span>
@@ -503,11 +506,12 @@
                 </div>
             -->
                 <div style ="width:100%;height:60px;vertical-align: middle;">
-                    <center>
-                        <button type="button" name="button" class = "kakao_login"></button>
+                    <center style="margin-top:40px;">
+                        <img style="width:50%;" src="/static/login_enjoy.png" />
+                        <button type="button" name="button" onclick="kakaoLogin();" class = "kakao_login"></button>
+                        <p style="opacity:0.5;font-size:6px;margin-top:20px;">회사명: 뉴리언스 (주) | 대표이사 변정윤 | 주소: 부산광역시 연제구 반송로 60, 4 | 사업자 등록 번호: 863-87-02055</p>
                     </center>
                 </div>
-                <center><p style="opacity:1;font-size:6px;padding-top:120px;margin-bottom:0px;padding-bottom:0px;">회사명: 뉴리언스(주) 대표이사 변정윤 사업장 주소: 부산광역시 연제구 반송로 60, 4 사업자 등록 번호: 863-87-02055</p></center>
 
 
 
@@ -517,76 +521,64 @@
     </div>
 
 </div>
-<script>
-
-        /* [브라우저 ready 상태 정의 : 최초 호출 상태] */
-        document.addEventListener("DOMContentLoaded", ready);
-        function ready(){
-            console.log("");
-            console.log("[window ready] : [start]");
-            console.log("");
-
-
-            // [현재 접속된 url 정보 및 접속 브라우저 확인]
-            // [카카오톡 인앱 브라우저 >> 안드로이드 모바일 기종 인 경우 >> 크롬 브라우저 이동 실시]
-            var Url = location.href;
-            var Agent = navigator.userAgent.toLowerCase();
-            console.log("");
-            console.log("[window ready] : [접속 Url] : " + Url);
-            console.log("[window ready] : [접속 Agent] : " + Agent);
-            console.log("");
-
-
-            //alert(Agent);
-
-            if(Agent.includes("kakao")){ // 카카오 브라우저로 실행 시킨 경우
-                // 먼저, 카카오 인앱 브라우저 닫기
-                location.href = 'kakaotalk://inappbrowser/close';
-                if(navigator.userAgent.match(/iPhone|iPad/i)){ // 아이폰 접속 경우
-                    console.log("");
-                    console.log("[window ready] : [접속 모바일] : " + "[아이폰]");
-                    console.log("");
-                }
-                else { // 안드로이드 접속 경우
-                    location.href='intent://18.118.131.221:8080/home#Intent;scheme=http;package=com.android.chrome;end';
-                    console.log("");
-                    console.log("[window ready] : [접속 모바일] : " + "[안드로이드]");
-                    console.log("");
-                    // 크롬으로 새창 열기
-                }
-            }
-
-        };
-
-
-    </script>
                                 <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
-                                <script type='text/Javascript'>
+                                <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+                                <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-                                document.getElementById("login_btn").addEventListener("click", function ()
-                                {
-                                  var forms=document.getElementById("forms");
-                                  forms.submit();
+                                <script type='text/javascript'>
+                                Kakao.init('fc4b2dbba0859111556e37839ea5f8c8'); //발급받은 키 중 javascript키를 사용해준다.
+                                console.log(Kakao.isInitialized()); // sdk초기화여부판단
+                                function checkid(user_id) {
+                                    $.ajax({
+                                        url:"/sign/idcheck",
+                                        type:"post",
+                                        dataType:"json",
+                                        data:{
+                                            "user_id":user_id
+                                    },
+                                    success:function(data) {
+                                        console.log(data);
+                                        if(data == true) {
+                                            window.location.href = "/sign/signup";
+                                            console.log("signup");
+                                        }
+                                        else {
+                                            window.location.href = "/hangout/list";
+                                            console.log("hangout");
+                                        }
+                                    }
 
-                                       });
-                                $(document).ready(function(){
-var showPass = 0;
-$('.btn-show-pass').on('click', function(){
-if(showPass == 0) {
-$(this).next('input').attr('type','text');
-$(this).find('i').removeClass('mdi-eye');
-$(this).find('i').addClass('mdi-eye-off');
-showPass = 1;
-}
-else {
-$(this).next('input').attr('type','password');
-$(this).find('i').addClass('mdi-eye');
-$(this).find('i').removeClass('mdi-eye-off');
-showPass = 0;
-}
+                                });
+                                }
+                                function kakaoLogin() {
 
-});
-});</script>
+                                    var user_id = "";
+                                    Kakao.Auth.login({
+                                      success: function (response) {
+                                        Kakao.API.request({
+                                          url: '/v2/user/me',
+                                          success: function (response) {
+                                        	  console.log(response);
+                                              console.log(response['id']);
+                                              user_id = response['id'];
+                                              checkid(user_id);
+
+                                          },
+                                          fail: function (error) {
+                                            console.log(error);
+                                            user_id = false;
+                                          },
+                                        })
+                                      },
+                                      fail: function (error) {
+                                        console.log(error);
+                                      },
+                                  });
+
+
+                                  }
+                                </script>
+
                                 </body>
 
                             </html>

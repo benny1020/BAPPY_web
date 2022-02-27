@@ -365,8 +365,7 @@ select {
 
     <div class="progressbar">
         <div class="progress" id="progress"></div>
-        <div class="progress-step progress-step-active" data-title="Account"></div>
-        <div class="progress-step" data-title="Info"></div>
+        <div class="progress-step progress-step-active" data-title="Info"></div>
         <div class="progress-step" data-title="Personal"></div>
     </div>
 
@@ -385,27 +384,11 @@ select {
       <div class="group-inputs"> <label for="email">PHONE#</label> <input type="text" name="email" id="email" /> </div>
     -->
 
-    <div class="step-forms step-forms-active" style="text-align:left; width:100%;">
-
-        <div class="group-inputs">  <label  for="code">CODE</label>
-            <input style="width:80%;" type="text" name="code" id="code" placeholder="Submit to get the code." /> <button type="button" name="GET" onclick="getCode();"style="border:none;background-color:rgba(242, 203, 41, 1.0);">GET</button>
-        </div>
-        <div class="group-inputs"> <label for="id">ID</label> <input type="text" name="id" id="id" /> </div>
-        <div class="group-inputs"> <label for="password">PASSWORD</label> <input type="password" name="password" id="password" /> </div>
-        <div class="group-inputs"> <label for="email">CONFIRTM PASSWORD</label> <input type="password" name="password_confirm" id="repassword" /> </div>
-        <div class="group-inputs"> <label for="phone">PHONE#</label> <input type="text" name="phone" id="phone" /> </div>
-
-
-      <a href="#" id="firstBtn" class="btn btn-next width-50 ml-auto">Next</a>
 
 
 
 
-    </div>
-
-
-
-    <div class="step-forms " style="">
+    <div class="step-forms step-forms-active" style="">
         <div class="group-inputs" style="height:65px;margin-top:40px;"> <label for="name" >NAME</label> <input type="text" name="name" id="name" style="font-size:14px;" /> </div>
         <div class="group-inputs" style="height:65px">
           <label for="gender">GENDER</label>
@@ -456,7 +439,7 @@ select {
         <div class="group-inputs">
           <label for="university">UNIVERSITY</label>
           <input type="text"placeholder=" Search your university." style="font-size:15px;" list="university" name="university"><datalist id="university" name="" style="color:rgba(242, 203, 41, 1.0); padding-left:13px; background-color:white;"></div>
-        <div class="btns-group" > <a href="#"  class="btn btn-prev" style=" padding-top:12px;height:46px; margin-bottom:15px; background-color:#dcdcdc; color:black; font-size:16px;color:rgb(85,84,76);" >Previous</a>   <a href="#" id="secondBtn"class="btn btn-next" style="height:46px;font-size:16px;">Next</a> </div>
+        <div class="btns-group" >    <a href="#" id="secondBtn"class="btn btn-next  width-50 ml-auto" style="height:46px;font-size:16px;">Next</a> </div>
     </div>
 
     <div class="step-forms"style="margin-top:16px;">
@@ -541,30 +524,7 @@ select {
 </style>
 
 <script type='text/Javascript'>
-function getCode() {
-    console.log("click");
 
-    swal("Add the Bappy Kakao channel below to get the code on the welcome message.", {
-      buttons: {
-        cancel: "Back",
-        catch: {
-          text: "Go to add the Bappy channel.",
-          value: "add",
-        },
-      },
-    })
-    .then((value) => {
-      switch (value) {
-
-        case "add":
-            //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
-            window.open("http://pf.kakao.com/_xbxlRxjb/chat");
-
-          break;
-
-      }
-    });
-}
 
 
 
@@ -687,7 +647,6 @@ const prevBtns = document.querySelectorAll(".btn-prev");
 
 
 
-var correctCode = "1020";
 
 const nextBtns = document.querySelectorAll(".btn-next");
 const progress = document.getElementById("progress");
@@ -697,7 +656,6 @@ const progressSteps = document.querySelectorAll(".progress-step");
 
 let formStepsNum = 0;
 
-var firstBtn = document.getElementById("firstBtn");
 var SecondBtn = document.getElementById("secondBtn");
 
 /*
@@ -706,90 +664,7 @@ firstBtn.addEventListener("click", () => {
     updateFormSteps();
     updateProgressbar();
 });*/
-firstBtn.addEventListener("click", () => {
-    var user_id = document.getElementById("id");
-    var idcheck = false;
-    $.ajax({
-        url:"/sign/idcheck",
-        type:"post",
-        dataType:"json",
-        data:{"user_id":user_id.value},
-        async:false,
 
-        success:function(data) {
-            console.log(data);
-            if(data == true) {
-                console.log("if ture")
-                idcheck=true;
-            }
-        }
-    });
-
-    var user_password = document.getElementById("password");
-    var user_repassword = document.getElementById("repassword");
-    var user_code = document.getElementById("code");
-    var user_phone = document.getElementById("phone");
-    var pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+=-])(?=.*[0-9]).{8,25}$/;
-    var phoneCheck = /^^[0-9]+/g;
-
-    if(user_id.value == "") {
-        swal("Please fill in your ID.");
-        user_id.focus();
-    }
-    else if(idcheck == false) {
-        swal("You cannot use this ID, as it is already taken.");
-        user_id.focus();
-    }
-    else if(user_password.value == "") {
-        swal("Please fill in your password.");
-        user_password.focus();
-    }
-
-    else if(!pwdCheck.test(user_password.value)) {
-        swal("You should fill in 8-25 characters consisted of alphanumeric characters, numbers, and special symbols for your password.");
-        user_password.focus();
-    }
-    else if(repassword.value !== user_password.value) {
-        swal("We cannot identify your password.");
-        user_repassword.focus();
-    }
-    else if(user_code.value != correctCode) {
-        swal("Add the Bappy Kakao channel below to get the code on the welcome message.", {
-          buttons: {
-            cancel: "Back",
-            catch: {
-              text: "Go to add the Bappy channel.",
-              value: "add",
-            },
-          },
-        })
-        .then((value) => {
-          switch (value) {
-
-            case "add":
-                //window.location.href = "http://pf.kakao.com/_xbxlRxjb"
-                window.open("http://pf.kakao.com/_xbxlRxjb/chat");
-
-              break;
-
-          }
-        });
-        user_code.focus();
-    }
-    else if(user_phone.value == ""){
-        swal("Please fill in your phone number.");
-        user_phone.focus();
-    }
-    else if(!phoneCheck.test(user_phone.value)) {
-        swal("You can only fill in numbers.");
-        user_phone.focus();
-    }
-    else {
-        formStepsNum++;
-        updateFormSteps();
-        updateProgressbar();
-    }
-});
 
 SecondBtn.addEventListener("click", () => {
     console.log("asd");

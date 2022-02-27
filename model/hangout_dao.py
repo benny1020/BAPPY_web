@@ -233,11 +233,11 @@ class HangoutDao():
     def checkTimeHangout(self,joinIndex,myHangoutIndex):
         joinTime = self.get_hangout_byidx(joinIndex)['hg_meet_time']
         #joinTime = datetime.strptime(joinTime,"%y-%m-%d %H:%M:%S")
-
-
+        if myHangoutIndex == None or myHangoutIndex == "":
+            return "true"
         sql = """
         select hg_meet_time from bappy_web.bp_hangout where idx in(%s)"""%(myHangoutIndex)
-
+        print(sql)
         res = self.database.executeAll(sql)
 
         if res == None:
@@ -258,7 +258,7 @@ class HangoutDao():
 
 
     def join_hangout_byidx(self,myHangout,idx,user_id, user_nation, user_gender, user_age):
-
+        print("my hangout", myHangout)
         if self.checkTimeHangout(idx,myHangout)=="false":
             return 1
 

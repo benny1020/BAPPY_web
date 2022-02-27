@@ -18,31 +18,64 @@ def init():
     if request.method == 'GET':
         print("sd")
 
-@bp.route("idcheck",methods=['GET','POST'])
+@bp.route("/idcheck",methods=['GET','POST'])
 def check_user_id():
     if request.method == 'POST' and 'user_id' in request.form:
         dao = user_dao.UserDao()
         if dao.idCheck(request.form.get('user_id'))== True:
+            session['user_id'] = request.form.get('user_id')
             return "true"
         else:
+            dao = user_dao.UserDao()
+            account = dao.getUserInfo(request.form.get('user_id'))
+            session["user_info"]=account
+            session["loggedin"] = True
+            session["user_id"] = account['user_id']
+            session["user_my_hangout"] = account['user_my_hangout']
+            session["user_my_past_hangout"] = account["user_past_hangout"]
+            session["user_age"] = account["user_birth"]
+            session["user_nation"] = account["user_nation"]
+            session["user_university"] = account["user_university"]
+            session["user_name"] = account["user_name"]
+            session["user_gender"] = account["user_gender"]
             return "false"
+
 
 @bp.route("/signup",methods=['GET','POST'])
 def signup():
-    if request.method == 'POST' and 'id' in request.form:
+    print("it is render")
+    if request.method == 'POST' and 'name' in request.form:
+
         #print(request.get_json())
         #-----info
+        user_id = session['user_id']
+        print(user_id)
+        print("-----")
         dao = user_dao.UserDao()
         # request 처리해서 user 객체 생성
         user = user_dao.User(dao.count_user()+1)
-        user.create_user(request.form)
+        user.create_user(request.form,user_id)
 
         # 생성된 객체를 데이터베이스에 넣기
         dao.insert_user(user)
 
-        return redirect(url_for('sign_bp.login'))
+        account = dao.getUserInfo(user_id)
+        session["user_info"]=account
+        session["loggedin"] = True
+        session["user_id"] = account['user_id']
+        session["user_my_hangout"] = account['user_my_hangout']
+        session["user_my_past_hangout"] = account["user_past_hangout"]
+        session["user_age"] = account["user_birth"]
+        session["user_nation"] = account["user_nation"]
+        session["user_university"] = account["user_university"]
+        session["user_name"] = account["user_name"]
+        session["user_gender"] = account["user_gender"]
+
+
+        return redirect(url_for('hangout_bp.hangout_list'))
 
     else:
+        print("it is render")
         return render_template("signup.html")
 
 

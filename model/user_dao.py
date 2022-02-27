@@ -33,7 +33,7 @@ class User():
         self.language = []
         self.isKorean = 0
 
-    def create_user(self,rf):
+    def create_user(self,rf,user_id):
         character = []
         interest = []
         language = []
@@ -47,11 +47,11 @@ class User():
         for i in range(6):
             self.language.append(rf.get('lang'+str(i+1)))
 
-        self.id = rf.get('id')
-        self.password = (bcrypt.hashpw(rf.get('password').encode('UTF-8'), bcrypt.gensalt())).decode('utf-8')
+        #self.password = (bcrypt.hashpw(rf.get('password').encode('UTF-8'), bcrypt.gensalt())).decode('utf-8')
         self.phone = rf.get('phone')
         self.gender = rf.get('gender')
         self.name = rf.get('name')
+        self.id = user_id
 
         self.birth = rf.get('birth')
         self.nation = rf.get('country_selector')
@@ -97,7 +97,8 @@ class UserDao():
 
     def insert_user(self, user):
         sql = """insert into bp_user(
-        uesr_approve,user_isKorean,user_idx,user_id,user_password,user_phone,user_name,user_gender,user_birth,user_nation,user_university,user_visit,user_reg_time,user_cancel,user_character,user_interests,user_language,user_login_time)values(%d,%d,'%s','%s','%s','%s','%s','%s','%s','%s',%d,'%s',%d,'%s','%s','%s','%s')"""%(0,user.isKorean,user.idx,user.id,user.password,user.phone,user.name,user.gender,user.birth, user.nation,user.university,user.visit, user.reg_time, user.cancel,self.list_to_str(user.character), self.list_to_str(user.interest), self.list_to_str(user.language),user.login_time )
+        user_approve,user_isKorean,user_idx,user_id,user_phone,user_name,user_gender,user_birth,user_nation,user_university,user_visit,user_reg_time,user_cancel,user_character,user_interests,user_language,user_login_time)values(%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s",%d,"%s",%d,"%s","%s","%s","%s")"""%(0,user.isKorean,user.idx,user.id,user.phone,user.name,user.gender,user.birth, user.nation,user.university,user.visit, user.reg_time, user.cancel,self.list_to_str(user.character), self.list_to_str(user.interest), self.list_to_str(user.language),user.login_time )
+        print(sql)
         #print(sql)
         self.database.execute(sql)
 
@@ -108,6 +109,11 @@ class UserDao():
             return True
         else:
             return False
+
+    def getUserInfo(self,id):
+        sql = """select * from bp_user where user_id = '%s'"""%(id)
+        account  = self.database.executeOne(sql)
+        return  account
 
     def login_check(self,id,input_password):
         sql = """select * from bp_user where user_id = '%s' """%(id)
