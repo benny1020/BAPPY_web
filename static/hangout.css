@@ -1183,7 +1183,6 @@ ul {
 
 .job-overview .job-detail ul li {
   opacity: 0.75;
-  font-weight: 600;
   margin-bottom: 15px;
 }
 
@@ -1199,7 +1198,6 @@ ul {
 }
 
 .job-content ul li {
-  font-weight: 600;
   opacity: 0.75;
   border-bottom: 1px solid #ccc;
   padding: 10px 5px;
@@ -1232,7 +1230,7 @@ body{
     background-image:url("/static/nation.png");
     image:url("/static/nation.png");
     background-repeat:no-repeat;
-    
+
     background-size:cover;
 }
 

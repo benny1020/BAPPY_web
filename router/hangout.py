@@ -20,7 +20,8 @@ def hangoutfilterList():
     if request.method == 'POST':
         #print("pageNum : ",pageNum)
         filterVal = request.form.get("filterVal")
-        print(filterVal)
+        session['hangoutFilterVal']=filterVal
+        #print(filterVal)
         dao = hangout_dao.HangoutDao()
         res = dao.get_hangout_data_list(filterVal)
         hangoutDataList = []
@@ -36,6 +37,7 @@ def hangoutfilterList():
 @bp.route("/moreList",methods=['GET','POST'])
 def hangoutMoreList():
     if request.method == 'POST':
+        print("it is ",session['hangoutFilterVal'])
         pageNum = request.form.get('pageNum',type=int)
         #print("pageNum : ",pageNum)
         dao = hangout_dao.HangoutDao()
@@ -55,6 +57,9 @@ def hangoutMoreList():
 @bp.route("/join", methods=['GET','POST'])
 def hangout_join():
     if request.method == 'POST':
+        if session['user_info']['user_id']=="user":
+            flash("trial")
+            return redirect(url_for('hangout_bp.hangout_list'))
         idx = request.form.get('index')
         dao = hangout_dao.HangoutDao()
         res = dao.join_hangout_byidx(session['user_info']['user_my_hangout'],idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
@@ -102,6 +107,10 @@ def hangout_cancel():
     else:
         return "Please contact us through the bappy kakao channel"
 
+@bp.route("/trial",methods=['GET','POST'])
+def hangoutTrial():
+    if request.method=="GET":
+        print("asd")
 
 @bp.route("/list",methods=['GET','POST'])
 def hangout_list():
@@ -123,9 +132,13 @@ def hangout_list():
 
         session["hangoutFilterVal"] = filterVal
 
+        if session['isTrial']==True:
+            print("hangout trial")
 
         dao = hangout_dao.HangoutDao()
         hangout_list = dao.get_hangout_data_list(filterVal=filterVal)
+        if session['isTrial']==True:
+            return render_template("hangout_trial.html",hangout_data = hangout_list,filterVal=filterVal)
         return render_template("hangout.html",hangout_data = hangout_list,filterVal=filterVal)
     session.modified = True
     return redirect(url_for("sign_bp.login"))

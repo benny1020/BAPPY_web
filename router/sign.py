@@ -31,6 +31,11 @@ def check_user_id():
             session["user_info"]=account
             session["loggedin"] = True
             session["user_id"] = account['user_id']
+            if session["user_id"] ==  "user":
+                session["isTrial"] = True
+                print("it is trial")
+            else:
+                session["isTrial"] = False
             session["user_my_hangout"] = account['user_my_hangout']
             session["user_my_past_hangout"] = account["user_past_hangout"]
             session["user_age"] = account["user_birth"]
@@ -107,7 +112,7 @@ def login():
         else:
             msg="존재하지않는 계정이거나 비밀번호가 틀렸습니다."
 
-    if 'user_info' in session:
+    if 'user_info' in session and session["isTrial"]==False:
         return redirect(url_for('hangout_bp.hangout_list'))
 
     return render_template("login.html",result=msg)

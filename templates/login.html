@@ -1,16 +1,17 @@
 <!doctype html>
 <style>
-    @font-face {
-        font-family: 'roboto';
-        src: url("roboto/RobotoCondensed-Bold.ttf");
-    }
-    *{
-        font-family: 'roboto';
-    }
+
 
 
 </style>
                         <html>
+                        <style>
+                        * {
+                            font-family: noto-sans-cjk-kr,sans-serif;
+                            font-weight: 400;
+                            font-style: normal;
+                        }
+                        </style>
                         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
                         <link rel="shortcut icon" href="/static/favicon/favicon.ico">
@@ -33,6 +34,16 @@
 <meta name="msapplication-TileImage" content="/static/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
                             <head>
+                                <script>
+                                  (function(d) {
+                                    var config = {
+                                      kitId: 'lya4mib',
+                                      scriptTimeout: 3000,
+                                      async: true
+                                    },
+                                    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+                                  })(document);
+                                </script>
                                 <meta property="og:url" content="bappy.kr">
                                 <meta property="og:title" content="BAPPY">
                                 <meta property="og:type" content="website">
@@ -45,7 +56,7 @@
                                 <link href='https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css' rel='stylesheet'>
                                 <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
                                 <style> .bb-login {
-     margin-top: 100px;
+     margin-top: 10px;
      margin-bottom: 300px;
      height:600px;
  }
@@ -454,17 +465,28 @@
      visibility: visible;
      opacity: 1
  }
-
- .kakao_login {
-     background-image: url("/static/kakao_login.png"); /* 16px x 16px */
+.skip_login {
+    background-image: url("/static/skip_login.png"); /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
     background-repeat: no-repeat;  /* make the background image appear only once */
     border: none;
-              /* assuming we don't want any borders */
+    width:160px;
+    height:20px;
+    background-size:contain;
+    margin-top:10px;
+    margin-left:80px;
+}
+ .kakao_login {
+     background-image: url("/static/kakao_login.png"); /* 16px x 16px */
+     background-color: transparent; /* make the button transparent */
+     background-repeat: no-repeat;  /* make the background image appear only once */
+     border: none;
+               /* assuming we don't want any borders */
 
-    width: 300px;           /* make this the size of your image */
-    height:60px;
-    vertical-align: middle; /* align the text vertically centered */
+    background-size:contain;
+     width: 300px;           /* make this the size of your image */
+     height:50px;
+     vertical-align: middle; /* align the text vertically centered */
 }
 
 
@@ -501,7 +523,7 @@
     <div class="login-container">
         <div class="bb-login">
             <form action="/sign/login" id="forms" method="post" class="bb-form validate-form">
-                <center><img style="width:280px;padding-right:20px;padding-top:30px;" src="/static/login_bird.png" /></center>
+                <center><img style="width:280px;padding-right:20px;padding-top:10px;" src="/static/login_bird.png" /></center>
                    <!--
                 <div class="login-container-form-btn">
                     <span style="color:red;margin-bottom:20px;">{{ result }}</span>
@@ -512,9 +534,9 @@
             -->
                 <div style ="width:100%;height:60px;vertical-align: middle;">
                     <center style="margin-top:40px;">
-                        <img style="width:50%;" src="/static/login_enjoy.png" />
                         <button type="button" name="button" onclick="kakaoLogin();" class = "kakao_login"></button>
-                        <p style="opacity:1.0;font-size:6px;margin-top:20px;">회사명: 뉴리언스 (주) | 대표이사 변정윤 | 주소: 부산광역시 연제구 반송로 60, 4 | 사업자 등록 번호: 863-87-02055</p>
+                        <center><button type="button" name="button" class="skip_login" onclick="skipLogin();"></button></center>
+                        <p style="opacity:0.5;font-size:6px;margin-top:10px;">회사명: 뉴리언스 (주) | 대표이사 변정윤 | 주소: 부산광역시 연제구 반송로 60, 4 | 사업자 등록 번호: 863-87-02055</p>
                     </center>
                 </div>
 
@@ -533,6 +555,7 @@
                                 <script type='text/javascript'>
                                 Kakao.init('fc4b2dbba0859111556e37839ea5f8c8'); //발급받은 키 중 javascript키를 사용해준다.
                                 console.log(Kakao.isInitialized()); // sdk초기화여부판단
+
                                 function checkid(user_id) {
                                     $.ajax({
                                         url:"/sign/idcheck",
@@ -554,6 +577,9 @@
                                     }
 
                                 });
+                                }
+                                function skipLogin() {
+                                    checkid("user");
                                 }
                                 function kakaoLogin() {
 
@@ -583,6 +609,16 @@
 
                                   }
                                 </script>
+                                <script>
+  (function(d) {
+    var config = {
+      kitId: 'lya4mib',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
 
                                 </body>
 

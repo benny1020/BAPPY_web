@@ -73,7 +73,26 @@ font-style: normal;
 {% with messages = get_flashed_messages() %}
   {%if messages %}
     <script type="text/javascript">
-      swal("{{ messages[-1] }}");
+      // swal("{{ messages[-1] }}");
+      swal("login 하셔야합니다", {
+  buttons: {
+    cancel: "돌아가기",
+    catch: {
+      text: "로그인하러가기",
+      value: "login",
+    },
+  },
+})
+.then((value) => {
+  switch (value) {
+
+    case "login":
+    window.location.href ="/sign/login"
+      break;
+
+
+  }
+});
     </script>
     {%endif%}
   {%endwith%}
@@ -99,7 +118,6 @@ font-style: normal;
                                     <div class="select-container" >
                                         <select class="custom-select" id="filterVal" name="filterVal" onchange="initList();" >
                                             <option selected="default" value="default">Filter</option>
-                                            <option value="myhangout">My Hangout</option>
                                             <option value="complete">Closed Hangout</option>
                                             <option value="Busan">Busan</option>
                                             <option value="Seoul">Seoul</option>
@@ -185,7 +203,9 @@ font-style: normal;
 
         </div>
     </div>
-        <button id="addBtn" onclick="moreList();"style="display:block; margin:auto; border:none;background-color:transparent;margin-bottom:40px; text-align:center;"><span style="margin-right:20px;">More Hangout</span><img src="../static/more.png"style="height:10px;width:15px;"/></button>
+        <button id="addBtn" onclick="moreList();"style="display:block; margin:auto; border:none;background-color:transparent;margin-bottom:40px; text-align:center;"><span style="margin-right:20px;color:black;">More Hangout</span><img src="../static/more.png"style="height:10px;width:15px;"/></button>
+        <center><p style="opacity:0.5;font-size:10px;margin-top:10px;">회사명: 뉴리언스 (주) | 대표이사 변정윤 | 주소: 부산광역시 연제구 반송로 60, 4 | 사업자 등록 번호: 863-87-02055</p></center>
+
 
         </div>
 
