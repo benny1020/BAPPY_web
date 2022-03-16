@@ -5,7 +5,6 @@ from datetime import datetime
 from  datetime import timedelta
 
 timedelta(hours=1)
-host = '18.118.131.221'
 db_id = 'benny'
 pw = 'benny'
 db_name = 'bappy_web'
@@ -260,6 +259,7 @@ class HangoutDao():
     def join_hangout_byidx(self,myHangout,idx,user_id, user_nation, user_gender, user_age):
         print("my hangout", myHangout)
         if self.checkTimeHangout(idx,myHangout)=="false":
+            print("cant join cause time")
             return 1
 
 

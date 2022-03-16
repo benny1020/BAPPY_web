@@ -26,9 +26,12 @@ def check_user_id():
             session['user_id'] = request.form.get('user_id')
             return "true"
         else:
+
             dao = user_dao.UserDao()
             account = dao.getUserInfo(request.form.get('user_id'))
             session["user_info"]=account
+            print("user_info")
+            print(session["user_info"])
             session["loggedin"] = True
             session["user_id"] = account['user_id']
             if session["user_id"] ==  "user":

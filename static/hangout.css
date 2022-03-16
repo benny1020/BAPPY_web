@@ -1,5 +1,73 @@
+* {
+    font-family: noto-sans-cjk-kr,sans-serif;
+font-weight: 400;
+font-style: normal;
+}
+.hangout-location {
+    font-weight:400;
 
+}
+.hangout-time {
+    font-weight:400;
+}
+.hangout-title {
+    color: rgba(106,57,6);
+    font-weight:600;
+}
+.write-btn {
+    position: fixed;
+
+    background-image:url("/static/write.png");
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    background-size:contain;
+    vertical-align: middle;
+
+    bottom:25px;
+    right:25px;
+    width:80px;
+    height:80px;
+
+}
+.hangout-openchat {
+    font-weight:400;
+
+}
 /* ===== Career ===== */
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx){
+	.country-select .flag{
+		background-size:5630px 15px
+	}
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx){
+	.country-select .flag{
+		background-image:url("/static/flags.png")
+	}
+}
+.flag {
+    background-image:url("/static/flags.png");
+
+    background-size:5630px 15px;
+    display:inline-block;
+    vertical-align:middle
+
+    background-repeat:no-repeat;
+
+    width:20px;
+    height:15px;
+    -webkit-box-shadow:0px 0px 1px 0px #888;
+    box-shadow:0px 0px 1px 0px #888;
+
+}
 .flag.ac{
 	height:10px;
 	background-position:0px 0px
