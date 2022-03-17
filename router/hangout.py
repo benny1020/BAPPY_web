@@ -63,7 +63,7 @@ def hangout_join():
         dao = hangout_dao.HangoutDao()
         res = dao.join_hangout_byidx(session['user_info']['user_my_hangout'],idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
         # 인원수 조건 충족못해서 참가 못하는경우
-        print("result : ", res)
+        #print("result : ", res)
         if res == 0:
             #session['cancel']='true'
             return "0"
@@ -73,6 +73,9 @@ def hangout_join():
             return "1"
         else:
             dao = user_dao.UserDao()
+            if dao.getUserCancel(session['user_info']['user_id']) < 1:
+                return "3"
+
             userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
             userMyHangout.append(idx)
             #print("myhangout : ",userMyHangout)
@@ -80,6 +83,7 @@ def hangout_join():
             session['user_info']['user_my_hangout']=dao.list_to_str(userMyHangout)
             print(session['user_info'])
             dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
+            dao.setUserCancel(session['user_info']['user_id'],dao.getUserCancel(session['user_info']['user_id'])-1)
             return "2"
         session.modified = True
         return redirect(url_for('hangout_bp.hangout_list'))

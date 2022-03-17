@@ -56,6 +56,8 @@ function hangoutJoin(btn) {
                      swal("인원 수 안맞아");
                  }else if(data == 1) {
                      swal("시간 안맞아");
+                 }else if(data == 3) {
+                     swal("join 횟수 부족 보증금 넣어줘");
                  }else {
                      swal("join 성공");
                      location.reload(true);

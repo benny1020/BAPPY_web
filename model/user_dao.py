@@ -61,7 +61,7 @@ class User():
             self.isKorean = 0
         self.university = rf.get('university')
         self.visit = 0
-        self.cancel = 0
+        self.cancel = 1
         self.reg_time = datetime.now().strftime('%Y-%m-%d %H:%M')
         self.login_time = datetime.now().strftime('%Y-%m-%d %H:%M')
 
@@ -109,6 +109,15 @@ class UserDao():
             return True
         else:
             return False
+
+    def setUserCancel(self,id,cancel):
+        sql = """update bp_user set user_cancel = '%s' where user_id = '%s'"""%(cancel,id)
+        print(sql)
+        self.database.execute(sql)
+
+    def getUserCancel(self,id):
+        sql = """select user_cancel from bp_user where user_id = '%s'"""%(id)
+        return self.database.executeOne(sql)['user_cancel']
 
     def getUserInfo(self,id):
         sql = """select * from bp_user where user_id = '%s'"""%(id)
