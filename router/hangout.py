@@ -97,6 +97,7 @@ def hangout_cancel():
         if res == "true":
             dao = user_dao.UserDao()
             userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
+            print(userMyHangout)
             try:
                 userMyHangout.remove(idx)
             except:

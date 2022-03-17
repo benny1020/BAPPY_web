@@ -14,10 +14,12 @@ function hangoutCancel(btn) {
 
         success:function(data) {
             console.log(data);
+            console.log(data==true);
             if(data != null) {
-                if(data == "true") {
+                if(data == true) {
                     swal("cancel 완료 ");
-                    window.location.reload(true);
+                    location.reload(true);
+                    //window.location.reload(true);
                 }
                 else {
                     swal("cancel fail");
@@ -47,10 +49,12 @@ function hangoutJoin(btn) {
      },
 
          success:function(data) {
+             console.log(data);
+             console.log(data==2);
              if(data != null) {
-                 if(data == CANT_JOIN_NUM) {
+                 if(data == 0) {
                      swal("인원 수 안맞아");
-                 }else if(data = CANT_JOIN_TIME) {
+                 }else if(data == 1) {
                      swal("시간 안맞아");
                  }else {
                      swal("join 성공");
