@@ -33,7 +33,7 @@ class User():
         self.language = []
         self.isKorean = 0
 
-    def create_user(self,rf,user_id):
+    def create_user(self,rf,user_id,user_phone):
         character = []
         interest = []
         language = []
@@ -48,7 +48,7 @@ class User():
             self.language.append(rf.get('lang'+str(i+1)))
 
         #self.password = (bcrypt.hashpw(rf.get('password').encode('UTF-8'), bcrypt.gensalt())).decode('utf-8')
-        self.phone = rf.get('phone')
+        self.phone = user_phone
         self.gender = rf.get('gender')
         self.name = rf.get('name')
         self.id = user_id
@@ -65,7 +65,6 @@ class User():
         self.reg_time = datetime.now().strftime('%Y-%m-%d %H:%M')
         self.login_time = datetime.now().strftime('%Y-%m-%d %H:%M')
 
-print(datetime.now().strftime('%Y-%m-%d %H:%M'))
 
 class UserDao():
     def __init__(self):
@@ -110,9 +109,12 @@ class UserDao():
         else:
             return False
 
+    def getUserIdByPhone(self,user_phone):
+        sql = """select user_id from bp_user where user_phone = '%s' """%(user_phone)
+        return self.database.executeOne(sql)['user_id']
+
     def setUserCancel(self,id,cancel):
         sql = """update bp_user set user_cancel = '%s' where user_id = '%s'"""%(cancel,id)
-        print(sql)
         self.database.execute(sql)
 
     def getUserCancel(self,id):

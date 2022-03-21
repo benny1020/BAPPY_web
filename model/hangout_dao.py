@@ -37,7 +37,7 @@ class Hangout_Data():
         #print("--------")
         #print(Hangout.meet_time)
 
-        if Hangout.meet_time < datetime.now()+timedelta(hours=1):
+        if Hangout.meet_time < datetime.now():
             self.join = "Expired"
             self.active ="disabled"
             self.join_url ="/"
@@ -236,7 +236,6 @@ class HangoutDao():
             return "true"
         sql = """
         select hg_meet_time from bappy_web.bp_hangout where idx in(%s)"""%(myHangoutIndex)
-        print(sql)
         res = self.database.executeAll(sql)
 
         if res == None:
@@ -244,17 +243,27 @@ class HangoutDao():
 
         for hangoutTime in res:
             #date_diff = joinTime - datetime.strptime(hangoutTime,"%y-%m-%d %H:%M:%S")
-            date_diff = joinTime - hangoutTime['hg_meet_time']
+            date_diff = abs(joinTime - hangoutTime['hg_meet_time'])
 
-            if date_diff.seconds / 3600 <= 4:
+            if date_diff.total_seconds() / 3600 <= 4:
+                #print(hangoutTime['hg_meet_time'])
+                #print(joinTime)
+                #print(date_diff.total_seconds())
                 return "false"
 
         return "true"
 
 
-
-
-
+    def checkCancelTime(self, cancelIndex):
+        cancelTime = self.get_hangout_byidx(cancelIndex)['hg_meet_time']
+        now = datetime.now()
+        diff = abs(cancelTime - now)
+        if(diff.seconds <= 3600):
+            print("1시간 미만 남은 행아웃 캔슬")
+            return False
+        else:
+            print("1시간 이상 남은 행아웃 캔슬")
+            return True
 
     def join_hangout_byidx(self,myHangout,idx,user_id, user_nation, user_gender, user_age):
         print("my hangout", myHangout)
@@ -345,7 +354,7 @@ class HangoutDao():
             print("It is default hangout list")
             sql = """
             select * from bp_hangout where hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d;
-            """%( (datetime.now()+timedelta(hours=1)).strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
+            """%( (datetime.now()+timedelta(hours=-1)).strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
         elif filterVal == "complete":
             print("It is completed hangout list")
             sql = """
@@ -402,6 +411,21 @@ class HangoutDao():
             hangout_data.make_hangout_data(h,filterVal)
             hangout_data_list.append(hangout_data)
         return hangout_data_list
+
+    def list_to_str(self,li):
+        if len(li)==1:
+            return str(li[0])
+        for i in range(len(li)):
+            li[i]=str(li[i])
+        return ','.join(li)
+    # "1,2,3,4"->[1,2,3,4]
+    def str_to_li( self,db_str):
+        db_str = str(db_str)
+        if db_str == "None":
+            return []
+        if db_str ==  "":
+            return []
+        return db_str.split(',')
 
 def list_to_str(li):
     if len(li)==1:

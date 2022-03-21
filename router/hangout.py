@@ -20,6 +20,7 @@ def hangoutfilterList():
     if request.method == 'POST':
         filterVal = request.form.get("filterVal")
         session['hangoutFilterVal']=filterVal
+        session.modified = True
         dao = hangout_dao.HangoutDao()
         res = dao.get_hangout_data_list(filterVal)
         hangoutDataList = []
@@ -53,37 +54,38 @@ def hangoutMoreList():
 
 @bp.route("/join", methods=['GET','POST'])
 def hangout_join():
+    return "0"
     if request.method == 'POST': # trial
         if session['user_info']['user_id']=="user":
             flash("trial")
             return redirect(url_for('hangout_bp.hangout_list'))
 
     if request.method == 'POST' and 'user_info' in session and 'index' in request.form:
+        dao = user_dao.UserDao()
+        
         idx = request.form.get('index')
         dao = hangout_dao.HangoutDao()
         res = dao.join_hangout_byidx(session['user_info']['user_my_hangout'],idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
         # 인원수 조건 충족못해서 참가 못하는경우
-        #print("result : ", res)
         if res == 0:
             #session['cancel']='true'
             return "0"
         # 이미 참가한 행아웃에서 4시간 이내인경우
         elif res == 1:
-            #session['checkTimeHangout']='false'
             return "1"
         else:
             dao = user_dao.UserDao()
-            if dao.getUserCancel(session['user_info']['user_id']) < 1:
-                return "3"
 
             userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
             userMyHangout.append(idx)
-            #print("myhangout : ",userMyHangout)
 
             session['user_info']['user_my_hangout']=dao.list_to_str(userMyHangout)
-            print(session['user_info'])
+            #print(session['user_info'])
             dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
+            ret = dao.getUserCancel(session['user_info']['user_id'])
             dao.setUserCancel(session['user_info']['user_id'],dao.getUserCancel(session['user_info']['user_id'])-1)
+
+            session.modified = True
             return "2"
         session.modified = True
         return redirect(url_for('hangout_bp.hangout_list'))
@@ -110,6 +112,9 @@ def hangout_cancel():
             session['user_info']['user_my_hangout']=dao.list_to_str(userMyHangout)
             session.modified = True
             dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
+            hangoutdao = hangout_dao.HangoutDao()
+            if hangoutdao.checkCancelTime(idx) == False:
+                dao.setUserCancel(session['user_info']['user_id'],0)
             return "true"
 
         session.modified = True
@@ -147,6 +152,7 @@ def hangout_list():
 
         dao = hangout_dao.HangoutDao()
         hangout_list = dao.get_hangout_data_list(filterVal=filterVal)
+        session.modified = True
         if session['isTrial']==True:
             return render_template("hangout_trial.html",hangout_data = hangout_list,filterVal=filterVal)
         return render_template("hangout.html",hangout_data = hangout_list,filterVal=filterVal)
@@ -156,26 +162,28 @@ def hangout_list():
 
 @bp.route("/register",methods=['GET','POST'])
 def register_hangout():
-    #print(request.form.get('code'))
     msg = ""
-    print(request.form.get("code"))
-    #제출했을때
-    if request.method == 'POST' and 'code' in request.form:
-        #print(request.form.get('code'))
-        #print(request.form.get('index'))
-        if request.form.get('code') == "code":
-            if request.form.get('title')=="" or request.form.get('openchat')=='' or request.form.get('location')=='' or request.form.get('time')=="":
-                msg="빈칸 없이 입력하라했잖아 다시 입력해 ㅡㅡ"
+    #print(request.form.get('code'))
+    if request.method == 'POST':
+
+        print(request.form.get("code"))
+        #제출했을때
+        if request.method == 'POST' and 'code' in request.form:
+            #print(request.form.get('code'))
+            #print(request.form.get('index'))
+            if request.form.get('code') == "code":
+                if request.form.get('title')=="" or request.form.get('openchat')=='' or request.form.get('location')=='' or request.form.get('time')=="":
+                    msg="빈칸 없이 입력하라했잖아 다시 입력해 ㅡㅡ"
+                else:
+
+                    dao = hangout_dao.HangoutDao()
+                    hangout = hangout_dao.Hangout(dao.count_hangout())
+                    hangout.create_hangout(request)
+                    dao.insert_hangout(hangout)
+                    return redirect(url_for('hangout_bp.hangout_list'))
+
             else:
-
-                dao = hangout_dao.HangoutDao()
-                hangout = hangout_dao.Hangout(dao.count_hangout())
-                hangout.create_hangout(request)
-                dao.insert_hangout(hangout)
-                return redirect(url_for('hangout_bp.hangout_list'))
-
-        else:
-            msg = "code 틀렸어 ㅡㅡ 너 어드민 아니지? ㅗ"
+                msg = "code 틀렸어 ㅡㅡ 너 어드민 아니지? ㅗ"
         #print(request.form.get('code'))
-
-    return render_template('admin.html',msg=msg)
+    else: # GET
+        return render_template('admin.html',msg=msg)

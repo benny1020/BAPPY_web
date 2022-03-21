@@ -1,0 +1,108 @@
+
+<head>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" integrity="sha256-3sPp8BkKUE7QyPSl6VfBByBroQbKxKG7tsusY2mhbVY=" crossorigin="anonymous" >
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css' rel='stylesheet'>
+    <script src="../static/hangout_jquery.js"></script>
+
+    <script type="text/javascript">
+    function user_approve() {
+        if(document.getElementById("code").value != "code")
+            return;
+        console.log("asd");
+        var kakao_email = document.getElementById("kakao_email").value;
+        var res = document.getElementById("result").value;
+        $.ajax({
+            url:"/sign/user_approve",
+            type:"post",
+            dataType:"json",
+            data:{
+                "user_phone": kakao_email,
+                "approve": "true"
+        },
+
+            success:function(data) {
+                if(data != null) {
+                    if(data == "true") {
+                        document.getElementById("result").innerHTML=data;
+                    }else {
+                        document.getElementById("result").innerHTML=data;
+                    }
+
+                }
+
+
+            }
+
+
+        });
+
+    }
+
+    function user_not_approve() {
+        if(document.getElementById("code").value != "code")
+            return;
+
+        var kakao_email = document.getElementById("kakao_email").value;
+        var res = document.getElementById("result").value;
+        $.ajax({
+            url:"/sign/user_approve",
+            type:"post",
+            dataType:"json",
+            data:{
+                "user_phone": kakao_email,
+                "approve": "false"
+        },
+
+            success:function(data) {
+                if(data != null) {
+                    if(data == "true") {
+                        document.getElementById("result").innerHTML=data;
+                    }else {
+                        document.getElementById("result").innerHTML=data;
+                    }
+
+                }
+
+
+            }
+
+
+        });
+
+
+    }
+
+    </script>
+
+</head>
+<form action="/user/manage" method="post">
+    <div class="">
+        <label for="code">CODE:</label>
+        <input type="text" name="code" id="code" placeholder="Enter your full code" >
+    </div>
+    <div>
+        <label for="id">kakao email</label>
+        <input type="text" id="kakao_email" name="id">
+        <input type="button" id="approve" name="승인" onclick = "user_approve();" value="approve">
+        <input type="button" id="not-approve" name="비승인" onclick = "user_not_approve();" value="not-approve">
+    </div>
+    <div id="result">
+
+    </div>
+
+</form>
+
+<style>
+    label {
+        text-align:center;
+        width:100%;
+
+    }
+    div {
+        margin-bottom:40px;
+
+    }
+    input {
+        width:100%;
+    }
+</style>

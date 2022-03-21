@@ -556,13 +556,14 @@
                                 Kakao.init('fc4b2dbba0859111556e37839ea5f8c8'); //발급받은 키 중 javascript키를 사용해준다.
                                 console.log(Kakao.isInitialized()); // sdk초기화여부판단
 
-                                function checkid(user_id) {
+                                function checkid(user_id,user_phone) {
                                     $.ajax({
                                         url:"/sign/idcheck",
                                         type:"post",
                                         dataType:"json",
                                         data:{
-                                            "user_id":user_id
+                                            "user_id":user_id,
+                                            "user_phone":user_phone
                                     },
                                     success:function(data) {
                                         console.log(data);
@@ -592,7 +593,8 @@
                                         	  console.log(response);
                                               console.log(response['id']);
                                               user_id = response['id'];
-                                              checkid(user_id);
+                                              user_phone = response['kakao_account']['email']
+                                              checkid(user_id,user_phone);
 
                                           },
                                           fail: function (error) {
