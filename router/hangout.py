@@ -15,6 +15,19 @@ dao = hangout_dao.HangoutDao()
 
 bp = Blueprint('hangout_bp', __name__, url_prefix='/hangout')
 
+@bp.route("checkCancelTime",methods = ['GET','POST'])
+def checkcanceltime():
+    if request.method == 'GET':
+        index = request.form.get("index")
+        dao = hangout_dao.HangoutDao()
+        if dao.checkCancelTime(index) == False:
+            return "false"
+        else:
+            return "true"
+    else:
+        return "checkcanceltime error"
+
+
 @bp.route("/filterList",methods=['GET','POST'])
 def hangoutfilterList():
     if request.method == 'POST':
@@ -54,7 +67,6 @@ def hangoutMoreList():
 
 @bp.route("/join", methods=['GET','POST'])
 def hangout_join():
-    return "0"
     if request.method == 'POST': # trial
         if session['user_info']['user_id']=="user":
             flash("trial")
@@ -62,7 +74,7 @@ def hangout_join():
 
     if request.method == 'POST' and 'user_info' in session and 'index' in request.form:
         dao = user_dao.UserDao()
-        
+
         idx = request.form.get('index')
         dao = hangout_dao.HangoutDao()
         res = dao.join_hangout_byidx(session['user_info']['user_my_hangout'],idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
@@ -95,7 +107,7 @@ def hangout_join():
 @bp.route("/cancel",methods=['GET','POST'])
 def hangout_cancel():
     if request.method == 'POST' and 'index' in request.form and 'user_info' in session:
-        idx = request.form.get('index',type=int)
+        idx = request.form.get('index',type=str)
         print("hangout index for delete : ",idx)
         dao = hangout_dao.HangoutDao()
         res = dao.cancel_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])

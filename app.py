@@ -18,7 +18,7 @@ app.register_blueprint(admin.bp)
 
 @app.route ('/test', methods=['GET','POST'])
 def test():
-    return render_template("test.html")
+    return render_template("signup.html")
 @app.route ('/', methods=['GET','POST'])
 def root():
     session.clear()

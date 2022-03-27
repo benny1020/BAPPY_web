@@ -19,25 +19,39 @@
     3 - 조인불가 보증금 넣어주세요
     4 - 조인 성공 // 이미 여러번 조인 해본 person
 */
-function hangoutCancel(btn) {
-    var index = btn.nextElementSibling.value;
 
+function checkCancelTime(btn) {
+    var index = btn.nextElementSibling.value;
+    var res;
+    $.ajax({
+        url:"/hangout/checkCancelTime",
+        type:"GET",
+        dataType:"json",
+        async:false,
+        data :{
+            "index": parseInt(index)
+        },
+        success:function(data) {
+            res = data;
+        }
+    });
+    return res;
+}
+function doCancel(btn){
+    var index = btn.nextElementSibling.value;
     $.ajax({
         url:"/hangout/cancel",
         type:"post",
         dataType:"json",
+        async:false,
         data:{
             "index": parseInt(index)
     },
-
         success:function(data) {
-            console.log(data);
-            console.log(data==true);
             if(data != null) {
                 if(data == true) {
-                    swal("cancel 완료 ");
-                    location.reload(true);
-                    //window.location.reload(true);
+                    //swal("cancel 완료 ");
+                    window.location.reload(true);
                 }
                 else {
                     swal("cancel fail");
@@ -49,6 +63,30 @@ function hangoutCancel(btn) {
 
 
     });
+}
+function hangoutCancel(btn) {
+    var index = btn.nextElementSibling.value;
+    if(checkCancelTime(btn) == true) {
+        swal({
+            text:"If you cancel now, you cannot get the refund as it is last minute. If you don’t show up, neither can you get the refund nor can you join other hangouts for the next 4 hours. 지금 취소하시면, 보증금 환불이 불가합니다. 행아웃에 불참하셔도, 환불이 불가하며, 4시간동안 다른 행아웃 참여가 불가합니다.",
+            icon:'danger',
+            buttons :{
+                cancel: "back",
+                confirm : {
+                    text:'OK',
+                    value:true
+                },
+            },
+        }).then((result) => {
+            if(result) {
+                doCancel(btn);
+            }
+        });
+    } else {
+        doCancel(btn);
+    }
+
+
 }
 
 /*
@@ -89,6 +127,7 @@ function join(btn) {
             "index":index
     },
         success:function(data) {
+            console.log(data);
             if(data == 0) // 인원수 충족 못해서 참가 못함
             {
                 swal({
@@ -102,12 +141,21 @@ function join(btn) {
                 })
             } else if(data == 1) {// 4시간 이내
                 swal({
-                    text:""
+                    text:"4시간 이내에 다른 행아웃 있어",
+                    icon:'error',
+                    buttons : {
+                        confirm :{
+                            text:'OK'
+                            }
+                        }
+
+
                 })
             } else if(data == 2) { // join success
-
+                swal("join success");
+                window.location.reload(true);
             } else { // join 수
-
+                console.log("join 수 부족");
             }
 
 
@@ -119,21 +167,20 @@ function join(btn) {
 }
 function hangoutJoin(btn) {
     var userCancel = getUserCancel();
+    console.log(userCancel);
     if(userCancel == 0) { // 참가불가
         swal({
             icon:'error',
-            text:"Put 5,000won deposit to prevent last minute cancellations. Cancel at any time, if it is more than an hour before the hangout. Fill out the form below.
-노쇼 방지를 위해 5,000원 보증금을 내고 행아웃을 참여하실 수 있습니다. 1시간 전에는 언제든 취소하실 수 있습니다. 아래 구글폼을 참고해주세요.",
+            text:"Put 5,000won deposit to prevent last minute cancellations. Cancel at any time, if it is more than an hour before the hangout. Fill out the form below. 노쇼 방지를 위해 5,000원 보증금을 내고 행아웃을 참여하실 수 있습니다. 1시간 전에는 언제든 취소하실 수 있습니다. 아래 구글폼을 참고해주세요.",
+            dangerMode:true,
             buttons : {
-                cancel: {
-                        text: 'Back',
-                        value: false
-                },
+                cancel:"Back",
                 confirm: {
                     text: 'Deposit',
-                    value : true
-                }
-            }
+                    value : true,
+                },
+
+            },
         }).then((result) => {
             if(result) {
                 location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSd-Xl3mV9KT32Ee4O9Aqz1mr91_ZKION1670zzNsYyJXBwUoQ/viewform';
@@ -142,24 +189,22 @@ function hangoutJoin(btn) {
     } else if(userCancel == 1) { // 생애 첫 조인
         swal({
             text:"For your next hangout join, you need to pay 5,000 won deposit. 다음번 행아웃 참여를 위해서는 5,000원의 보증금이 필요합니다.",
-            icon:'error',
+            icon:'warning',
             buttons : {
-                cancel: {
-                    text:'Back',
-                    value:false
-                },
+                cancel:"Back",
                 confirm : {
                     text:'Join',
-                    value:true
-                }
-            }
+                    value:true,
+                },
+            },
         }).then((result)=> {
             if(result) {
                 // join
+                join(btn);
             }
         });
     } else { // 조인 여러번
-        console.log(pass);
+        join(btn);
     }
 }
 /*

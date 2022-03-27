@@ -12,10 +12,13 @@ import bcrypt
 bp = Blueprint('sign_bp', __name__, url_prefix='/sign')
 @bp.route("/getUserCancel",methods=['GET','POST'])
 def getUserCancel():
-    if request.method == 'GET' and 'user_id' in request.form:
+    if request.method == 'GET':
         #print(user_dao.UserDao().getUserCancel(request.form['user_id']))
         #print("asd")
-        return str(user_dao.UserDao().getUserCancel(request.form['user_id']))
+
+        return str(user_dao.UserDao().getUserCancel(session['user_info']['user_id']))
+    return "/getUserCancel error"
+
 @bp.route("/user-manage",methods=['GET','POST'])
 def userManage():
     return render_template("user_manage.html")
