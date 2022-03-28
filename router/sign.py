@@ -19,9 +19,11 @@ def getUserCancel():
         return str(user_dao.UserDao().getUserCancel(session['user_info']['user_id']))
     return "/getUserCancel error"
 
-@bp.route("/user-manage",methods=['GET','POST'])
-def userManage():
-    return render_template("user_manage.html")
+@bp.route("/usermanage",methods=['GET','POST'])
+def user_manage():
+    if request.method == 'GET':
+        return render_template("user_manage.html")
+    return "user_manage false"
 
 @bp.route("",methods=['GET','POST'])
 def init():

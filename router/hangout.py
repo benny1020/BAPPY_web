@@ -18,7 +18,11 @@ bp = Blueprint('hangout_bp', __name__, url_prefix='/hangout')
 @bp.route("checkCancelTime",methods = ['GET','POST'])
 def checkcanceltime():
     if request.method == 'GET':
-        index = request.form.get("index")
+        print("sdd---------sd-sd-sdskdlksdlksldlsdk")
+        #index = request.form.get("index")
+        index = request.args["index"]
+        print(index)
+        print("---------")
         dao = hangout_dao.HangoutDao()
         if dao.checkCancelTime(index) == False:
             return "false"
@@ -108,10 +112,10 @@ def hangout_join():
 def hangout_cancel():
     if request.method == 'POST' and 'index' in request.form and 'user_info' in session:
         idx = request.form.get('index',type=str)
-        print("hangout index for delete : ",idx)
+        #print("hangout index for delete : ",idx)
         dao = hangout_dao.HangoutDao()
         res = dao.cancel_hangout_byidx(idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
-        print(res)
+        #print(res)
         if res == "true":
             dao = user_dao.UserDao()
             userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])

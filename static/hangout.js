@@ -66,10 +66,10 @@ function doCancel(btn){
 }
 function hangoutCancel(btn) {
     var index = btn.nextElementSibling.value;
-    if(checkCancelTime(btn) == true) {
+    if(checkCancelTime(btn) == false) {
         swal({
             text:"If you cancel now, you cannot get the refund as it is last minute. If you don’t show up, neither can you get the refund nor can you join other hangouts for the next 4 hours. 지금 취소하시면, 보증금 환불이 불가합니다. 행아웃에 불참하셔도, 환불이 불가하며, 4시간동안 다른 행아웃 참여가 불가합니다.",
-            icon:'danger',
+            icon:'error',
             buttons :{
                 cancel: "back",
                 confirm : {
@@ -79,10 +79,12 @@ function hangoutCancel(btn) {
             },
         }).then((result) => {
             if(result) {
+                btn.setAttribute("disabled","disabled");
                 doCancel(btn);
             }
         });
     } else {
+        btn.setAttribute("disabled","disabled");
         doCancel(btn);
     }
 
@@ -141,18 +143,17 @@ function join(btn) {
                 })
             } else if(data == 1) {// 4시간 이내
                 swal({
-                    text:"4시간 이내에 다른 행아웃 있어",
+                    text:"You cannot join another hangout within 4 hours before or after your previous one. 기존 행아웃의 4시간 전후로는 행아웃을 새로 신청하실 수 없습니다.",
                     icon:'error',
                     buttons : {
                         confirm :{
                             text:'OK'
                             }
                         }
-
-
                 })
             } else if(data == 2) { // join success
-                swal("join success");
+                //swal("join success");
+                btn.setAttribute("disabled","disabled");
                 window.location.reload(true);
             } else { // join 수
                 console.log("join 수 부족");
@@ -334,16 +335,16 @@ function hangoutJoin(btn) {
 }
 */
 function hangoutWrite() {
-    swal("구글폼 이용해서 작성하기", {
-  buttons: {
-    cancel: "되돌아가기",
-    catch: {
-      text: "구글폼  작성하러가기",
-      value: "catch",
-    },
-  },
-})
-.then((value) => {
+    swal( {
+        text:"Make a hangout yourself by filling out the form! 구글폼에 원하는 행아웃을 직접 신청해보아요!",
+        buttons: {
+          cancel: "Back",
+          catch: {
+            text: "Go",
+            value: "catch",
+          },
+        },
+    }).then((value) => {
   switch (value) {
     case "catch":
     window.open('https://docs.google.com/forms/d/e/1FAIpQLScxfQc_557L3ogOPAbWEYj336Zp9NWpX8JxNyXb-yiBrEHgqw/viewform');

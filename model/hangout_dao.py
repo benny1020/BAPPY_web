@@ -177,7 +177,9 @@ class HangoutDao():
         return "there are no user id"
 
     def get_hangout_byidx(self,idx):
+        print("-----")
         sql = """select * from bp_hangout where  idx = %s"""%(idx)
+        print('sql')
         print(sql)
         return self.database.executeOne(sql)
 
@@ -256,8 +258,9 @@ class HangoutDao():
 
 
     def checkCancelTime(self, cancelIndex):
+        #print("cancel idx : ",cancelIndex)
         cancelTime = self.get_hangout_byidx(cancelIndex)['hg_meet_time']
-        print(cancelTime)
+        #print(cancelTime)
         now = datetime.now()
         diff = abs(cancelTime - now)
         if(diff.seconds <= 3600):
