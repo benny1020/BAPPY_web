@@ -20,6 +20,10 @@
     4 - 조인 성공 // 이미 여러번 조인 해본 person
 */
 
+var pig = document.createElement("span");
+pig.innerHTML = "<center><img style =\"width:125px; height:100px; \"src=\"/static/pig.jpeg\"/></center><p><br><br>Put 5,000won deposit to prevent last minute cancellations. Cancel at any time, if it is more than an hour before the hangout. Fill out the form below.<br> 노쇼 방지를 위해 5,000원 보증금을 내고 행아웃을 참여하실 수 있습니다. 1시간 전에는 언제든 취소하실 수 있습니다. 아래 구글폼을 참고해주세요.</p>";
+
+
 function checkCancelTime(btn) {
     var index = btn.nextElementSibling.value;
     var res;
@@ -118,6 +122,8 @@ function getUserCancel() {
     return result;
 
 }
+var clock = document.createElement("span");
+clock.innerHTML = "<center><img style =\"width:100px; height:100px; \"src=\"/static/clock.jpeg\"/></center><p><br><br>You cannot join another hangout within 4 hours before or after your previous one.<br> 기존 행아웃의 4시간 전후로는 행아웃을 새로 신청하실 수 없습니다.</p>";
 function join(btn) {
     var index = btn.nextElementSibling.value;
     $.ajax({
@@ -133,7 +139,7 @@ function join(btn) {
             if(data == 0) // 인원수 충족 못해서 참가 못함
             {
                 swal({
-                    text:"Bappy hangout consists of 2 Koreans and 2 internationals. There are no spots for your nationality.",
+                    text:"배피 행아웃은 한국인과 외국인이 각 2인씩 배정되며, 해당 행아웃은 한국인 신청이 마감되었습니다.\n There is no more seat for internationals, as Bappy hangouts include 2 Koreans and 2 internationals.",
                     icon:'error',
                     buttons :{
                         confirm : {
@@ -143,8 +149,7 @@ function join(btn) {
                 })
             } else if(data == 1) {// 4시간 이내
                 swal({
-                    text:"You cannot join another hangout within 4 hours before or after your previous one. 기존 행아웃의 4시간 전후로는 행아웃을 새로 신청하실 수 없습니다.",
-                    icon:'error',
+                    content: (clock),
                     buttons : {
                         confirm :{
                             text:'OK'
@@ -171,9 +176,7 @@ function hangoutJoin(btn) {
     console.log(userCancel);
     if(userCancel == 0) { // 참가불가
         swal({
-            icon:'error',
-            text:"Put 5,000won deposit to prevent last minute cancellations. Cancel at any time, if it is more than an hour before the hangout. Fill out the form below. 노쇼 방지를 위해 5,000원 보증금을 내고 행아웃을 참여하실 수 있습니다. 1시간 전에는 언제든 취소하실 수 있습니다. 아래 구글폼을 참고해주세요.",
-            dangerMode:true,
+            content:(pig),
             buttons : {
                 cancel:"Back",
                 confirm: {
@@ -189,7 +192,7 @@ function hangoutJoin(btn) {
         });
     } else if(userCancel == 1) { // 생애 첫 조인
         swal({
-            text:"For your next hangout join, you need to pay 5,000 won deposit. 다음번 행아웃 참여를 위해서는 5,000원의 보증금이 필요합니다.",
+            text:"For your next hangout join, you need to pay 5,000 won deposit.\n 다음번 행아웃 참여를 위해서는 5,000원의 보증금이 필요합니다.",
             icon:'warning',
             buttons : {
                 cancel:"Back",
@@ -336,7 +339,7 @@ function hangoutJoin(btn) {
 */
 function hangoutWrite() {
     swal( {
-        text:"Make a hangout yourself by filling out the form! 구글폼에 원하는 행아웃을 직접 신청해보아요!",
+        text:"Make a hangout yourself by filling out the form!\n 구글폼에 원하는 행아웃을 직접 신청해보아요!",
         buttons: {
           cancel: "Back",
           catch: {
@@ -347,7 +350,7 @@ function hangoutWrite() {
     }).then((value) => {
   switch (value) {
     case "catch":
-    window.open('https://docs.google.com/forms/d/e/1FAIpQLScxfQc_557L3ogOPAbWEYj336Zp9NWpX8JxNyXb-yiBrEHgqw/viewform');
+    window.open('https://forms.gle/x5obVm1soKZT5Yv9A');
     window.location.reload();
       break;
 

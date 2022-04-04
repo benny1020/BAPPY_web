@@ -60,6 +60,7 @@ def check_user_id():
         if dao.idCheck(request.form.get('user_id'))== True:
             session['user_id'] = request.form.get('user_id')
             session['user_phone'] = request.form.get('user_phone')
+            session["isTrial"] = False
             session.modified = True
             return "true"
         else:
@@ -73,7 +74,6 @@ def check_user_id():
             session["user_id"] = account['user_id']
             if session["user_id"] ==  "user":
                 session["isTrial"] = True
-                #print("it is trial")
             else:
                 session["isTrial"] = False
             session["user_my_hangout"] = account['user_my_hangout']
@@ -85,6 +85,7 @@ def check_user_id():
             session["user_gender"] = account["user_gender"]
             session.modified = True
             return "false"
+
 
 
 @bp.route("/signup",methods=['GET','POST'])

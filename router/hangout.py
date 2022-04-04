@@ -18,11 +18,8 @@ bp = Blueprint('hangout_bp', __name__, url_prefix='/hangout')
 @bp.route("checkCancelTime",methods = ['GET','POST'])
 def checkcanceltime():
     if request.method == 'GET':
-        print("sdd---------sd-sd-sdskdlksdlksldlsdk")
         #index = request.form.get("index")
         index = request.args["index"]
-        print(index)
-        print("---------")
         dao = hangout_dao.HangoutDao()
         if dao.checkCancelTime(index) == False:
             return "false"

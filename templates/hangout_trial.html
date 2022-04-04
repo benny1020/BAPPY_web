@@ -74,11 +74,11 @@ font-style: normal;
   {%if messages %}
     <script type="text/javascript">
       // swal("{{ messages[-1] }}");
-      swal("login 하셔야합니다", {
+      swal("You should sign-in to join.\n 참가를 희망하시면 로그인해주세요!", {
   buttons: {
-    cancel: "돌아가기",
+    cancel: "Back",
     catch: {
-      text: "로그인하러가기",
+      text: "Sign-in",
       value: "login",
     },
   },

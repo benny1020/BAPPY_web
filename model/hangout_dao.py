@@ -177,10 +177,7 @@ class HangoutDao():
         return "there are no user id"
 
     def get_hangout_byidx(self,idx):
-        print("-----")
         sql = """select * from bp_hangout where  idx = %s"""%(idx)
-        print('sql')
-        print(sql)
         return self.database.executeOne(sql)
 
     def cancel_hangout_byidx(self,idx,user_id, user_nation, user_gender, user_age):
@@ -370,7 +367,7 @@ class HangoutDao():
             if session['user_info']['user_my_hangout']=="None" or session['user_info']['user_my_hangout']=="":
                 return []
             print("It is myhangout list")
-            sql = """select * from bp_hangout where idx in(%s) order by hg_meet_time desc limit %d,%d"""%(session['user_info']['user_my_hangout'],pageNum,5)
+            sql = """select * from bp_hangout where idx in(%s) and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d"""%(session['user_info']['user_my_hangout'],datetime.now().strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
             #print(sql)
         #나머지 도시들
         else:
