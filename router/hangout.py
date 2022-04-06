@@ -39,6 +39,7 @@ def hangoutfilterList():
         res = dao.get_hangout_data_list(filterVal)
         hangoutDataList = []
         for data in res:
+            #print(data.index)
             hangoutDataList.append(hangout_dao.dumper(data))
 
         return json.dumps(hangoutDataList,ensure_ascii=False)
@@ -51,11 +52,13 @@ def hangoutMoreList():
     if request.method == 'POST':
         print("it is ",session['hangoutFilterVal'])
         pageNum = request.form.get('pageNum',type=int)
+        #print("pageNum " + str(pageNum))
         #print("pageNum : ",pageNum)
         dao = hangout_dao.HangoutDao()
         res = dao.get_hangout_data_list(session['hangoutFilterVal'],pageNum)
         hangoutDataList = []
         for data in res:
+            #print(data.index)
             hangoutDataList.append(hangout_dao.dumper(data))
 
         #print(res[1].join_url)
@@ -116,7 +119,7 @@ def hangout_cancel():
         if res == "true":
             dao = user_dao.UserDao()
             userMyHangout = dao.str_to_li(session['user_info']['user_my_hangout'])
-            print(userMyHangout)
+            #print(userMyHangout)
             try:
                 userMyHangout.remove(idx)
             except:
@@ -179,7 +182,7 @@ def register_hangout():
     #print(request.form.get('code'))
     if request.method == 'POST':
 
-        print(request.form.get("code"))
+        #print(request.form.get("code"))
         #제출했을때
         if request.method == 'POST' and 'code' in request.form:
             #print(request.form.get('code'))

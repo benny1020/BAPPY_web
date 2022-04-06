@@ -68,8 +68,6 @@ def check_user_id():
             account = dao.getUserInfo(request.form.get('user_id'))
             #print(account)
             session["user_info"]=account
-            print("user_info")
-            print(session["user_info"])
             session["loggedin"] = True
             session["user_id"] = account['user_id']
             if session["user_id"] ==  "user":
@@ -84,6 +82,13 @@ def check_user_id():
             session["user_name"] = account["user_name"]
             session["user_gender"] = account["user_gender"]
             session.modified = True
+
+            if 'user_info' in session:
+                res = dao.update_loginTime(session['user_info']['user_id'])
+                if res != True:
+                    print(res)
+                print(session['user_info']['user_name'] + "login")
+
             return "false"
 
 

@@ -8,7 +8,6 @@
     function user_approve() {
         if(document.getElementById("code").value != "code")
             return;
-        console.log("asd");
         var kakao_email = document.getElementById("kakao_email").value;
         var res = document.getElementById("result").value;
         $.ajax({
@@ -22,10 +21,11 @@
 
             success:function(data) {
                 if(data != null) {
-                    if(data == "true") {
-                        document.getElementById("result").innerHTML=data;
+                    console.log(data);
+                    if(data == true) {
+                        document.getElementById("result").innerHTML=kakao_email + " success";
                     }else {
-                        document.getElementById("result").innerHTML=data;
+                        document.getElementById("result").innerHTML="일치하는 사용자가 없습니다 ( 회원가입 안했거나 이메일 잘못 침)";
                     }
 
                 }
@@ -55,10 +55,11 @@
 
             success:function(data) {
                 if(data != null) {
-                    if(data == "true") {
-                        document.getElementById("result").innerHTML=data;
+                    console.log(data);
+                    if(data == true) {
+                        document.getElementById("result").innerHTML=kakao_email + " success";
                     }else {
-                        document.getElementById("result").innerHTML=data;
+                        document.getElementById("result").innerHTML="일치하는 사용자가 없습니다 ( 회원가입 안했거나 이메일 잘못 침)";
                     }
 
                 }

@@ -5,6 +5,7 @@ import json
 from router import sign
 from router import hangout
 from router import admin
+from model import user_dao
 
 
 app = Flask(__name__)
@@ -15,6 +16,7 @@ app.register_blueprint(admin.bp)
 
 #app.config['db_ip']="18.118.131.221"
 #app.config['db_ip']="127.0.0.1"
+
 
 @app.route ('/test', methods=['GET','POST'])
 def test():
@@ -41,4 +43,4 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=2222, debug=True)
+    app.run(host="0.0.0.0", port=2222, debug=True,threaded=True)

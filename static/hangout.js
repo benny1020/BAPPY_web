@@ -139,7 +139,7 @@ function join(btn) {
             if(data == 0) // 인원수 충족 못해서 참가 못함
             {
                 swal({
-                    text:"배피 행아웃은 한국인과 외국인이 각 2인씩 배정되며, 해당 행아웃은 한국인 신청이 마감되었습니다.\n There is no more seat for internationals, as Bappy hangouts include 2 Koreans and 2 internationals.",
+                    text:"배피 행아웃은 한국인과 외국인이 각 2인씩 남녀 2인씩 배정됩니다.\n Bappy hangouts include 2 Koreans and 2 internationals and 2 woman 2 man.",
                     icon:'error',
                     buttons :{
                         confirm : {
@@ -360,7 +360,7 @@ function hangoutWrite() {
 
 function initList() {
     var tag = document.getElementById("filterVal");
-    console.log(tag.value);
+    //console.log(tag.value);
     var addListHtml = "";
     $(':focus').blur();
 
@@ -380,7 +380,7 @@ function initList() {
                 //document.getElementById('addBtn').remove();
                 swal("There is no more page");
             }
-            console.log(data);
+            //console.log(data);
 
 
 

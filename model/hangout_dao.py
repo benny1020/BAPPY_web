@@ -353,27 +353,30 @@ class HangoutDao():
 
     def get_hangout_list(self,pageNum,filterVal):
         if filterVal == "default": #default
+            #print(pageNum)
             print("It is default hangout list")
+            #print("%d ~ %d"%(pageNum,pageNum+5))
             sql = """
-            select * from bp_hangout where hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d;
+            select * from bp_hangout where hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc, idx asc limit %d,%d;
             """%( (datetime.now()+timedelta(hours=-1)).strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
+            #print(sql)
         elif filterVal == "complete":
             print("It is completed hangout list")
             sql = """
-                select * from bp_hangout where hg_participants_num = 4 order by hg_meet_time desc limit %d,%d;
+                select * from bp_hangout where hg_participants_num = 4 order by hg_meet_time desc, idx asc limit %d,%d;
             """%(pageNum,5)
 
         elif filterVal == "myhangout": #my hangout
             if session['user_info']['user_my_hangout']=="None" or session['user_info']['user_my_hangout']=="":
                 return []
             print("It is myhangout list")
-            sql = """select * from bp_hangout where idx in(%s) and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d"""%(session['user_info']['user_my_hangout'],datetime.now().strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
+            sql = """select * from bp_hangout where idx in(%s) and hg_meet_time >= '%s' order by hg_meet_time asc, idx asc limit %d,%d"""%(session['user_info']['user_my_hangout'],datetime.now().strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
             #print(sql)
         #나머지 도시들
         else:
             print("It is "+str(filterVal)+"hangout list")
             sql = """
-            select * from bp_hangout where hg_city=\'%s\' and hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc limit %d,%d;
+            select * from bp_hangout where hg_city=\'%s\' and hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc, idx asc limit %d,%d;
             """%(filterVal,(datetime.now()+timedelta(hours=1)).strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
 
         #sql = """

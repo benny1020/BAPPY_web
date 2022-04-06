@@ -94,6 +94,14 @@ class UserDao():
         sql = """select count(0) as cnt from bp_user"""
         return self.database.executeAll(sql)[0]['cnt']
 
+    def update_loginTime(self,user_id):
+        sql = "update bp_user set user_login_time = '%s' where user_id ='%s'"%(datetime.now().strftime('%Y-%m-%d %H:%M'),user_id)
+        try:
+            self.database.execute(sql)
+            return True
+        except:
+            return "update login time sql error"
+
     def insert_user(self, user):
         sql = """insert into bp_user(
         user_approve,user_isKorean,user_idx,user_id,user_phone,user_name,user_gender,user_birth,user_nation,user_university,user_visit,user_reg_time,user_cancel,user_character,user_interests,user_language,user_login_time)values(%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s",%d,"%s",%d,"%s","%s","%s","%s")"""%(0,user.isKorean,user.idx,user.id,user.phone,user.name,user.gender,user.birth, user.nation,user.university,user.visit, user.reg_time, user.cancel,self.list_to_str(user.character), self.list_to_str(user.interest), self.list_to_str(user.language),user.login_time )
@@ -111,7 +119,11 @@ class UserDao():
 
     def getUserIdByPhone(self,user_phone):
         sql = """select user_id from bp_user where user_phone = '%s' """%(user_phone)
-        return self.database.executeOne(sql)['user_id']
+        try:
+            return self.database.executeOne(sql)['user_id']
+        except:
+            return None
+
 
     def setUserCancel(self,id,cancel):
         sql = """update bp_user set user_cancel = '%s' where user_id = '%s'"""%(cancel,id)
