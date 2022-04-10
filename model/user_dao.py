@@ -102,6 +102,12 @@ class UserDao():
         except:
             return "update login time sql error"
 
+    def update_visit(self,user_id):
+        sql = "update bp_user set user_visit = user_visit + 1 where user_id = '%s'"%(user_id)
+        self.database.execute(sql)
+        return True
+
+
     def insert_user(self, user):
         sql = """insert into bp_user(
         user_approve,user_isKorean,user_idx,user_id,user_phone,user_name,user_gender,user_birth,user_nation,user_university,user_visit,user_reg_time,user_cancel,user_character,user_interests,user_language,user_login_time)values(%d,%d,"%s","%s","%s","%s","%s","%s","%s","%s",%d,"%s",%d,"%s","%s","%s","%s")"""%(0,user.isKorean,user.idx,user.id,user.phone,user.name,user.gender,user.birth, user.nation,user.university,user.visit, user.reg_time, user.cancel,self.list_to_str(user.character), self.list_to_str(user.interest), self.list_to_str(user.language),user.login_time )

@@ -82,7 +82,8 @@ def hangout_join():
         idx = request.form.get('index')
         dao = hangout_dao.HangoutDao()
         res = dao.join_hangout_byidx(session['user_info']['user_my_hangout'],idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])
-        # 인원수 조건 충족못해서 참가 못하는경우
+
+        # 같은 국가 3명 이상인 경우
         if res == 0:
             #session['cancel']='true'
             return "0"

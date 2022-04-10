@@ -85,6 +85,10 @@ def check_user_id():
 
             if 'user_info' in session:
                 res = dao.update_loginTime(session['user_info']['user_id'])
+                try:
+                    dao.update_visit(session['user_info']['user_id'])
+                except:
+                    print("user visit update failed")
                 if res != True:
                     print(res)
                 print(session['user_info']['user_name'] + "login")

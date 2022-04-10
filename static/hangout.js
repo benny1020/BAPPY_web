@@ -139,7 +139,7 @@ function join(btn) {
             if(data == 0) // 인원수 충족 못해서 참가 못함
             {
                 swal({
-                    text:"배피 행아웃은 한국인과 외국인이 각 2인씩 남녀 2인씩 배정됩니다.\n Bappy hangouts include 2 Koreans and 2 internationals and 2 woman 2 man.",
+                    text:"배피 행아웃은 같은 국적 3명 이상 참가 불가합니다.\n Bappy Hangout cannot be played by more than 3 people of the same nationality.",
                     icon:'error',
                     buttons :{
                         confirm : {

@@ -6,6 +6,7 @@ from router import sign
 from router import hangout
 from router import admin
 from model import user_dao
+from model import hangout_dao
 
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ app.register_blueprint(admin.bp)
 
 @app.route ('/test', methods=['GET','POST'])
 def test():
-    return render_template("signup.html")
+    return str(hangout_dao.HangoutDao().get_last_idx())
 @app.route ('/', methods=['GET','POST'])
 def root():
     session.clear()

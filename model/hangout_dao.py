@@ -260,7 +260,9 @@ class HangoutDao():
         #print(cancelTime)
         now = datetime.now()
         diff = abs(cancelTime - now)
-        if(diff.seconds <= 3600):
+        print(diff.seconds)
+        print(diff.days)
+        if(diff.days == 0 and diff.seconds <= 3600):
             print("1시간 미만 남은 행아웃 캔슬")
             return False
         else:
@@ -268,7 +270,7 @@ class HangoutDao():
             return True
 
     def join_hangout_byidx(self,myHangout,idx,user_id, user_nation, user_gender, user_age):
-        print("my hangout", myHangout)
+        #print("my hangout", myHangout)
         if self.checkTimeHangout(idx,myHangout)=="false":
             print("cant join cause time")
             return 1
@@ -276,20 +278,24 @@ class HangoutDao():
 
         hangout = self.get_hangout_byidx(idx)
 
-        if user_gender == "M":
-            if hangout["hg_man"]>= 2:
-                return 0
-        else:
-            if hangout["hg_woman"]>=2:
-                return 0
 
+        # 성별 제한  없애기
+        #
+        #if user_gender == "M":
+        #    if hangout["hg_man"]>= 2:
+        #        return 0
+        #else:
+        #    if hangout["hg_woman"]>=2:
+        #        return 0
 
-        if session['user_info']['user_isKorean'] == 1:
-            if hangout["hg_korean"]>=2:
-                return 0
-        else:
-            if hangout["hg_foreign"]>=2:
-                return 0
+        # 국가제한 2 2
+        #if session['user_info']['user_isKorean'] == 1:
+        #    if hangout["hg_korean"]>=2:
+        #        return 0
+        #else:
+        #    if hangout["hg_foreign"]>=2:
+        #        return 0
+
 
         users_id = str_to_li(hangout['hg_participants_id'])
         users_nation = str_to_li(hangout['hg_participants_nation'])
@@ -301,6 +307,15 @@ class HangoutDao():
         users_woman = hangout['hg_woman']
         users_korean = hangout['hg_korean']
         users_foreign = hangout['hg_foreign']
+
+        # 같은 국가 3명 이상 안됨
+        tot = 0
+        for nation in users_nation:
+            if nation == user_nation:
+                tot = tot + 1
+        print(tot)
+        if tot >=2:
+            return 0
 
         if session['user_info']['user_isKorean']==1:
             users_korean +=1
@@ -342,8 +357,20 @@ class HangoutDao():
         sql = """select count(0) as cnt from bp_hangout"""
         return self.database.executeAll(sql)[0]['cnt']
 
-    def insert_hangout(self, hangout):
+    #def insert_hangout(self, hangout):
 
+    #    sql = """
+    #    INSERT INTO bp_hangout (hg_korean,hg_foreign,hg_location_url,hg_man,hg_woman,hg_city,idx, hg_participants_num, hg_click_num, hg_openchat, hg_location, hg_title, hg_meet_time, hg_register_time)
+    #    VALUES (%d,%d,'%s',%d,%d,'%s',%d, %d, %d, '%s', '%s', '%s', '%s', '%s')
+    #    """%(0,0,hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
+        #print(sql)
+    #    self.database.execute(sql)
+    def get_last_idx(self):
+        sql = """SELECT max(idx) FROM bp_hangout"""
+        return self.database.executeAll(sql)[0]['max(idx)']
+
+    def insert_hangout(self, hangout):
+        hangout.idx = self.get_last_idx()+1
         sql = """
         INSERT INTO bp_hangout (hg_korean,hg_foreign,hg_location_url,hg_man,hg_woman,hg_city,idx, hg_participants_num, hg_click_num, hg_openchat, hg_location, hg_title, hg_meet_time, hg_register_time)
         VALUES (%d,%d,'%s',%d,%d,'%s',%d, %d, %d, '%s', '%s', '%s', '%s', '%s')
