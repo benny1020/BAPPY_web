@@ -50,7 +50,7 @@ class Hangout_Data():
             self.openchat = Hangout.openchat
 
         elif Hangout.participants_num >=4:
-            self.join = "No Seat"
+            self.join = "\"No Seat\""
             self.join_url ="/"
             self.openchat = "none"
             self.active="disabled"
@@ -63,6 +63,7 @@ class Hangout_Data():
 
         else:
             print("make_hangout_data error")
+        print(self.join)
 
 
         month_list = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
@@ -103,7 +104,7 @@ class Hangout_Data():
         for i in range(Hangout.participants_num):
             self.profile_image.append(images[i])
             #self.nation_image.append(nations[i])
-            self.nation_image.append(nations[i])
+            self.nation_image.append('nation')
             self.age.append(ages[i])
             self.gender.append(gender[i])
 
