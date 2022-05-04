@@ -42,7 +42,6 @@ class Hangout_Data():
             self.active ="disabled"
             self.join_url ="/"
             self.openchat = "none"
-            print("it is expired hangout")
 
         elif 'user_id' in session and session['user_id'] in str_to_li(Hangout.participants_id):
             self.join="cancel"
@@ -58,7 +57,7 @@ class Hangout_Data():
         elif 'user_id' in session and session['user_id'] not in str_to_li(Hangout.participants_id):
             self.join = "join"
             self.join_url = "/hangout/join"
-            self.openchat = "none"
+            self.openchat = Hangout.openchat
 
 
         else:
@@ -245,7 +244,7 @@ class HangoutDao():
         for hangoutTime in res:
             #date_diff = joinTime - datetime.strptime(hangoutTime,"%y-%m-%d %H:%M:%S")
             date_diff = abs(joinTime - hangoutTime['hg_meet_time'])
-
+            print(date_diff)
             if date_diff.total_seconds() / 3600 <= 4:
                 #print(hangoutTime['hg_meet_time'])
                 #print(joinTime)
@@ -385,14 +384,14 @@ class HangoutDao():
             print("It is default hangout list")
             #print("%d ~ %d"%(pageNum,pageNum+5))
             sql = """
-            select * from bp_hangout where hg_participants_num !=4 and hg_meet_time >= '%s' order by hg_meet_time asc, idx asc limit %d,%d;
+            select * from bp_hangout where hg_meet_time >= '%s' order by hg_meet_time asc, idx asc limit %d,%d;
             """%( (datetime.now()+timedelta(hours=-1)).strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
             #print(sql)
         elif filterVal == "complete":
             print("It is completed hangout list")
             sql = """
-                select * from bp_hangout where hg_participants_num = 4 order by hg_meet_time desc, idx asc limit %d,%d;
-            """%(pageNum,5)
+                select * from bp_hangout where hg_participants_num >= 2  and hg_meet_time < '%s' order by hg_meet_time desc, idx asc limit %d,%d;
+            """%(datetime.now().strftime("%Y-%m-%d %H:%M:%S"),pageNum,5)
 
         elif filterVal == "myhangout": #my hangout
             if session['user_info']['user_my_hangout']=="None" or session['user_info']['user_my_hangout']=="":

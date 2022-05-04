@@ -23,6 +23,8 @@
 var pig = document.createElement("span");
 pig.innerHTML = "<center><img style =\"width:125px; height:100px; \"src=\"/static/pig.jpeg\"/></center><p><br><br>Put 5,000won deposit to prevent last minute cancellations. Cancel at any time, if it is more than an hour before the hangout. Fill out the form below.<br> 노쇼 방지를 위해 5,000원 보증금을 내고 행아웃을 참여하실 수 있습니다. 1시간 전에는 언제든 취소하실 수 있습니다. 아래 구글폼을 참고해주세요.</p>";
 
+var kakao = document.createElement("span");
+kakao.innerHTML = "<center><img style =\"width:150px; margin-top:40px; height:150px; \"src=\"/static/kakao_icon.png\"/></center><p><br><br>Wait! Click OK and join the chat room! 잠시만요! OK를 눌러서 오픈채팅방에 입장해주세요 :)</p>";
 
 function checkCancelTime(btn) {
     var index = btn.nextElementSibling.value;
@@ -159,7 +161,24 @@ function join(btn) {
             } else if(data == 2) { // join success
                 //swal("join success");
                 btn.setAttribute("disabled","disabled");
-                window.location.reload(true);
+                swal({
+                    content:(kakao),
+                    buttons : {
+                        cancel:"Back",
+                        confirm: {
+                            text: 'OK',
+                            value : true,
+                        },
+
+                    },
+                }).then((result) => {
+                    if(result) {
+                        location.href = btn.parentNode.parentNode.parentNode.getElementsByClassName("hangout-openchat")[0].getAttribute('href');
+                    } else {
+                        window.location.reload(true);
+
+                    }
+                });
             } else { // join 수
                 console.log("join 수 부족");
             }
@@ -395,8 +414,11 @@ function initList() {
                 addListHtml+= "<i class=\"zmdi zmdi-time mr-2\"></i>" + data[i].meet_time; +"</li>";
                 addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
                 addListHtml+= "<i class=\"zmdi zmdi-pin mr-2\" style=\"font-weight:800px;\"></i> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-                if(data[i].openchat != "none") {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                if(data[i].join == "join") {
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                }
+                else {
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; \"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 addListHtml+= "</ul><div style=\"text-align: center; \">"
                 addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
@@ -477,8 +499,11 @@ function moreList() {
                 addListHtml+= "<i class=\"zmdi zmdi-time mr-2\"></i>" + data[i].meet_time; +"</li>";
                 addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
                 addListHtml+= "<i class=\"zmdi zmdi-pin mr-2\" style=\"font-weight:800px;\"></i> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-                if(data[i].openchat != "none") {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                if(data[i].join == "join") {
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                }
+                else {
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; \"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 addListHtml+= "</ul><div style=\"text-align: center; \">"
                 addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";

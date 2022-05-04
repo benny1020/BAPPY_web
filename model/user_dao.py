@@ -142,7 +142,7 @@ class UserDao():
     def getUserInfo(self,id):
         sql = """select * from bp_user where user_id = '%s'"""%(id)
         account  = self.database.executeOne(sql)
-        return  account
+        return account
 
     def login_check(self,id,input_password):
         sql = """select * from bp_user where user_id = '%s' """%(id)
