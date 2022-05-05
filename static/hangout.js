@@ -21,7 +21,7 @@
 */
 
 var pig = document.createElement("span");
-pig.innerHTML = "<center><img style =\"width:125px; height:100px; \"src=\"/static/pig.jpeg\"/></center><p><br><br>Put 5,000won deposit to prevent last minute cancellations. Cancel at any time, if it is more than an hour before the hangout. Fill out the form below.<br> 노쇼 방지를 위해 5,000원 보증금을 내고 행아웃을 참여하실 수 있습니다. 1시간 전에는 언제든 취소하실 수 있습니다. 아래 구글폼을 참고해주세요.</p>";
+pig.innerHTML = "<center><img style =\"width:125px; height:100px; \"src=\"/static/pig.jpeg\"/></center><p><br><br>Put 5,000won deposit to prevent last minute cancellations. Cancel at any time, if it is more than an hour before the hangout. Let us know if you already paid the deposit. <br> 노쇼 방지를 위해 5,000원 보증금을 내고 행아웃을 참여하실 수 있습니다. 1시간 전에는 언제든 취소하실 수 있습니다. 이미 납부하셨다면 저희에게 연락주세요.</p>";
 
 var kakao = document.createElement("span");
 kakao.innerHTML = "<center><img style =\"width:150px; margin-top:40px; height:150px; \"src=\"/static/kakao_icon.png\"/></center><p><br><br>Wait! Click OK and join the chat room! 잠시만요! OK를 눌러서 오픈채팅방에 입장해주세요 :)</p>";
