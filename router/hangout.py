@@ -200,7 +200,7 @@ def register_hangout():
                     return redirect(url_for('hangout_bp.hangout_list'))
 
             else:
-                msg = "code 틀렸어 ㅡㅡ 너 어드민 아니지? ㅗ"
+                return "code 틀렸어 ㅡㅡ 너 어드민 아니지? ㅗ"
         #print(request.form.get('code'))
     else: # GET
         return render_template('admin.html',msg=msg)
