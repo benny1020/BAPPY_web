@@ -102,8 +102,8 @@ class Hangout_Data():
 
         for i in range(Hangout.participants_num):
             self.profile_image.append(images[i])
-            #self.nation_image.append(nations[i])
-            self.nation_image.append('nation')
+            self.nation_image.append(nations[i])
+            #self.nation_image.append('nation')
             self.age.append(ages[i])
             self.gender.append(gender[i])
 

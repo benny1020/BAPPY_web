@@ -149,7 +149,7 @@ font-style: normal;
                                               <i class="zmdi zmdi-pin mr-2" style="font-weight:800px;
                                               "></i> <a class="hangout-location" href="{{ hangout.location_url }}" >{{ hangout.location }}</a>
                                           </li>
-                                          {% if hangout.openchat != "none" %}
+                                          {% if hangout.openchat == "cancel" %}
                                           <li class="mr-md-4" style="width:90%">
                                               <i class="zmdi zmdi-comments mr-2"></i><a class="hangout-openchat" href="{{ hangout.openchat }}">kakao openchat</a>
                                           </li>
@@ -288,7 +288,7 @@ function initList() {
                 addListHtml+= "<i class=\"zmdi zmdi-time mr-2\"></i>" + data[i].meet_time; +"</li>";
                 addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
                 addListHtml+= "<i class=\"zmdi zmdi-pin mr-2\" style=\"font-weight:800px;\"></i> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-                if(data[i].openchat != "none") {
+                if(data[i].openchat == "cancel") {
                     addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 addListHtml+= "</ul><div style=\"text-align: center; \">"
@@ -366,7 +366,7 @@ function moreList() {
                 addListHtml+= "<i class=\"zmdi zmdi-time mr-2\"></i>" + data[i].meet_time; +"</li>";
                 addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
                 addListHtml+= "<i class=\"zmdi zmdi-pin mr-2\" style=\"font-weight:800px;\"></i> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-                if(data[i].openchat != "none") {
+                if(data[i].openchat == "cancel") {
                     addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 addListHtml+= "</ul><div style=\"text-align: center; \">"

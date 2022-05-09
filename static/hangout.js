@@ -414,11 +414,11 @@ function initList() {
                 addListHtml+= "<i class=\"zmdi zmdi-time mr-2\"></i>" + data[i].meet_time; +"</li>";
                 addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
                 addListHtml+= "<i class=\"zmdi zmdi-pin mr-2\" style=\"font-weight:800px;\"></i> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-                if(data[i].join == "join") {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                if(data[i].join == "cancel") {
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; \"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 else {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; \"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 addListHtml+= "</ul><div style=\"text-align: center; \">"
                 addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
@@ -499,11 +499,11 @@ function moreList() {
                 addListHtml+= "<i class=\"zmdi zmdi-time mr-2\"></i>" + data[i].meet_time; +"</li>";
                 addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
                 addListHtml+= "<i class=\"zmdi zmdi-pin mr-2\" style=\"font-weight:800px;\"></i> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-                if(data[i].join == "join") {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                if(data[i].join == "cancel") {
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 else {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; \"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 addListHtml+= "</ul><div style=\"text-align: center; \">"
                 addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
