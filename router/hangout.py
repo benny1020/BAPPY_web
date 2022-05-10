@@ -7,6 +7,7 @@ from model import hangout_dao
 from model import user_dao
 from . import hangout
 from . import sign
+from werkzeug.utils import secure_filename
 
 
 
@@ -182,7 +183,6 @@ def register_hangout():
     msg = ""
     #print(request.form.get('code'))
     if request.method == 'POST':
-
         #print(request.form.get("code"))
         #제출했을때
         if request.method == 'POST' and 'code' in request.form:

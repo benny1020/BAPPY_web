@@ -31,11 +31,14 @@ class Hangout_Data():
         self.openchat = "none"
         self.participants_num=0
         self.active = "enabled"
+        self.image = "default"
 
     def make_hangout_data(self,Hangout,filterVal):
         #Hangout.meet_time = datetime.strptime(Hangout.meet_time,"%y-%m-%d %H:%M:%S")
         #print("--------")
         #print(Hangout.meet_time)
+
+        self.image = Hangout.image
 
         if Hangout.meet_time < datetime.now():
             self.join = "Expired"
@@ -150,6 +153,7 @@ class Hangout():
         self.location_url=""
         self.korean=0
         self.foreign=0
+        self.image = "default"
 #print(datetime.now())
     def create_hangout(self, request):
         self.openchat = request.form.get('openchat')
@@ -165,6 +169,13 @@ class Hangout():
         self.register_time = datetime.now().strftime('%y-%m-%d %H:%M')
         self.city= request.form.get('city')
         self.location_url = request.form.get('location_url')
+
+        # 이미지 처리
+        f = request.files('chooseFile')
+        filename = len(os.listdir('./static/image/'))+1
+        f.save('./static/image/' + str(filename)+'.jpg')
+        self.image = filename
+
 
 class HangoutDao():
     def __init__(self):
@@ -244,7 +255,6 @@ class HangoutDao():
         for hangoutTime in res:
             #date_diff = joinTime - datetime.strptime(hangoutTime,"%y-%m-%d %H:%M:%S")
             date_diff = abs(joinTime - hangoutTime['hg_meet_time'])
-            print(date_diff)
             if date_diff.total_seconds() / 3600 <= 4:
                 #print(hangoutTime['hg_meet_time'])
                 #print(joinTime)
@@ -372,9 +382,9 @@ class HangoutDao():
     def insert_hangout(self, hangout):
         hangout.idx = self.get_last_idx()+1
         sql = """
-        INSERT INTO bp_hangout (hg_korean,hg_foreign,hg_location_url,hg_man,hg_woman,hg_city,idx, hg_participants_num, hg_click_num, hg_openchat, hg_location, hg_title, hg_meet_time, hg_register_time)
-        VALUES (%d,%d,'%s',%d,%d,'%s',%d, %d, %d, '%s', '%s', '%s', '%s', '%s')
-        """%(0,0,hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
+        INSERT INTO bp_hangout (hg_image,hg_korean,hg_foreign,hg_location_url,hg_man,hg_woman,hg_city,idx, hg_participants_num, hg_click_num, hg_openchat, hg_location, hg_title, hg_meet_time, hg_register_time)
+        VALUES ('%s',%d,%d,'%s',%d,%d,'%s',%d, %d, %d, '%s', '%s', '%s', '%s', '%s')
+        """%(hangout.image,0,0,hangout.location_url,0,0,hangout.city,hangout.idx, hangout.participants_num, hangout.click_num,hangout.openchat,hangout.location,hangout.title,hangout.meet_time,hangout.register_time)
         #print(sql)
         self.database.execute(sql)
 
@@ -432,6 +442,10 @@ class HangoutDao():
             hangout.man = h['hg_man']
             hangout.woman = h['hg_woman']
             hangout.location_url = h['hg_location_url']
+            if h['hg_image'] == None or h['hg_image'] == "":
+                hangout.image = "default"
+            else:
+                hangout.image = h['hg_image']
             hangout_list.append(hangout)
         return hangout_list
 
