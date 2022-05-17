@@ -556,7 +556,21 @@
                                 Kakao.init('fc4b2dbba0859111556e37839ea5f8c8'); //발급받은 키 중 javascript키를 사용해준다.
                                 console.log(Kakao.isInitialized()); // sdk초기화여부판단
 
-                                function checkid(user_id,user_phone) {
+                                function setProfileImage(imageUrl) {
+                                    $.ajax({
+                                        url:"/sign/profileImage",
+                                        type:"POST",
+                                        dataType:"json",
+                                        data : {
+                                            "profileImageUrl":imageUrl
+                                        },
+                                        success:function(data) {
+                                            console.log(data);
+                                        }
+                                    });
+                                }
+
+                                function checkid(user_id,user_phone,imageUrl) {
                                     $.ajax({
                                         url:"/sign/idcheck",
                                         type:"post",
@@ -573,6 +587,7 @@
                                         }
                                         else {
                                             window.location.href = "/hangout/list";
+                                            setProfileImage(imageUrl);
                                             console.log("hangout");
                                         }
                                     }
@@ -594,7 +609,9 @@
                                               console.log(response['id']);
                                               user_id = response['id'];
                                               user_phone = response['kakao_account']['email']
-                                              checkid(user_id,user_phone);
+                                              imageUrl = response['kakao_account']['profile']['profile_image_url']
+                                              console.log(imageUrl)
+                                              checkid(user_id,user_phone,imageUrl);
 
                                           },
                                           fail: function (error) {

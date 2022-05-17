@@ -8,6 +8,7 @@ from model import user_dao
 from . import hangout
 from . import sign
 from werkzeug.utils import secure_filename
+import os
 
 
 
@@ -193,9 +194,13 @@ def register_hangout():
                     msg="빈칸 없이 입력하라했잖아 다시 입력해 ㅡㅡ"
                 else:
 
+                    f = request.files['chooseFile']
+                    filename = len(os.listdir('./static/hangout/'))+1
+                    f.save('./static/hangout/' + str(filename)+'.jpg')
+
                     dao = hangout_dao.HangoutDao()
                     hangout = hangout_dao.Hangout(dao.count_hangout())
-                    hangout.create_hangout(request)
+                    hangout.create_hangout(request,filename)
                     dao.insert_hangout(hangout)
                     return redirect(url_for('hangout_bp.hangout_list'))
 

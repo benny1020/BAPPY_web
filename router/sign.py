@@ -5,11 +5,102 @@ from collections import OrderedDict
 from model import user_dao
 from . import hangout
 
+import urllib.request
+import os
+
 import bcrypt
 
-
+def list_to_str(li):
+    if len(li)==1:
+        return str(li[0])
+    for i in range(len(li)):
+        li[i]=str(li[i])
+    return ','.join(li)
+# "1,2,3,4"->[1,2,3,4]
+def str_to_li( db_str):
+    db_str = str(db_str)
+    if db_str == "None":
+        return []
+    if db_str ==  "":
+        return []
+    return db_str.split(',')
 
 bp = Blueprint('sign_bp', __name__, url_prefix='/sign')
+#
+#
+
+class userData():
+    def __init__(self,user_info):
+        self.user_name = user_info['user_name']
+        self.user_gender = user_info['user_gender']
+        self.user_university = user_info['user_university']
+        self.user_nation = user_info['user_nation']
+        self.user_birth = user_info['user_birth']
+
+        character = user_info['user_character']
+        interests = user_info['user_interests']
+        language = user_info['user_language']
+
+        character = str_to_li(character)
+        interests = str_to_li(interests)
+        language = str_to_li(language)
+
+        self.user_character = []
+        self.user_interests = []
+        self.user_language = []
+
+        interests_list = ['Movies','Books','Sports','Games','Talking','Drinking','Travelling','Vegan','Cooking']
+        language_list = ['Korean','English','Spanish','French','Chinese','Japanese']
+
+        for ch in character:
+            self.user_character.append(ch)
+
+        for i in range(len(interests)):
+            if interests[i] == 'on':
+                self.user_interests.append(interests_list[i])
+
+        for i in range(len(language)):
+            if language[i] == 'on':
+                self.user_language.append(language_list[i])
+
+        len_int = len(self.user_interests)
+        len_lan = len(self.user_language)
+        for i in range(9-len_int):
+            self.user_interests.append(" ")
+
+        self.user_language = list_to_str(self.user_language)
+
+@bp.route("/profileImage",methods = ['POST'])
+def setProfileImage():
+    if request.method == 'POST':
+        #url = "http://k.kakaocdn.net/dn/JHuM3/btryU2LLwhn/zDqZDcjcqVbLkZ1ufpoSc1/img_110x110.jpg"
+        url = request.form['profileImageUrl']
+        urllib.request.urlretrieve(url,"./static/profileImage/"+session['user_id']+".png")
+        return "200"
+
+
+@bp.route("/userInfo/<user_id>", methods = ['GET'])
+def get_userinfo(user_id):
+    if request.method == 'GET':
+        dao = user_dao.UserDao()
+
+        user_info = dao.getUserInfo(user_id)
+        if user_info == None:
+            return "404"
+        else:
+            data = userData(user_info)
+            path = "./static/profileImage/"
+            file_list = os.listdir(path)
+            if user_id+".png" not in file_list:
+                user_id = "bird"
+            return render_template("userinfo.html",user_info = data,user_id=user_id)
+
+
+
+
+
+    else:
+        return "404 error"
 @bp.route("/getUserCancel",methods=['GET','POST'])
 def getUserCancel():
     if request.method == 'GET':

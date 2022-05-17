@@ -26,6 +26,13 @@ pig.innerHTML = "<center><img style =\"width:125px; height:100px; \"src=\"/stati
 var kakao = document.createElement("span");
 kakao.innerHTML = "<center><img style =\"width:150px; margin-top:40px; height:150px; \"src=\"/static/kakao_icon.png\"/></center><p><br><br>Wait! Click OK and join the chat room! 잠시만요! OK를 눌러서 오픈채팅방에 입장해주세요 :)</p>";
 
+function getUserInfo(user_id) {
+    if(user_id != "none") {
+        window.location.href = '/sign/userInfo/'+user_id;
+    }
+
+}
+
 function checkCancelTime(btn) {
     var index = btn.nextElementSibling.value;
     var res;
@@ -408,14 +415,15 @@ function initList() {
                 addListHtml+= "<div class=\"job-box d-md-flex align-items-center justify-content-between mb-30\"> ";
                 addListHtml+= "<div class=\"job-left my-4 d-md-flex align-items-center flex-wrap\">"
                 addListHtml+= "<div class=\"job-content\">";
-                addListHtml+= "<h5 class=\"hangout-title text-center text-md-left\">"+data[i].title+"</h5>";
+                addListHtml+= "<h6 class=\"hangout-title text-center text-md-left\">"+data[i].title+"</h6>";
+                addListHtml+= "<center><img src=\"../static/hangout/"+data[i].image + ".jpg\" style=\"height:130px; object-fit: cover;width:80%;border-radius: 10%; margin-top:10px; \"></center>";
                 addListHtml+= "<ul class=\"d-md-flex flex-wrap text-capitalize \">";
                 addListHtml+= "<li class=\"mr-md-4 hangout-time\"style=\"width:90%\">";
-                addListHtml+= "<i class=\"zmdi zmdi-time mr-2\"></i>" + data[i].meet_time; +"</li>";
+                addListHtml+= "<img src=\"../static/widget/calender.png\" style=\"width:16.29px; height:16.85px;\">" + data[i].meet_time; +"</li>";
                 addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
-                addListHtml+= "<i class=\"zmdi zmdi-pin mr-2\" style=\"font-weight:800px;\"></i> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
+                addListHtml+= "<img src=\"../static/widget/location.png\" style=\"width:15px; height:19.65px;\"> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
                 if(data[i].join == "cancel") {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; \"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><img src=\"../static/widget/openchat.png\" style=\"width:18px; height:18.62px;\"><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 else {
                     addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
@@ -423,22 +431,22 @@ function initList() {
                 addListHtml+= "</ul><div style=\"text-align: center; \">"
                 addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
                 addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[0] + " / " + data[i].gender[0] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[0]+".png\"></img>";
+                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[0] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[0]+".png\"></img>";
                 addListHtml+= "  </div>";
                 addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
                 addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[1] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[1] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[1]+".png\"></img>";
+                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[1] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[1]+".png\"></img>";
                 addListHtml+= "    </div>";
                 addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
                 addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[2] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[2] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[2]+".png\"></img>";
+                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[2] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[2]+".png\"></img>";
                 addListHtml+= "  </div>";
                 addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
                 addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[3] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[3] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[3]+".png\"></img>";
+                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[3] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[3]+".png\"></img>";
                 addListHtml+= "  </div>";
                 addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center>"
 
@@ -493,14 +501,15 @@ function moreList() {
                 addListHtml+= "<div class=\"job-box d-md-flex align-items-center justify-content-between mb-30\"> ";
                 addListHtml+= "<div class=\"job-left my-4 d-md-flex align-items-center flex-wrap\">"
                 addListHtml+= "<div class=\"job-content\">";
-                addListHtml+= "<h5 class=\"hangout-title text-center text-md-left\">"+data[i].title+"</h5>";
+                addListHtml+= "<h6 class=\"hangout-title text-center text-md-left\">"+data[i].title+"</h6>";
+                addListHtml+= "<center><img src=\"../static/hangout/"+data[i].image + ".jpg\" style=\"height:130px;object-fit: cover; width:80%;border-radius: 10%; margin-top:10px; \"></center>";
                 addListHtml+= "<ul class=\"d-md-flex flex-wrap text-capitalize \">";
                 addListHtml+= "<li class=\"mr-md-4 hangout-time\"style=\"width:90%\">";
-                addListHtml+= "<i class=\"zmdi zmdi-time mr-2\"></i>" + data[i].meet_time; +"</li>";
+                addListHtml+= "<img src=\"../static/widget/calender.png\" style=\"width:16.29px; height:16.85px;\">" + data[i].meet_time; +"</li>";
                 addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
-                addListHtml+= "<i class=\"zmdi zmdi-pin mr-2\" style=\"font-weight:800px;\"></i> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
+                addListHtml+= "<img src=\"../static/widget/location.png\" style=\"width:15px; height:19.65px;\"> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
                 if(data[i].join == "cancel") {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><img src=\"../static/widget/openchat.png\" style=\"width:18px; height:18.62px;\"><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
                 else {
                     addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
@@ -508,22 +517,22 @@ function moreList() {
                 addListHtml+= "</ul><div style=\"text-align: center; \">"
                 addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
                 addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[0] + " / " + data[i].gender[0] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[0]+".png\"></img>";
+                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[0] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[0]+".png\"></img>";
                 addListHtml+= "  </div>";
                 addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
                 addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[1] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[1] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[1]+".png\"></img>";
+                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[1] +")\"src=\""+ "/static/profileImage/"+ data[i].profile_image[1]+".png\"></img>";
                 addListHtml+= "    </div>";
                 addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
                 addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[2] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[2] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[2]+".png\"></img>";
+                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[2] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[2]+".png\"></img>";
                 addListHtml+= "  </div>";
                 addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
                 addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[3] +"\"></div>";
                 addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[3] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/"+ data[i].profile_image[3]+".png\"></img>";
+                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[3] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[3]+".png\"></img>";
                 addListHtml+= "  </div>";
                 addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center>"
 

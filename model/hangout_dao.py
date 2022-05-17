@@ -3,6 +3,7 @@ from flask import Flask, request, session, jsonify
 from . import bappy_db
 from datetime import datetime
 from  datetime import timedelta
+import os
 
 timedelta(hours=1)
 db_id = 'benny'
@@ -32,11 +33,15 @@ class Hangout_Data():
         self.participants_num=0
         self.active = "enabled"
         self.image = "default"
+        self.participants_id = []
 
     def make_hangout_data(self,Hangout,filterVal):
         #Hangout.meet_time = datetime.strptime(Hangout.meet_time,"%y-%m-%d %H:%M:%S")
         #print("--------")
         #print(Hangout.meet_time)
+        self.participants_id = str_to_li(Hangout.participants_id)
+        for i in range(4-len(str_to_li(Hangout.participants_id))):
+            self.participants_id.append("none")
 
         self.image = Hangout.image
 
@@ -103,8 +108,13 @@ class Hangout_Data():
         ages = str_to_li(Hangout.participants_age)
         gender = str_to_li(Hangout.participants_gender)
 
+        path = "./static/profileImage/"
+        file_list = os.listdir(path)
         for i in range(Hangout.participants_num):
-            self.profile_image.append(images[i])
+            if images[i]+".png" not in file_list:
+                self.profile_image.append("bird")
+            else:
+                self.profile_image.append(images[i])
             self.nation_image.append(nations[i])
             #self.nation_image.append('nation')
             self.age.append(ages[i])
@@ -155,7 +165,7 @@ class Hangout():
         self.foreign=0
         self.image = "default"
 #print(datetime.now())
-    def create_hangout(self, request):
+    def create_hangout(self, request,filename):
         self.openchat = request.form.get('openchat')
         self.location = request.form.get('location')
         self.title = request.form.get('title')
@@ -171,9 +181,7 @@ class Hangout():
         self.location_url = request.form.get('location_url')
 
         # 이미지 처리
-        f = request.files('chooseFile')
-        filename = len(os.listdir('./static/image/'))+1
-        f.save('./static/image/' + str(filename)+'.jpg')
+
         self.image = filename
 
 
@@ -342,7 +350,7 @@ class HangoutDao():
 
         users_id.append(user_id)
         users_nation.append(user_nation)
-        users_image.append("bird")
+        users_image.append(user_id)
         users_gender.append(user_gender)
         users_age.append(user_age)
         users_num +=1
