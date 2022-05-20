@@ -80,7 +80,6 @@ def hangout_join():
 
     if request.method == 'POST' and 'user_info' in session and 'index' in request.form:
         dao = user_dao.UserDao()
-
         idx = request.form.get('index')
         dao = hangout_dao.HangoutDao()
         res = dao.join_hangout_byidx(session['user_info']['user_my_hangout'],idx,session['user_id'],session['user_nation'],session['user_gender'],session['user_age'])

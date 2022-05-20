@@ -121,30 +121,47 @@
                                           {% endif %}
 
                                         </ul>
-                                        <div style="text-align: center; ">
+                                        {% if hangout.join != "cancel" %}
 
-                                          <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
+                                        <center style="height:0px;">
+                                            <div style="z-index:1;top:10px;position:relative; color: rgba(106,57,6); font-size:20px;font-weight:600;">
+                                                Join to see who's here!
+                                            </div>
+                                        </center>
+                                        {% endif %}
+                                        {% if hangout.join == "cancel" %}
+                                        <div style="text-align: center; z-index:-1;">
+                                        {% else %}
+                                        <div style="text-align: center; filter: blur(3px);z-index:-1;">
+                                        {% endif %}
+
+                                          <div class="cl1" style=" display:inline-block; position: relative;margin-right:15px;">
+                                              {% if hangout.join == "cancel" %}
                                             <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[0] }}">
                                             </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[0] + " / " + hangout.gender[0] }}</span>
+                                            {% endif %}
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" onclick="getUserInfo({{ hangout.participants_id[0] }})" src="{{ "/static/profileImage/"+ hangout.profile_image[0]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
+                                              {% if hangout.join == "cancel" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[1] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[1] + " / " + hangout.gender[1] }}</span>
-
+                                            {% endif %}
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" onclick="getUserInfo({{ hangout.participants_id[1] }})" src="{{ "/static/profileImage/"+hangout.profile_image[1]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
+                                              {% if hangout.join == "cancel" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[2] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[2] + " / " + hangout.gender[2] }}</span>
-
+                                            {% endif %}
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex"onclick="getUserInfo({{ hangout.participants_id[2] }})" src="{{ "/static/profileImage/"+hangout.profile_image[2]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;">
+                                              {% if hangout.join == "cancel" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[3] }}">                                           </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[3] + " / " + hangout.gender[3] }}</span>
-
+                                            {% endif %}
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" onclick="getUserInfo({{ hangout.participants_id[3] }})" src="{{ "/static/profileImage/"+hangout.profile_image[3]+".png" }}"></img>
                                           </div>
 

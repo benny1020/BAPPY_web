@@ -110,21 +110,38 @@ class Hangout_Data():
 
         path = "./static/profileImage/"
         file_list = os.listdir(path)
-        for i in range(Hangout.participants_num):
-            if images[i]+".png" not in file_list:
-                self.profile_image.append("bird")
-            else:
-                self.profile_image.append(images[i])
-            self.nation_image.append(nations[i])
-            #self.nation_image.append('nation')
-            self.age.append(ages[i])
-            self.gender.append(gender[i])
 
-        for i in range(4-Hangout.participants_num):
-            self.profile_image.append("person")
-            self.nation_image.append("nation")
-            self.age.append("?")
-            self.gender.append("?")
+        # 이미지 나라 설정
+
+        # 내가 참여한  행ㅇ아웃
+        if self.join == "cancel":
+            for i in range(Hangout.participants_num):
+                if images[i]+".png" not in file_list:
+                    self.profile_image.append("bird")
+                else:
+                    self.profile_image.append(images[i])
+                self.nation_image.append(nations[i])
+                #self.nation_image.append('nation')
+                self.age.append(ages[i])
+                self.gender.append(gender[i])
+
+            for i in range(4-Hangout.participants_num):
+                self.profile_image.append("person")
+                self.nation_image.append("nation")
+                self.age.append("?")
+                self.gender.append("?")
+        else:
+            for i in range(Hangout.participants_num):
+                self.profile_image.append("bird")
+                self.nation_image.append('nation')
+                self.age.append(" ")
+                self.gender.append(" ")
+
+            for i in range(4-Hangout.participants_num):
+                self.profile_image.append("bird")
+                self.nation_image.append("nation")
+                self.age.append(" ")
+                self.gender.append(" ")
 
         # it is my hangout
         #print(str_to_li(Hangout.participants_id))

@@ -428,7 +428,15 @@ function initList() {
                 else {
                     addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
                 }
-                addListHtml+= "</ul><div style=\"text-align: center; \">"
+                addListHtml+= "</ul>";
+                if(data[i].join != "cancel") {
+                    addListHtml+="<center style=\"height:0px;\"><div style=\"z-index:1;top:10px;position:relative; color: rgba(106,57,6); font-size:20px;font-weight:600;\">Join to see who's here!</div></center>";
+                }
+                if(data[i].join == "cancel") {
+                    addListHtml+="<div style=\"text-align: center; z-index:-1;\">";
+                }else {
+                    addListHtml+="<div style=\"text-align: center; filter: blur(3px);z-index:-1;\">";
+                }
                 addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
                 addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[0] + " / " + data[i].gender[0] + "</span>";
                 addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[0] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[0]+".png\"></img>";
