@@ -1,3 +1,4 @@
 .DS_Store
-static/hangout/
-static/profileImage
+__pycache__/
+admin/
+__pycache__
