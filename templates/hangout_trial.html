@@ -162,7 +162,6 @@ font-style: normal;
 
                                         </ul>
                                         {% if hangout.join != "cancel" %}
-
                                         <center style="height:0px;">
                                             <div style="z-index:1;top:10px;position:relative; color: rgba(106,57,6); font-size:20px;font-weight:600;">
                                                 Join to see who's here!
@@ -171,39 +170,39 @@ font-style: normal;
                                         {% endif %}
 
                                         {% if hangout.join == "cancel" %}
-                                        <div style="text-align: center; filter: blur(0px);z-index:-1;"class = "hangout-participants">
-
+                                        <div style="text-align: center; z-index:-1;">
                                         {% else %}
-                                        <div style="text-align: center; filter: blur(3px);z-index:-1;"class = "hangout-participants">
-
+                                        <div style="text-align: center; filter: blur(3px);z-index:-1;">
                                         {% endif %}
 
-                                            {% if hangout.join == "cancel" %}
-                                          <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[0] }}">
+                                          <div class="cl1" style=" display:inline-block; position: relative;margin-right:15px;">
+                                              {% if hangout.join == "cancel" %}
+                                            <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[0] }}">
+                                            </div>
+                                            <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[0] + " / " + hangout.gender[0] }}</span>
+                                            {% endif %}
+                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" onclick="getUserInfo({{ hangout.participants_id[0] }})" src="{{ "/static/profileImage/"+ hangout.profile_image[0]+".png" }}"></img>
                                           </div>
-                                          <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[0] + " / " + hangout.gender[0] }}</span>
-                                          {% endif %}
-                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/profileImage/"+ hangout.profile_image[0]+".png" }}"></img>
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
                                               {% if hangout.join == "cancel" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[1] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[1] + " / " + hangout.gender[1] }}</span>
                                             {% endif %}
-                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/profileImage/"+hangout.profile_image[1]+".png" }}"></img>
+                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" onclick="getUserInfo({{ hangout.participants_id[1] }})" src="{{ "/static/profileImage/"+hangout.profile_image[1]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
                                               {% if hangout.join == "cancel" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[2] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[2] + " / " + hangout.gender[2] }}</span>
                                             {% endif %}
-                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/profileImage/"+hangout.profile_image[2]+".png" }}"></img>
+                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex"onclick="getUserInfo({{ hangout.participants_id[2] }})" src="{{ "/static/profileImage/"+hangout.profile_image[2]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;">
                                               {% if hangout.join == "cancel" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[3] }}">                                           </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[3] + " / " + hangout.gender[3] }}</span>
                                             {% endif %}
-                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" src="{{ "/static/profileImage/"+hangout.profile_image[3]+".png" }}"></img>
+                                          <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" onclick="getUserInfo({{ hangout.participants_id[3] }})" src="{{ "/static/profileImage/"+hangout.profile_image[3]+".png" }}"></img>
                                           </div>
 
 
@@ -274,6 +273,74 @@ only screen and (min-resolution: 2dppx){
 </style>
 <script type="text/javascript">
 
+function getListHtml(data) {
+    var addListHtml = ""
+    for(var i=0;i<data.length;i++) {
+        addListHtml+="<form action=\" "+data[i].join_url + "\" method=\"post\">";
+        addListHtml+= "<div class=\"job-box d-md-flex align-items-center justify-content-between mb-30\"> ";
+        addListHtml+= "<div class=\"job-left my-4 d-md-flex align-items-center flex-wrap\">"
+        addListHtml+= "<div class=\"job-content\">";
+        addListHtml+= "<h6 class=\"hangout-title text-center text-md-left\">"+data[i].title+"</h6>";
+        addListHtml+= "<center><img src=\"../static/hangout/"+data[i].image + ".jpg\" style=\"height:130px; object-fit: cover;width:80%;border-radius: 10%; margin-top:10px; \"></center>";
+        addListHtml+= "<ul class=\"d-md-flex flex-wrap text-capitalize \">";
+        addListHtml+= "<li class=\"mr-md-4 hangout-time\"style=\"width:90%\">";
+        addListHtml+= "<img src=\"../static/widget/calender.png\" style=\"width:16.29px; height:16.85px;\">" + data[i].meet_time; +"</li>";
+        addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
+        addListHtml+= "<img src=\"../static/widget/location.png\" style=\"width:15px; height:19.65px;\"> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
+        if(data[i].join == "cancel") {
+            addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><img src=\"../static/widget/openchat.png\" style=\"width:18px; height:18.62px;\"><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+        }
+        else {
+            addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%; display:none;\"><i class=\"zmdi zmdi-comments mr-2\"></i><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
+        }
+        addListHtml+= "</ul>";
+
+        if(data[i].join != "cancel") {
+            addListHtml+="<center style=\"height:0px;\"><div style=\"z-index:1;top:10px;position:relative; color: rgba(106,57,6); font-size:20px;font-weight:600;\">Join to see who's here!</div></center>";
+        }
+        if(data[i].join == "cancel") {
+            addListHtml+="<div style=\"text-align: center; z-index:-1;\">";
+        }else {
+            addListHtml+="<div style=\"text-align: center; filter: blur(3px);z-index:-1;\">";
+        }
+        addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
+        if(data[i].join == "cancel"){
+            addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[0] + " / " + data[i].gender[0] + "</span>";
+        }
+        addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[0] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[0]+".png\"></img>";
+        addListHtml+= "  </div>";
+        addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
+        if(data[i].join == "cancel"){
+            addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[1]+ "\"></div>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[0] + "</span>";
+        }
+        addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[1] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[1]+".png\"></img>";
+        addListHtml+= "    </div>";
+        addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
+        if(data[i].join == "cancel"){
+            addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[2]+ "\"></div>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[0] + "</span>";
+        }
+        addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[2] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[2]+".png\"></img>";
+        addListHtml+= "  </div>";
+        addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
+        if(data[i].join == "cancel"){
+            addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[3]+ "\"></div>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[0] + "</span>";
+        }
+        addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[3] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[3]+".png\"></img>";
+        addListHtml+= "  </div>";
+        addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center>";
+
+        addListHtml+= "<input style= \"display:none;\" type=\"text\" name=\"index\" value=\""+ data[i].index +"\">"
+        addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);color: rgba(106,57,6);width:52%; padding-left:10px; margin-left:10px;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\""+ data[i].active +"> "
+
+        addListHtml+= " </center></div> </div></div></div></form>";
+    }
+    return addListHtml;
+}
+
 function initList() {
     var tag = document.getElementById("filterVal");
     console.log(tag.value);
@@ -300,50 +367,10 @@ function initList() {
 
 
 
-            for(var i=0;i<data.length;i++) {
-                addListHtml+="<form action=\" "+data[i].join_url + "\" method=\"post\">";
-                addListHtml+= "<div class=\"job-box d-md-flex align-items-center justify-content-between mb-30\"> ";
-                addListHtml+= "<div class=\"job-left my-4 d-md-flex align-items-center flex-wrap\">"
-                addListHtml+= "<div class=\"job-content\">";
-                addListHtml+= "<h5 class=\"hangout-title text-center text-md-left\">"+data[i].title+"</h5>";
-                addListHtml+= "<center><img src=\"../static/hangout/"+data[i].image + ".jpg\" style=\"height:130px; object-fit: cover;width:80%;border-radius: 10%; margin-top:10px; \"></center>";
-                addListHtml+= "<ul class=\"d-md-flex flex-wrap text-capitalize \">";
-                addListHtml+= "<li class=\"mr-md-4 hangout-time\"style=\"width:90%\">";
-                addListHtml+= "<img src=\"../static/widget/calender.png\" style=\"width:16.29px; height:16.85px;\">" + data[i].meet_time; +"</li>";
-                addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
-                addListHtml+= "<img src=\"../static/widget/location.png\" style=\"width:15px; height:19.65px;\"> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-                if(data[i].openchat == "cancel") {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><img src=\"../static/widget/openchat.png\" style=\"width:18px; height:18.62px;\"><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
-                }
-                addListHtml+= "</ul><div style=\"text-align: center; \">"
-                addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
-                addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[0] + " / " + data[i].gender[0] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/profileImage/"+ data[i].profile_image[0]+".png\"></img>";
-                addListHtml+= "  </div>";
-                addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[1] +"\"></div>";
-                addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[1] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/profileImage/"+ data[i].profile_image[1]+".png\"></img>";
-                addListHtml+= "    </div>";
-                addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[2] +"\"></div>";
-                addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[2] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/profileImage/"+ data[i].profile_image[2]+".png\"></img>";
-                addListHtml+= "  </div>";
-                addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[3] +"\"></div>";
-                addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[3] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/profileImage/"+ data[i].profile_image[3]+".png\"></img>";
-                addListHtml+= "  </div>";
 
-                addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center><input style= \"display:none;\" type=\"text\" name=\"index\" value=\""+ data[i].index +"\">"
-                addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);color: rgba(106,57,6);width:52%; padding-left:10px; margin-left:10px;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\""+ data[i].active +"> "
-
-                addListHtml+= " </center></div> </div></div></div></form>";
-            }
             var list = document.getElementById("hangoutList");
             //console.log(addListHtml);
-            list.innerHTML=addListHtml;
+            list.innerHTML=getListHtml(data);
 
 
 
@@ -376,52 +403,9 @@ function moreList() {
                 //document.getElementById('addBtn').remove();
                 swal("There is no more page");
             }
-            console.log(data);
 
 
-            for(var i=0;i<data.length;i++) {
-                addListHtml+="<form action=\" "+data[i].join_url + "\" method=\"post\">";
-                addListHtml+= "<div class=\"job-box d-md-flex align-items-center justify-content-between mb-30\"> ";
-                addListHtml+= "<div class=\"job-left my-4 d-md-flex align-items-center flex-wrap\">"
-                addListHtml+= "<div class=\"job-content\">";
-                addListHtml+= "<h5 class=\"hangout-title text-center text-md-left\">"+data[i].title+"</h5>";
-                addListHtml+= "<center><img src=\"../static/hangout/"+data[i].image + ".jpg\" style=\"height:130px; object-fit: cover;width:80%;border-radius: 10%; margin-top:10px; \"></center>";
-                addListHtml+= "<ul class=\"d-md-flex flex-wrap text-capitalize \">";
-                addListHtml+= "<li class=\"mr-md-4 hangout-time\"style=\"width:90%\">";
-                addListHtml+= "<img src=\"../static/widget/calender.png\" style=\"width:16.29px; height:16.85px;\">" + data[i].meet_time; +"</li>";
-                addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
-                addListHtml+= "<img src=\"../static/widget/location.png\" style=\"width:15px; height:19.65px;\">  <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-                if(data[i].openchat == "cancel") {
-                    addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><img src=\"../static/widget/openchat.png\" style=\"width:18px; height:18.62px;\"><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
-                }
-                addListHtml+= "</ul><div style=\"text-align: center; \">"
-                addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\"><div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
-                addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[0] + " / " + data[i].gender[0] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/profileImage/"+ data[i].profile_image[0]+".png\"></img>";
-                addListHtml+= "  </div>";
-                addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[1] +"\"></div>";
-                addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[1] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/profileImage/"+ data[i].profile_image[1]+".png\"></img>";
-                addListHtml+= "    </div>";
-                addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[2] +"\"></div>";
-                addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[2] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/profileImage/"+ data[i].profile_image[2]+".png\"></img>";
-                addListHtml+= "  </div>";
-                addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-                addListHtml+= "    <div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[3] +"\"></div>";
-                addListHtml+= "    <span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[3] + "</span>";
-                addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" src=\""+ "/static/profileImage/"+ data[i].profile_image[3]+".png\"></img>";
-                addListHtml+= "  </div>";
-
-                addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center><input style= \"display:none;\" type=\"text\" name=\"index\" value=\""+ data[i].index +"\">"
-                addListHtml+= " <input style=\"background-color:rgba(236,198,53, 0.7);color: rgba(106,57,6);width:52%; padding-left:10px; margin-left:10px;\"type=\"submit\" class=\"btn d-block d-sm-inline-block btn-light\" value = \"" + data[i].join + "\""+ data[i].active +"> "
-
-                addListHtml+= " </center></div> </div></div></div></form>";
-            }
-
-            $("#hangoutList").append(addListHtml);
+            $("#hangoutList").append(getListHtml(data));
 
 
 
