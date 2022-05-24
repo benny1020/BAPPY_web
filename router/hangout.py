@@ -101,7 +101,7 @@ def hangout_join():
             #print(session['user_info'])
             dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
             ret = dao.getUserCancel(session['user_info']['user_id'])
-            dao.setUserCancel(session['user_info']['user_id'],dao.getUserCancel(session['user_info']['user_id'])-1)
+            #dao.setUserCancel(session['user_info']['user_id'],dao.getUserCancel(session['user_info']['user_id'])-1)
 
             session.modified = True
             return "2"
@@ -131,8 +131,9 @@ def hangout_cancel():
             session.modified = True
             dao.updateUsermyHangout(session['user_info']['user_idx'],session['user_info']['user_my_hangout'])
             hangoutdao = hangout_dao.HangoutDao()
-            if hangoutdao.checkCancelTime(idx) == False:
-                dao.setUserCancel(session['user_info']['user_id'],0)
+            # user cancel
+            #if hangoutdao.checkCancelTime(idx) == False:
+            #    dao.setUserCancel(session['user_info']['user_id'],0)
             return "true"
 
         session.modified = True

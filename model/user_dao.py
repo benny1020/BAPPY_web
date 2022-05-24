@@ -61,7 +61,7 @@ class User():
             self.isKorean = 0
         self.university = rf.get('university')
         self.visit = 0
-        self.cancel = 1
+        self.cancel = 999999
         self.reg_time = datetime.now().strftime('%Y-%m-%d %H:%M')
         self.login_time = datetime.now().strftime('%Y-%m-%d %H:%M')
 
