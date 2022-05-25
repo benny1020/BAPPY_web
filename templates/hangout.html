@@ -110,7 +110,7 @@
                                           <li class="mr-md-4" style="width:90%">
                                               <img src="../static/widget/location.png" style="width:15px; height:19.65px;" alt=""> <a class="hangout-location" href="{{ hangout.location_url }}" >{{ hangout.location }}</a>
                                           </li>
-                                          {% if hangout.join == "cancel" %}
+                                          {% if hangout.join == "cancel" or hangout.join == "Expired" %}
                                           <li class="mr-md-4" style="width:90%;" >
                                               <img src="../static/widget/openchat.png" style="width:18px; height:18.62px;" alt=""><a class="hangout-openchat" href="{{ hangout.openchat }}">kakao openchat</a>
                                           </li>
@@ -121,22 +121,22 @@
                                           {% endif %}
 
                                         </ul>
-                                        {% if hangout.join != "cancel" %}
+                                        {% if hangout.join != "cancel" and hangout.join != "Expired"  %}
                                         <center style="height:0px;">
                                             <div style="z-index:1;top:10px;position:relative; color: rgba(106,57,6); font-size:20px;font-weight:600;">
                                                 Join to see who's here!
                                             </div>
                                         </center>
                                         {% endif %}
-                                        
-                                        {% if hangout.join == "cancel" %}
+
+                                        {% if hangout.join == "cancel" or hangout.join == "Expired" %}
                                         <div style="text-align: center; z-index:-1;">
                                         {% else %}
                                         <div style="text-align: center; filter: blur(3px);z-index:-1;">
                                         {% endif %}
 
                                           <div class="cl1" style=" display:inline-block; position: relative;margin-right:15px;">
-                                              {% if hangout.join == "cancel" %}
+                                              {% if hangout.join == "cancel" or hangout.join == "Expired" %}
                                             <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[0] }}">
                                             </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[0] + " / " + hangout.gender[0] }}</span>
@@ -144,21 +144,21 @@
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" onclick="getUserInfo({{ hangout.participants_id[0] }})" src="{{ "/static/profileImage/"+ hangout.profile_image[0]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
-                                              {% if hangout.join == "cancel" %}
+                                              {% if hangout.join == "cancel"  or hangout.join == "Expired" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[1] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[1] + " / " + hangout.gender[1] }}</span>
                                             {% endif %}
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex" onclick="getUserInfo({{ hangout.participants_id[1] }})" src="{{ "/static/profileImage/"+hangout.profile_image[1]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;margin-right:15px;">
-                                              {% if hangout.join == "cancel" %}
+                                              {% if hangout.join == "cancel" or hangout.join == "Expired" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[2] }}">                                            </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[2] + " / " + hangout.gender[2] }}</span>
                                             {% endif %}
                                           <img style="height:45px; width:45px; "class = "img-holder mb-4 mx-md-0 d-md-none d-lg-flex"onclick="getUserInfo({{ hangout.participants_id[2] }})" src="{{ "/static/profileImage/"+hangout.profile_image[2]+".png" }}"></img>
                                           </div>
                                           <div class="cl1" style="display:inline-block; position: relative;">
-                                              {% if hangout.join == "cancel" %}
+                                              {% if hangout.join == "cancel" or hangout.join == "Expired" %}
                                               <div style= "position: absolute; left:35px;  bottom:22px;"class ="{{"flag " + hangout.nation_image[3] }}">                                           </div>
                                             <span style="position:absolute; left:8px;top:45px; bottom:0; font-size:12px;">{{ hangout.age[3] + " / " + hangout.gender[3] }}</span>
                                             {% endif %}
@@ -170,7 +170,7 @@
                                         </div>
                                         <div class="job-right my-4 flex-shrink-0">
                                           <center>
-                                              {% if hangout.join == "join" %}
+                                              {% if hangout.join == "join" or hangout.join == "Expired" %}
                                               <input style="background-color:rgba(236,198,53, 0.7);color: rgba(106,57,6);width:52%; padding-left:10px;margin-left:10px;"  {{ hangout.active}} type="button"onclick="hangoutJoin(this);" class="btn d-block d-sm-inline-block btn-light" value = "{{ hangout.join }}"  >
                                               {% else %}
                                               <input style="background-color:rgba(236,198,53, 0.7);color: rgba(106,57,6);width:52%; padding-left:10px;margin-left:10px;"  {{ hangout.active}} type="button"onclick="hangoutCancel(this);" class="btn d-block d-sm-inline-block btn-light" value = "{{ hangout.join }}"  >

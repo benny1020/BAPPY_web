@@ -398,7 +398,7 @@ function getListHtml(data) {
         addListHtml+= "<img src=\"../static/widget/calender.png\" style=\"width:16.29px; height:16.85px;\">" + data[i].meet_time; +"</li>";
         addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\">";
         addListHtml+= "<img src=\"../static/widget/location.png\" style=\"width:15px; height:19.65px;\"> <a class=\"hangout-location\" href=\""+ data[i].location_url +"\" >" + data[i].location +"</a></li>";
-        if(data[i].join == "cancel") {
+        if(data[i].join == "cancel" || data[i].join == "Expired") {
             addListHtml+= "<li class=\"mr-md-4\" style=\"width:90%\"><img src=\"../static/widget/openchat.png\" style=\"width:18px; height:18.62px;\"><a class =\"hangout-openchat\" href=\""+ data[i].openchat + "\">kakao openchat</a></li>";
         }
         else {
@@ -406,45 +406,45 @@ function getListHtml(data) {
         }
         addListHtml+= "</ul>";
 
-        if(data[i].join != "cancel") {
+        if(data[i].join != "cancel" && data[i].join != "Expired") {
             addListHtml+="<center style=\"height:0px;\"><div style=\"z-index:1;top:10px;position:relative; color: rgba(106,57,6); font-size:20px;font-weight:600;\">Join to see who's here!</div></center>";
         }
-        if(data[i].join == "cancel") {
+        if(data[i].join == "cancel" || data[i].join == "Expired") {
             addListHtml+="<div style=\"text-align: center; z-index:-1;\">";
         }else {
             addListHtml+="<div style=\"text-align: center; filter: blur(3px);z-index:-1;\">";
         }
         addListHtml+= "<div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-        if(data[i].join == "cancel"){
+        if(data[i].join == "cancel" || data[i].join == "Expired"){
             addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[0]+ "\"></div>";
             addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[0] + " / " + data[i].gender[0] + "</span>";
         }
         addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[0] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[0]+".png\"></img>";
         addListHtml+= "  </div>";
         addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-        if(data[i].join == "cancel"){
+        if(data[i].join == "cancel" || data[i].join == "Expired"){
             addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[1]+ "\"></div>";
-            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[0] + "</span>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[1] + "</span>";
         }
         addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[1] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[1]+".png\"></img>";
         addListHtml+= "    </div>";
         addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-        if(data[i].join == "cancel"){
+        if(data[i].join == "cancel" || data[i].join == "Expired"){
             addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[2]+ "\"></div>";
-            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[0] + "</span>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[2] + "</span>";
         }
         addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[2] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[2]+".png\"></img>";
         addListHtml+= "  </div>";
         addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
-        if(data[i].join == "cancel"){
+        if(data[i].join == "cancel" || data[i].join == "Expired"){
             addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[3]+ "\"></div>";
-            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[0] + "</span>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[3] + "</span>";
         }
         addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[3] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[3]+".png\"></img>";
         addListHtml+= "  </div>";
         addListHtml+= " </div><div class=\"job-right my-4 flex-shrink-0\"><center>"
 
-        if(data[i].join == "join") {
+        if(data[i].join == "join" || data[i].join == "Expired") {
             addListHtml+= "<input style=\"background-color:rgba(236,198,53, 0.7);color: rgba(106,57,6);width:52%; padding-left:10px;margin-left:10px;\" " +data[i].active+" type=\"button\"onclick=\"hangoutJoin(this);\" class=\"btn d-block d-sm-inline-block btn-light\" value = "+data[i].join+"  >";
         } else {
             addListHtml+= "<input style=\"background-color:rgba(236,198,53, 0.7);color: rgba(106,57,6);width:52%; padding-left:10px;margin-left:10px;\" " +data[i].active+" type=\"button\"onclick=\"hangoutCancel(this);\" class=\"btn d-block d-sm-inline-block btn-light\" value = "+data[i].join+"  >";

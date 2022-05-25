@@ -114,7 +114,7 @@ class Hangout_Data():
         # 이미지 나라 설정
 
         # 내가 참여한  행ㅇ아웃
-        if self.join == "cancel":
+        if self.join == "cancel"  or self.join == "Expired":
             for i in range(Hangout.participants_num):
                 if images[i]+".png" not in file_list:
                     self.profile_image.append("bird")

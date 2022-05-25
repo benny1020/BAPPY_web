@@ -313,21 +313,21 @@ function getListHtml(data) {
         addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
         if(data[i].join == "cancel"){
             addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[1]+ "\"></div>";
-            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[0] + "</span>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[1] + " / " + data[i].gender[1] + "</span>";
         }
         addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[1] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[1]+".png\"></img>";
         addListHtml+= "    </div>";
         addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
         if(data[i].join == "cancel"){
             addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[2]+ "\"></div>";
-            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[0] + "</span>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[2] + " / " + data[i].gender[2] + "</span>";
         }
         addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[2] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[2]+".png\"></img>";
         addListHtml+= "  </div>";
         addListHtml+= "  <div class=\"cl1\" style=\"display:inline-block; position: relative;margin-right:15px;\">";
         if(data[i].join == "cancel"){
             addListHtml+= "<div style= \"position: absolute; left:35px;  bottom:22px;\"class =\"flag " + data[i].nation_image[3]+ "\"></div>";
-            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[0] + "</span>";
+            addListHtml+= "<span style=\"position:absolute; left:8px;top:45px; bottom:0; font-size:12px;\">" + data[i].age[3] + " / " + data[i].gender[3] + "</span>";
         }
         addListHtml+= "  <img style=\"height:45px; width:45px; \"class = \"img-holder mb-4 mx-md-0 d-md-none d-lg-flex\" onclick=\"getUserInfo(" +  data[i].participants_id[3] +")\" src=\""+ "/static/profileImage/"+ data[i].profile_image[3]+".png\"></img>";
         addListHtml+= "  </div>";
