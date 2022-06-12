@@ -6,7 +6,7 @@
 ![Slide 16_9 - 64 (1)](https://user-images.githubusercontent.com/28686334/173191258-c4761abd-8985-49fc-8d21-7ebbd3059b88.png)
 ![Slide 16_9 - 88](https://user-images.githubusercontent.com/28686334/173191260-6ab6c120-40c4-437f-9d50-a1a30de9eea5.png)
 ![Slide 16_9 - 92](https://user-images.githubusercontent.com/28686334/173234447-e6df7d37-79a5-48f8-bcef-4cd5dca9c2cb.png)
-![Slide 16_9 - 63](https://user-images.githubusercontent.com/28686334/173234373-0d1906ac-c657-478a-998c-3914f72b19ad.png)
+![Slide 16_9 - 63 (1)](https://user-images.githubusercontent.com/28686334/173234508-f365a954-b864-418e-a8f1-45b3c3a9e1e6.png)
 
 ## 🌏 사이트
 
